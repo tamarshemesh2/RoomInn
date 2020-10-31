@@ -1,0 +1,36 @@
+classes:
+Main-
+    I\O for files- read, write
+    reads file *twice* , sends lines to parser, ignores whitespaces
+    driver for program
+
+    first pass:
+        -eliminate whitespaces
+        -initialize symbol table + parse labels + get variables
+    second pass:
+        -parse instructions- send each line to parser
+
+Parser- gets file content line by line from main
+    unpack instructions
+    identifies what type of instruction, returns type + parsed instruction to main
+
+    supports shifts
+
+Code-
+    holds instance of SymbolTable- (gets once from main?)
+    holds array of instructions translated to binary
+    gets each field from instructions from main, translates to binary
+    diff methods for each line type:
+        C-instruction
+        A-instruction
+        Labels
+
+    supports shifts
+
+SymbolTable-
+    holds array member as symbol table
+    gets array of file lines
+    initializes built in symbols
+    finds labels and adds to table + erases from file line array
+    get variables + add to symbol table
+    returns array to main
