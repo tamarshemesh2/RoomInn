@@ -28,8 +28,9 @@ def check_input(file_path):
 
 
 def main():
-    file_path = sys.argv[1]
-    check_input(file_path)
+    if len(sys.argv) == 2:
+        file_path = sys.argv[1]
+        check_input(file_path)
 
 
 if __name__ == '__main__':
