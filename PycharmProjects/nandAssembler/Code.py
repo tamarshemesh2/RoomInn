@@ -1,17 +1,10 @@
 def initDest():
-    dest=[]
-    dest["M"] = "001"
-    dest["D"] = "010"
-    dest["MD"] ='011'
-    dest['AM'] = '101'
-    dest['A'] = '100'
-    dest['AD'] = '110'
-    dest['AMD'] = '111'
-    dest[''] = '000'
+    dest= {"M": bin(1)[2, :], "D": bin(2)[2, :], "MD": bin(3)[2, :], 'AM': bin(5)[2, :], 'A': bin(4)[2, :],
+           'AD': bin(6)[2, :], 'AMD': bin(7)[2, :], '': bin(0)[2, :]}
     return dest
 
 def initComp():
-    comp=[]
+    comp={}
     comp['0'] =
     comp['1'] =
     comp['-1'] =
