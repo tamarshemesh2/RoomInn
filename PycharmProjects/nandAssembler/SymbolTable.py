@@ -2,6 +2,7 @@ class SymbolTable:
     def __init__(self):
         self.symbol_table = {}
         self.__initialize_table()  # initializes table with pre-defined symbols
+        self.counter = 16
 
     def __initialize_table(self):
         # initialize pre-defined symbols
@@ -19,3 +20,7 @@ class SymbolTable:
 
     def get_symbol_table(self):
         return self.symbol_table
+
+    def add_variable_or_label(self, name):
+        self.symbol_table[name] = self.counter
+        self.counter += 1
