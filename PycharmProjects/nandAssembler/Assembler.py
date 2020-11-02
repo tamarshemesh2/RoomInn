@@ -16,9 +16,9 @@ class Assembler:
             is_label = re.match('[(][A-Z]+[)]', line[0])
             if bool(is_variable):
                 # adds variable to the symbol table
-                self.symbol_table.add_variable_or_label(line[0].split("@"))
+                self.symbol_table.add_entry(line[0].split("@"), self.symbol_table.get_counter())
             elif bool(is_label):
-                self.symbol_table.add_variable_or_label(re.sub('[()]', '', line[0]))
+                self.symbol_table.add_entry(re.sub('[()]', '', line[0]), self.symbol_table.get_counter())
 
 
 
