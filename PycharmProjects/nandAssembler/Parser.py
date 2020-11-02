@@ -3,15 +3,13 @@ import re
 # statics
 a_pattern = re.compile("\s*@(.)+")
 c_pattern = re.compile('\s*([ADM01!]+)\s*(=?\s*([ADM+-10!&><|]+))?\s*(;\s*(J[A-Z]{2}))?\s*')
-l_pattern = re.compile('\s*(.)\s*')
+s_pattern = re.compile('[AMD]([<>]{2})')
 
 
 class Parser:
 
-    def __init__(self, inputFile):
-        file = open(inputFile, 'r')
-        self._commands = file.readlines()
-        file.close()
+    def __init__(self, instructions):
+        self._commands = instructions
         self._currentCommand = 0
 
     def hasMoreCommands(self):
@@ -27,29 +25,36 @@ class Parser:
         cur = self._commands[self._currentCommand]
         if re.match(a_pattern, cur):
             return 'A_COMMAND'
-        if re.match(c_pattern, cur):
-            return 'C_COMMAND'
-        return 'L_COMMAND'
+        if re.search(s_pattern, cur) is not None:
+            return 'S_COMMAND'
+        return 'C_COMMAND'
 
     def symbol(self):
         cur = self._commands[self._currentCommand]
         if self.commandType() == 'A_COMMAND':
             return a_pattern.search(cur).group(1)
-        if self.commandType() == 'L_COMMAND':
-            return l_pattern.search(cur).group(1)
         return Exception("Invalid command")
 
     def dest(self):
         cur = self._commands[self._currentCommand]
-        if self.commandType() == 'C_COMMAND':
-            return c_pattern.search(cur).group(1)
+        if self.commandType() != 'A_COMMAND':
+            if re.compile("=").search(cur) is not None:
+                return cur.split('=')[0]
+            return ""
 
     def comp(self):
         cur = self._commands[self._currentCommand]
-        if self.commandType() == 'C_COMMAND':
-            return c_pattern.search(cur).group(3)
+        if self.commandType() != 'C_COMMAND':
+            return (cur.split('=')[-1]).split(';')[0]
 
     def jump(self):
         cur = self._commands[self._currentCommand]
-        if self.commandType() == 'C_COMMAND':
-            return c_pattern.search(cur).group(5)
+        if self.commandType() != 'A_COMMAND':
+            if re.compile(";").search(cur) is not None and cur[-1] != ';':
+                return cur.split(';')[-1]
+            return ""
+
+    def shift(self):
+        cur = self._commands[self._currentCommand]
+        if self.commandType() == 'S_COMMAND':
+            return re.search(s_pattern, cur)

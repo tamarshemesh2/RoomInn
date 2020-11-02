@@ -20,18 +20,25 @@ def initJump():
             'JLE': bin(6)[2, :], 'JMP': bin(7)[2, :], '': bin(0)[2, :]}
     return jump
 
+def initShift():
+    shift = {'D<<': "101011", 'D>>': "101001", 'A<<': "101010", 'A>>': "101000", 'M<<': "101110", 'M>>': "101100"}
+    return shift
 
 class Code:
     def _init_(self):
         self._dest = initDest()
         self._comp = initComp()
-        self._jump = initJump
+        self._jump = initJump()
+        self.__shift = initShift()
 
     def dest(self, string_dest):
         return self._dest[string_dest]
 
-    def comp(self, string_dest):
-        return self._comp[string_dest]
+    def comp(self, string_comp):
+        return self._comp[string_comp]
 
-    def jump(self, string_dest):
-        return self._jump[string_dest]
+    def jump(self, string_jump):
+        return self._jump[string_jump]
+
+    def shift(self, string_shift):
+        return self.__shift[string_shift]
