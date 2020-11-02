@@ -1,8 +1,6 @@
 import re
 
 # statics
-a_pattern = re.compile("\s*@(.)+")
-c_pattern = re.compile('\s*([ADM01!]+)\s*(=?\s*([ADM+-10!&><|]+))?\s*(;\s*(J[A-Z]{2}))?\s*')
 s_pattern = re.compile('[AMD]([<>]{2})')
 
 
@@ -23,7 +21,7 @@ class Parser:
 
     def commandType(self):
         cur = self._commands[self._currentCommand]
-        if re.match(a_pattern, cur):
+        if cur[0] == '@':
             return 'A_COMMAND'
         if re.search(s_pattern, cur) is not None:
             return 'S_COMMAND'
@@ -32,7 +30,7 @@ class Parser:
     def symbol(self):
         cur = self._commands[self._currentCommand]
         if self.commandType() == 'A_COMMAND':
-            return a_pattern.search(cur).group(1)
+            return cur[1:]
         return Exception("Invalid command")
 
     def dest(self):
