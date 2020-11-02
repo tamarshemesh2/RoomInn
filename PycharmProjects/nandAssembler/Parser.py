@@ -2,7 +2,7 @@ import re
 
 # statics
 a_pattern = re.compile("\s*@(.)+")
-c_pattern = re.compile('\s*([ADM01!]+)\s*(=\s*([ADM+-10!]+))?\s*(;\s*(J[A-Z]{2}))?\s*')
+c_pattern = re.compile('\s*([ADM01!]+)\s*(=\s*([ADM+-10!&|]+))?\s*(;\s*(J[A-Z]{2}))?\s*')
 l_pattern = re.compile('\s*(.)\s*')
 
 
