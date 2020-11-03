@@ -21,6 +21,7 @@ COMP_REST = 1
 OUTPUT_EXTENSION = ".hack"
 NUM_OF_ARGS = 2
 INPUT_FILE_INDEX = 1
+SHIFT_FILL = "0000"
 # ####################################################################################################
 
 
@@ -82,7 +83,7 @@ def translate_shift_command(parser, code, translated):
     dest_field = parser.dest()
     jump_field = parser.jump()
     # takes only needed fields of comp not overridden by shift
-    current_translated = shift_field + code.comp(comp_field)[3:7] + code.dest(dest_field) + code.jump(jump_field)
+    current_translated = shift_field + SHIFT_FILL + code.dest(dest_field) + code.jump(jump_field)
     translated.append(current_translated)
 
 
