@@ -7,8 +7,8 @@ from Parser import Parser, CommandTypes
 from SymbolTable import SymbolTable
 
 # ######################################### MAGIC_NUMBERS ############################################
-VARIABLE_REGEX = '@[a-z]+'
-LABEL_REGEX = '[(][A-Z]+[)]'
+VARIABLE_REGEX = '@.+'
+LABEL_REGEX = '\\(.+\\)'
 VARIABLE_START = "@"
 PARENTHESIS = '[()]'
 EMPTY = ''
@@ -30,16 +30,20 @@ class Assembler:
         self._symbol_table = SymbolTable()
 
     def parse_labels_and_vars(self, file_lines):
+        without_labels = []
         for line in file_lines:
-            # check if is variable i.e. @ then lowercase letters
-            is_variable = re.match(VARIABLE_REGEX, line)
+            # check if is variable i.e. @ then not just numbers
+            is_variable = re.match(VARIABLE_REGEX, line) and not re.match(DIGIT_REGEX, line.split(VARIABLE_START)[1])
             is_label = re.match(LABEL_REGEX, line)
             if bool(is_variable):
                 # adds variable to the symbol table
-                self._symbol_table.add_entry(line.split(VARIABLE_START), self._symbol_table.get_counter())
+                self._symbol_table.add_entry(line.split(VARIABLE_START)[1], self._symbol_table.get_counter())
             elif bool(is_label):
                 # adds label to the symbol table
                 self._symbol_table.add_entry(re.sub(PARENTHESIS, EMPTY, line), self._symbol_table.get_counter())
+                continue
+            without_labels.append(line.split(COMMENT)[0])
+        return without_labels
 
     def parse_instructions(self, instructions):
         parser = Parser(instructions)
@@ -96,8 +100,8 @@ def parse_file(assembler, filename):
                 continue
             else:
                 asm_lines.append(EMPTY.join(line.split()))
-        assembler.parse_labels_and_vars(asm_lines)
-        translated = assembler.parse_instructions(asm_lines)
+        without_labels = assembler.parse_labels_and_vars(asm_lines)
+        translated = assembler.parse_instructions(without_labels)
     infile.close()
     return translated
 
