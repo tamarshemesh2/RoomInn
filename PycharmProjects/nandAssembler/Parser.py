@@ -65,4 +65,4 @@ class Parser:
     def shift(self):
         cur = self._commands[self._currentCommand]
         if self.command_type() == CommandTypes.Shift:
-            return re.search(s_pattern, cur)
+            return re.search(S_PATTERN, cur)
