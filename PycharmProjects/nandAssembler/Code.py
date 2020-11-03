@@ -1,6 +1,6 @@
 def initDest():
-    dest = {"M": bin(1)[2, :], "D": bin(2)[2, :], "MD": bin(3)[2, :], 'AM': bin(5)[2, :], 'A': bin(4)[2, :],
-            'AD': bin(6)[2, :], 'AMD': bin(7)[2, :], '': bin(0)[2, :]}
+    dest = {"M": bin(1)[:3], "D": bin(2)[:3], "MD": bin(3)[:3], 'AM': bin(5)[:3], 'A': bin(4)[:3],
+            'AD': bin(6)[:3], 'AMD': bin(7)[:3], '': bin(0)[:3]}
     return dest
 
 
@@ -16,29 +16,40 @@ def initComp():
 
 
 def initJump():
-    jump = {'JGT': bin(1)[2, :], 'JEQ': bin(2)[2, :], 'JGE': bin(3)[2, :], 'JLT': bin(4)[2, :], 'JNE': bin(5)[2, :],
-            'JLE': bin(6)[2, :], 'JMP': bin(7)[2, :], '': bin(0)[2, :]}
+    jump = {'JGT': bin(1)[:3], 'JEQ': bin(2)[:3], 'JGE': bin(3)[:3], 'JLT': bin(4)[:3], 'JNE': bin(5)[:3],
+            'JLE': bin(6)[:3], 'JMP': bin(7)[:3], '': bin(0)[:3]}
     return jump
+
 
 def initShift():
     shift = {'D<<': "101011", 'D>>': "101001", 'A<<': "101010", 'A>>': "101000", 'M<<': "101110", 'M>>': "101100"}
     return shift
 
+
 class Code:
-    def _init_(self):
+
+    def __init__(self):
         self._dest = initDest()
         self._comp = initComp()
         self._jump = initJump()
-        self.__shift = initShift()
+        self._shift = initShift()
 
     def dest(self, string_dest):
-        return self._dest[string_dest]
+        if string_dest is not None:
+            return self._dest[string_dest]
+        return ""
 
     def comp(self, string_comp):
-        return self._comp[string_comp]
+        if string_comp is not None:
+            return self._comp[string_comp]
+        return ""
 
     def jump(self, string_jump):
-        return self._jump[string_jump]
+        if string_jump is not None:
+            return self._jump[string_jump]
+        return ""
 
     def shift(self, string_shift):
-        return self.__shift[string_shift]
+        if string_shift is not None:
+            return self._shift[string_shift]
+        return ""

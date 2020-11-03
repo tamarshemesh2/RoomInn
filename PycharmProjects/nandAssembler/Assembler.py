@@ -2,6 +2,7 @@ import os
 import re
 import sys
 
+from Code import Code
 from Parser import Parser
 from SymbolTable import SymbolTable
 
@@ -23,15 +24,45 @@ class Assembler:
 
     def parse_instructions(self, instructions):
         parser = Parser(instructions)
+        code = Code()
+        translated = []
         while parser.hasMoreCommands():
-            current_parsed_instruction = []
             command_type = parser.commandType()
+            # C instruction
             if command_type == "C_COMMAND":
-                current_parsed_instruction.append(parser.comp())
-                current_parsed_instruction.append(parser.dest())
-                current_parsed_instruction.append(parser.jump())
+                self.translate_c_instruction(parser, code, translated)
+            # A instruction
+            elif command_type == "A_COMMAND":
+                self.translate_a_instruction(parser, translated)
+            # shift command
+            elif command_type == "S_COMMAND":
+                self.translate_shift_command(parser, code, translated)
             parser.advance()
+        return translated
 
+    def translate_c_instruction(self, parser, code, translated):
+        comp_field = code.comp(parser.comp())
+        dest_field = code.dest(parser.dest())
+        jump_field = code.jump(parser.jump())
+        current_translated = comp_field + dest_field + jump_field
+        translated.append(current_translated)
+
+    def translate_a_instruction(self, parser, translated):
+        parsed_symbol = parser.symbol()
+        is_digit = re.match('[\\d]+', parsed_symbol)
+        if is_digit:
+            translated.append("0" + str(bin(int(parsed_symbol))))
+        else:
+            if self.symbol_table.contains(parsed_symbol):
+                translated.append("0" + str(bin(self.symbol_table.get_address(parsed_symbol))))
+
+    def translate_shift_command(self, parser, code, translated):
+        shift_field = parser.shift()
+        comp_field = parser.comp()
+        dest_field = parser.dest()
+        jump_field = parser.jump()
+        current_translated = shift_field + code.comp(comp_field)[3:7] + code.dest(dest_field) + code.jump(jump_field)
+        translated.append(current_translated)
 
 def parse_file(assembler, filename):
     with open(filename, 'r') as infile:
@@ -43,21 +74,32 @@ def parse_file(assembler, filename):
             else:
                 asm_lines.append("".join(line.split()))
         assembler.get_labels_and_vars(asm_lines)
+        translated = assembler.parse_instructions(asm_lines)
     infile.close()
+    return translated
 
+
+def create_output_file(filename, translated_lines):
+    output_filename = filename + ".hack"
+    with open(output_filename, 'w') as outfile:
+        for line in translated_lines:
+            outfile.write("%s\n" % line)
+    outfile.close()
 
 def check_input(assembler, file_path):
     # checks if the path given exists
     if os.path.exists(file_path):
         # checks if the path leads to a file
         if os.path.isfile(file_path):
-            parse_file(assembler, file_path)
+            translated = parse_file(assembler, file_path)
+            create_output_file(os.path.splitext(file_path)[0], translated)
         # checks if the path leads to a directory
         elif os.path.isdir(file_path):
             files = os.listdir(file_path)
             # parse each file in the directory
             for file in files:
-                parse_file(assembler, os.path.abspath(os.path.join(file_path, file)))
+                translated = parse_file(assembler, os.path.abspath(os.path.join(file_path, file)))
+                create_output_file(os.path.splitext(file)[0], translated)
 
 
 def main():
