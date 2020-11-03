@@ -11,7 +11,7 @@ class Parser:
         self._currentCommand = 0
 
     def hasMoreCommands(self):
-        return self._currentCommand < len(self._commands) - 1
+        return self._currentCommand < len(self._commands)
 
     def advance(self):
         if self.hasMoreCommands():
@@ -42,7 +42,7 @@ class Parser:
 
     def comp(self):
         cur = self._commands[self._currentCommand]
-        if self.commandType() != 'C_COMMAND':
+        if self.commandType() == 'C_COMMAND':
             return (cur.split('=')[-1]).split(';')[0]
 
     def jump(self):

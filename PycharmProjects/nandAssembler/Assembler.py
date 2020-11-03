@@ -44,17 +44,17 @@ class Assembler:
         comp_field = code.comp(parser.comp())
         dest_field = code.dest(parser.dest())
         jump_field = code.jump(parser.jump())
-        current_translated = comp_field + dest_field + jump_field
+        current_translated = "111" + str(comp_field[0]) + comp_field[1] + dest_field + jump_field
         translated.append(current_translated)
 
     def translate_a_instruction(self, parser, translated):
         parsed_symbol = parser.symbol()
         is_digit = re.match('[\\d]+', parsed_symbol)
         if is_digit:
-            translated.append("0" + str(bin(int(parsed_symbol))))
+            translated.append(str("{0:016b}".format(int(parsed_symbol))))
         else:
             if self.symbol_table.contains(parsed_symbol):
-                translated.append("0" + str(bin(self.symbol_table.get_address(parsed_symbol))))
+                translated.append(str("{0:016b}".format(self.symbol_table.get_address(parsed_symbol))))
 
     def translate_shift_command(self, parser, code, translated):
         shift_field = parser.shift()

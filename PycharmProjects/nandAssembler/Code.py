@@ -1,6 +1,6 @@
 def initDest():
-    dest = {"M": bin(1)[:3], "D": bin(2)[:3], "MD": bin(3)[:3], 'AM': bin(5)[:3], 'A': bin(4)[:3],
-            'AD': bin(6)[:3], 'AMD': bin(7)[:3], '': bin(0)[:3]}
+    dest = {"M": "001", "D": "010", "MD": "011", 'AM': "101", 'A': "100",
+            'AD': "110", 'AMD': "111", '': "000"}
     return dest
 
 
@@ -16,8 +16,8 @@ def initComp():
 
 
 def initJump():
-    jump = {'JGT': bin(1)[:3], 'JEQ': bin(2)[:3], 'JGE': bin(3)[:3], 'JLT': bin(4)[:3], 'JNE': bin(5)[:3],
-            'JLE': bin(6)[:3], 'JMP': bin(7)[:3], '': bin(0)[:3]}
+    jump = {'JGT': "001", 'JEQ': "010", 'JGE': "011", 'JLT': "100", 'JNE': "101",
+            'JLE': "110", 'JMP': "111", '': "000"}
     return jump
 
 
