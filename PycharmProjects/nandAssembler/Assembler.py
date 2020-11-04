@@ -26,11 +26,20 @@ INPUT_EXTENSION = ".asm"
 
 
 class Assembler:
+    """
+    Assembler class- manages the parsing and translating of the instructions
+    """
     def __init__(self):
         self._symbol_table = SymbolTable()
         self._line_counter = 0
 
-    def parse_labels_and_vars(self, file_lines):
+    def parse_labels(self, file_lines):
+        """
+        does the first pass of the file parsing, by inserting labels into the symbol table and erasing
+        them from the instructions
+        @param file_lines: input file lines to parse
+        @return: the lines with the labels and comments removed
+        """
         without_labels = []
         for line in file_lines:
             is_label = re.match(LABEL_REGEX, line)
@@ -38,11 +47,18 @@ class Assembler:
                 # adds label to the symbol table
                 self._symbol_table.add_entry(re.sub(PARENTHESIS, EMPTY, line), self._line_counter)
                 continue
+            # takes line without comment if there is
             without_labels.append(line.split(COMMENT)[0])
             self._line_counter += 1
         return without_labels
 
     def parse_instructions(self, instructions):
+        """
+        does the second pass of the file parsing, by interpreting which command type is at each line,
+        then translating and adding to the translated line array
+        @param instructions: the file lines to parse
+        @return: an array of binary translations for each instruction
+        """
         parser = Parser(instructions)
         code = Code()
         translated = []
@@ -61,6 +77,11 @@ class Assembler:
         return translated
 
     def translate_a_instruction(self, parser, translated):
+        """
+        translates an A instruction to binary
+        @param parser: Parser object that handles the instruction parsing
+        @param translated: an array of binary translations for each instruction
+        """
         parsed_symbol = parser.symbol()
         is_digit = re.match(DIGIT_REGEX, parsed_symbol)
         if is_digit:
@@ -80,6 +101,12 @@ class Assembler:
 
 
 def translate_c_instruction(parser, code, translated):
+    """
+    translates a C instruction to binary
+    @param parser: Parser object that handles the instruction parsing
+    @param code: Code object that handles the instruction translation
+    @param translated: an array of binary translations for each instruction
+    """
     comp_field = code.comp(parser.comp())
     dest_field = code.dest(parser.dest())
     jump_field = code.jump(parser.jump())
@@ -88,6 +115,12 @@ def translate_c_instruction(parser, code, translated):
 
 
 def translate_shift_command(parser, code, translated):
+    """
+    translates a Shift operation to binary
+    @param parser: Parser object that handles the instruction parsing
+    @param code:  Code object that handles the instruction translation
+    @param translated: an array of binary translations for each instruction
+    """
     shift_field = parser.shift()
     dest_field = parser.dest()
     jump_field = parser.jump()
@@ -97,6 +130,12 @@ def translate_shift_command(parser, code, translated):
 
 
 def parse_file(assembler, filename):
+    """
+    handles reading input file, and calls the required functions to parse the given file
+    @param assembler: Assembler object that handles managing the parsing of the file
+    @param filename: the file to parse
+    @return: an array of binary translations for each instruction in the file
+    """
     with open(filename, 'r') as infile:
         asm_lines = []
         for line in infile:
@@ -106,13 +145,18 @@ def parse_file(assembler, filename):
                 continue
             else:
                 asm_lines.append(no_space_line)
-        without_labels = assembler.parse_labels_and_vars(asm_lines)
+        without_labels = assembler.parse_labels(asm_lines)
         translated = assembler.parse_instructions(without_labels)
     infile.close()
     return translated
 
 
 def create_output_file(filename, translated_lines):
+    """
+    handles writing the translated instructions to the output file
+    @param filename: name of the output file to write to
+    @param translated_lines: an array of binary translations for each instruction in the file
+    """
     output_filename = filename + OUTPUT_EXTENSION
     with open(output_filename, 'w') as outfile:
         for line in translated_lines:
@@ -121,6 +165,11 @@ def create_output_file(filename, translated_lines):
 
 
 def check_input(file_path):
+    """
+    checks the given file argument, to see if it exists, is a file or directory and calls the functions to
+    handle the input
+    @param file_path: file argument from command line
+    """
     # checks if the path given exists
     if os.path.exists(file_path):
         assembler = Assembler()
@@ -141,6 +190,9 @@ def check_input(file_path):
 
 
 def main():
+    """
+    main function of the program
+    """
     if len(sys.argv) == NUM_OF_ARGS:
         file_path = sys.argv[INPUT_FILE_INDEX]
         check_input(file_path)
