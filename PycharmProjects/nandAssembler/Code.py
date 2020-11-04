@@ -17,29 +17,52 @@ EMPTY = ""
 
 
 class Code:
+    """
+    Code class- manages the translation of the instructions to their binary form
+    """
 
     def __init__(self):
-        self._dest = DEST
-        self._comp = COMP
-        self._jump = JUMP
-        self._shift = SHIFT
+        self._dest = DEST  # dest table
+        self._comp = COMP  # comp table
+        self._jump = JUMP  # jump table
+        self._shift = SHIFT  # shift table
 
     def dest(self, string_dest):
+        """
+        returns the binary translation of the given dest instruction
+        @param string_dest: dest part of an instruction
+        @return: the binary form if found, empty string otherwise
+        """
         if string_dest is not None:
             return self._dest[string_dest]
         return EMPTY
 
     def comp(self, string_comp):
+        """
+        returns the binary translation of the given comp instruction
+        @param string_comp: comp part of an instruction
+        @return: the binary form if found, empty string otherwise
+        """
         if string_comp is not None:
             return self._comp[string_comp]
         return EMPTY
 
     def jump(self, string_jump):
+        """
+        returns the binary translation of the given jump instruction
+        @param string_jump: jump part of an instruction
+        @return: the binary form if found, empty string otherwise
+        """
         if string_jump is not None:
             return self._jump[string_jump]
         return EMPTY
 
     def shift(self, string_shift):
+        """
+        returns the binary translation of the given shift instruction
+        @param string_shift: shift part of an instruction
+        @return: the binary form if found, empty string otherwise
+        """
         if string_shift is not None:
             return self._shift[string_shift]
         return EMPTY
