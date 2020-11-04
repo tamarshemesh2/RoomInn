@@ -18,27 +18,45 @@ DEST_INDEX_IN_EQUAL = 0
 
 
 class CommandTypes(Enum):
-    C = 1
-    A = 2
-    Shift = 3
+    """
+    Enum to represent different command types
+    """
+    C = 1  # C instruction
+    A = 2  # A instruction
+    Shift = 3  # Shift operation
 
 
 class Parser:
+    """
+    Parser class- manages the parsing of instructions by determining which type they are and dividing each
+    instruction accordingly
+    """
 
     def __init__(self, instructions):
         self._commands = instructions
         self._currentCommand = INIT_COUNTER
 
     def has_more_commands(self):
+        """
+        checks if there are more command to parse
+        @return: true if they are more, false otherwise
+        """
         return self._currentCommand < len(self._commands)
 
     def advance(self):
+        """
+        advances the command counter by 1 if there are more commands to parse
+        """
         if self.has_more_commands():
             self._currentCommand += 1
             return
         return Exception(INVALID_COMMAND)
 
     def command_type(self):
+        """
+        returns the command type of the current command being parsed
+        @return: command type enum value
+        """
         cur = self._commands[self._currentCommand]
         if cur[COMMAND_IDENTIFIER] == A_COMMAND_START:
             return CommandTypes.A
@@ -47,6 +65,10 @@ class Parser:
         return CommandTypes.C
 
     def symbol(self):
+        """
+        gets the symbol part of the command (if there is)
+        @return: the symbol without @
+        """
         cur = self._commands[self._currentCommand]
         if self.command_type() == CommandTypes.A:
             # without @
@@ -54,6 +76,10 @@ class Parser:
         return Exception(INVALID_COMMAND)
 
     def dest(self):
+        """
+        gets the dest part of the command (if there is)
+        @return: the dest section
+        """
         cur = self._commands[self._currentCommand]
         if self.command_type() != CommandTypes.A:
             if re.compile(EQUAL_SIGN).search(cur) is not None:
@@ -61,11 +87,19 @@ class Parser:
             return EMPTY
 
     def comp(self):
+        """
+        gets the comp part of the command (if there is)
+        @return: the comp section
+        """
         cur = self._commands[self._currentCommand]
         if self.command_type() == CommandTypes.C:
             return (cur.split(EQUAL_SIGN)[COMP_INDEX_IN_EQUAL]).split(JUMP_PREFIX)[COMP_INDEX_IN_JMP]
 
     def jump(self):
+        """
+        gets the jump part of the command (if there is)
+        @return: the jump section
+        """
         cur = self._commands[self._currentCommand]
         if self.command_type() != CommandTypes.A:
             if re.compile(JUMP_PREFIX).search(cur) is not None and cur[JMP_INDEX] != JUMP_PREFIX:
@@ -73,9 +107,16 @@ class Parser:
             return EMPTY
 
     def shift(self):
+        """
+        gets the shift part of the command (if there is)
+        @return: the shift section
+        """
         cur = self._commands[self._currentCommand]
         if self.command_type() == CommandTypes.Shift:
             return (cur.split(EQUAL_SIGN)[COMP_INDEX_IN_EQUAL]).split(JUMP_PREFIX)[COMP_INDEX_IN_JMP]
 
     def get_line(self):
+        """
+        @return: returns the current command line
+        """
         return self._commands[self._currentCommand]
