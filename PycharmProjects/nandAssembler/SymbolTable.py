@@ -33,11 +33,12 @@ class SymbolTable:
         # add 16 built in registers
         for i in range(0, 16):
             self.add_entry(BUILT_IN_REGISTER + str(i), i)
-        # reinitialize counter
-        self._counter = NON_BUILT_IN_START
 
     def add_entry(self, symbol, address):
-        self._symbol_table[symbol] = address
+        if not self.contains(symbol):
+            self._symbol_table[symbol] = address
+
+    def advance_symbol_counter(self):
         self._counter += 1
 
     def contains(self, symbol):

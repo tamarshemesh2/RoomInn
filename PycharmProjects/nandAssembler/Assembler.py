@@ -7,7 +7,7 @@ from Parser import Parser, CommandTypes
 from SymbolTable import SymbolTable
 
 # ######################################### MAGIC_NUMBERS ############################################
-VARIABLE_REGEX = '@.+'
+VARIABLE_REGEX = '@[a-z]+'
 LABEL_REGEX = '\\(.+\\)'
 VARIABLE_START = "@"
 PARENTHESIS = '[()]'
@@ -29,6 +29,7 @@ INPUT_EXTENSION = ".asm"
 class Assembler:
     def __init__(self):
         self._symbol_table = SymbolTable()
+        self._line_counter = 0
 
     def parse_labels_and_vars(self, file_lines):
         without_labels = []
@@ -39,11 +40,13 @@ class Assembler:
             if bool(is_variable):
                 # adds variable to the symbol table
                 self._symbol_table.add_entry(line.split(VARIABLE_START)[1], self._symbol_table.get_counter())
+                self._symbol_table.advance_symbol_counter()
             elif bool(is_label):
                 # adds label to the symbol table
-                self._symbol_table.add_entry(re.sub(PARENTHESIS, EMPTY, line), self._symbol_table.get_counter())
+                self._symbol_table.add_entry(re.sub(PARENTHESIS, EMPTY, line), self._line_counter)
                 continue
             without_labels.append(line.split(COMMENT)[0])
+            self._line_counter += 1
         return without_labels
 
     def parse_instructions(self, instructions):
@@ -71,7 +74,10 @@ class Assembler:
             translated.append(str(TO_16_BIT.format(int(parsed_symbol))))
         else:
             if self._symbol_table.contains(parsed_symbol):
-                translated.append(str(TO_16_BIT.format(self._symbol_table.get_address(parsed_symbol))))
+                address = self._symbol_table.get_address(parsed_symbol)
+                bin = TO_16_BIT.format(address)
+                to_add = str(bin)
+                translated.append(to_add)
 
 
 def translate_c_instruction(parser, code, translated):
@@ -114,13 +120,15 @@ def create_output_file(filename, translated_lines):
     outfile.close()
 
 
-def check_input(assembler, file_path):
+def check_input(file_path):
     # checks if the path given exists
     if os.path.exists(file_path):
+        assembler = Assembler()
         # checks if the path leads to a file
         if os.path.isfile(file_path) and file_path.lower().endswith(INPUT_EXTENSION):
             translated = parse_file(assembler, file_path)
-            create_output_file(os.path.splitext(file_path)[0], translated)
+            dir_path = file_path.split(".")[0]
+            create_output_file(dir_path, translated)
         # checks if the path leads to a directory
         elif os.path.isdir(file_path):
             files = os.listdir(file_path)
@@ -128,14 +136,14 @@ def check_input(assembler, file_path):
             for file in files:
                 if file.lower().endswith(INPUT_EXTENSION):
                     translated = parse_file(assembler, os.path.abspath(os.path.join(file_path, file)))
-                    create_output_file(os.path.splitext(file)[0], translated)
+                    create_output_file(os.path.join(file_path, file).split(".")[0], translated)
+                    assembler = Assembler()
 
 
 def main():
     if len(sys.argv) == NUM_OF_ARGS:
         file_path = sys.argv[INPUT_FILE_INDEX]
-        assembler = Assembler()
-        check_input(assembler, file_path)
+        check_input(file_path)
 
 
 if __name__ == '__main__':
