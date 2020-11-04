@@ -102,10 +102,11 @@ def parse_file(assembler, filename):
         asm_lines = []
         for line in infile:
             # skip empty lines
-            if len(line.split()) == 0 or line.startswith(COMMENT):
+            no_space_line = EMPTY.join(line.split())
+            if len(no_space_line) == 0 or no_space_line.startswith(COMMENT):
                 continue
             else:
-                asm_lines.append(EMPTY.join(line.split()))
+                asm_lines.append(no_space_line)
         without_labels = assembler.parse_labels_and_vars(asm_lines)
         translated = assembler.parse_instructions(without_labels)
     infile.close()
