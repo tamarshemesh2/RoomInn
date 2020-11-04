@@ -22,6 +22,7 @@ OUTPUT_EXTENSION = ".hack"
 NUM_OF_ARGS = 2
 INPUT_FILE_INDEX = 1
 SHIFT_FILL = "0000"
+INPUT_EXTENSION = ".asm"
 # ####################################################################################################
 
 
@@ -83,11 +84,10 @@ def translate_c_instruction(parser, code, translated):
 
 def translate_shift_command(parser, code, translated):
     shift_field = parser.shift()
-    comp_field = parser.comp()
     dest_field = parser.dest()
     jump_field = parser.jump()
     # takes only needed fields of comp not overridden by shift
-    current_translated = shift_field + SHIFT_FILL + code.dest(dest_field) + code.jump(jump_field)
+    current_translated = code.shift(shift_field) + SHIFT_FILL + code.dest(dest_field) + code.jump(jump_field)
     translated.append(current_translated)
 
 
@@ -118,7 +118,7 @@ def check_input(assembler, file_path):
     # checks if the path given exists
     if os.path.exists(file_path):
         # checks if the path leads to a file
-        if os.path.isfile(file_path):
+        if os.path.isfile(file_path) and file_path.lower().endswith(INPUT_EXTENSION):
             translated = parse_file(assembler, file_path)
             create_output_file(os.path.splitext(file_path)[0], translated)
         # checks if the path leads to a directory
@@ -126,8 +126,9 @@ def check_input(assembler, file_path):
             files = os.listdir(file_path)
             # parse each file in the directory
             for file in files:
-                translated = parse_file(assembler, os.path.abspath(os.path.join(file_path, file)))
-                create_output_file(os.path.splitext(file)[0], translated)
+                if file.lower().endswith(INPUT_EXTENSION):
+                    translated = parse_file(assembler, os.path.abspath(os.path.join(file_path, file)))
+                    create_output_file(os.path.splitext(file)[0], translated)
 
 
 def main():
