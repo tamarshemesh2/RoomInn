@@ -1,0 +1,21 @@
+# **** Why do we need this file? ****
+# The purpose of this file is to run your project.
+# We want our users to have a simple API to run the Assembler, no matter the language
+# it was written in. So, we need a "wrapper" that will hide all language-specific details to do so,
+# thus enabling our users to simply type 'Assembler <path>' in order to use it.
+
+# **** What are '#!/bin/sh' and '$*'? ****
+# '$*' is a variable that holds all the arguments this file has received. So, if you
+# run "Assembler-python trout mask replica", $* will hold "trout mask replica".
+
+# **** What should I change in this file to make it work with my project? ****
+# IMPORTANT 1: The only two lines the file should contain are '#!/bin/sh' (which means that this file is a 
+# 			   script) and the command you use to run your project.
+# IMPORTANT 1: For this file to run when you call "Assembler", rename it from "Assembler-python" to "Assembler".
+# IMPORTANT 2: This file assumes that the main is contained in "Main.py".
+#			   If your main is contained elsewhere, you will need to change this.
+# IMPORTANT 3: Make sure this file invokes the correct python version for your project!
+#			   If you're using python version 2, the command should be "python" instead of "python3".
+
+#!/bin/sh
+python3 Assembler.py $*
