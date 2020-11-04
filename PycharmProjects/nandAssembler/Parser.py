@@ -2,7 +2,7 @@ import re
 from enum import Enum
 
 # ######################################### MAGIC_NUMBERS ############################################
-S_PATTERN = re.compile('[AMD]([<>]{2})')
+S_PATTERN = re.compile('[AMD]([<>])\\1')
 INIT_COUNTER = 0
 A_COMMAND_START = '@'
 INVALID_COMMAND = "Invalid command"
