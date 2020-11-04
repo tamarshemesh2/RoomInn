@@ -77,7 +77,7 @@ def translate_c_instruction(parser, code, translated):
     comp_field = code.comp(parser.comp())
     dest_field = code.dest(parser.dest())
     jump_field = code.jump(parser.jump())
-    current_translated = C_START + str(comp_field[COMP_START]) + comp_field[COMP_REST] + dest_field + jump_field
+    current_translated = C_START + comp_field + dest_field + jump_field
     translated.append(current_translated)
 
 
