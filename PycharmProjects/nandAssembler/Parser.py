@@ -76,3 +76,6 @@ class Parser:
         cur = self._commands[self._currentCommand]
         if self.command_type() == CommandTypes.Shift:
             return (cur.split(EQUAL_SIGN)[COMP_INDEX_IN_EQUAL]).split(JUMP_PREFIX)[COMP_INDEX_IN_JMP]
+
+    def get_line(self):
+        return self._commands[self._currentCommand]

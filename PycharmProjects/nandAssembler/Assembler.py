@@ -7,7 +7,6 @@ from Parser import Parser, CommandTypes
 from SymbolTable import SymbolTable
 
 # ######################################### MAGIC_NUMBERS ############################################
-VARIABLE_REGEX = '@[a-z]+'
 LABEL_REGEX = '\\(.+\\)'
 VARIABLE_START = "@"
 PARENTHESIS = '[()]'
@@ -34,14 +33,8 @@ class Assembler:
     def parse_labels_and_vars(self, file_lines):
         without_labels = []
         for line in file_lines:
-            # check if is variable i.e. @ then not just numbers
-            is_variable = re.match(VARIABLE_REGEX, line) and not re.match(DIGIT_REGEX, line.split(VARIABLE_START)[1])
             is_label = re.match(LABEL_REGEX, line)
-            if bool(is_variable):
-                # adds variable to the symbol table
-                self._symbol_table.add_entry(line.split(VARIABLE_START)[1], self._symbol_table.get_counter())
-                self._symbol_table.advance_symbol_counter()
-            elif bool(is_label):
+            if bool(is_label):
                 # adds label to the symbol table
                 self._symbol_table.add_entry(re.sub(PARENTHESIS, EMPTY, line), self._line_counter)
                 continue
@@ -73,11 +66,17 @@ class Assembler:
         if is_digit:
             translated.append(str(TO_16_BIT.format(int(parsed_symbol))))
         else:
+            # gets existing variable address
             if self._symbol_table.contains(parsed_symbol):
                 address = self._symbol_table.get_address(parsed_symbol)
-                bin = TO_16_BIT.format(address)
-                to_add = str(bin)
-                translated.append(to_add)
+                to_add = str(TO_16_BIT.format(address))
+            # adds new variable to the symbol table
+            else:
+                self._symbol_table.add_entry(parser.get_line().split(VARIABLE_START)[1],
+                                             self._symbol_table.get_counter())
+                to_add = str(TO_16_BIT.format(self._symbol_table.get_counter()))
+                self._symbol_table.advance_symbol_counter()
+            translated.append(to_add)
 
 
 def translate_c_instruction(parser, code, translated):
