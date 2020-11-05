@@ -16,7 +16,8 @@ Assembler.py - manages the parsing and translating of the instructions
 Code.py - manages the translation of the instructions to their binary form
 Parser.py - manages the parsing of instructions by determining which type they are and dividing each
             instruction accordingly
-Makefile - Makefile for a Assembler.py, project 6
+Makefile - Makefile for a Assembler.py, project 6 using the Assembler run-file
+Assembler - run the command: python3 Assembler.py $* ,on shell
 
 
 Remarks
