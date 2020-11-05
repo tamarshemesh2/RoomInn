@@ -18,8 +18,10 @@ Parser.py - manages the parsing of instructions by determining which type they a
             instruction accordingly
 Makefile - Makefile for a Assembler.py, project 6
 
+
 Remarks
 -------
-we followed the given API from the lecture with a small change.
+We followed the given API from the lecture with a small change.
 In the implementation of the Parser we chose to divide the shift operation from the normal comp and c_instruction
-because its unique binary translation. that translation uses different bit in the instruction.(14-10 instead of 8-13)
+because its unique binary translation. That translation uses different bits in the binary instruction.(14-10 and
+not 8-13).
