@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Launch.LoginActivity"
+    tools:ignore="ExtraText">
+
+    <EditText
+        android:id="@+id/login_email_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:autofillHints="Name"
+        android:cursorVisible="true"
+        android:fontFamily="@font/dosis_medium"
+        android:hint="Email"
+        android:textColorHint="#818180"
+        android:text=""
+        android:inputType="textEmailAddress"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="70dp"/>
+
+    <EditText
+        android:id="@+id/login_password_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="2dp"
+        android:cursorVisible="true"
+        android:fontFamily="@font/dosis_medium"
+        android:hint="password"
+        android:text=""
+        android:textSize="20dp"
+        android:textColorHint="#818180"
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@id/login_email_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:autofillHints="Name" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/google_log_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/login_email_text"
+        android:visibility="gone"/>
+
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/facebook_log_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/google_log_in_button"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"/>
+
+
+    <LinearLayout
+        android:id="@+id/login_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/login_password_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/login_submit_button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/round_style"
+            android:fontFamily="@font/dosis_medium"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:text="Login"
+            android:textAllCaps="false"
+            app:backgroundTint="@color/dark_purple" />
+
+        <ImageView
+            android:id="@+id/google_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/google_logo"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"/>
+
+        <ImageView
+            android:id="@+id/facebook_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/facebook_logo"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/white" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Login or "
+            android:fontFamily="@font/dosis_medium"
+            android:textSize="24dp"
+            android:textColor="@color/dark_purple"
+            />
+        <Button
+            android:id="@+id/register_from_login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:fontFamily="@font/dosis_medium"
+            android:layout_marginHorizontal="8dp"
+            android:textAllCaps="false"
+            android:background="@drawable/round_style"
+            app:backgroundTint="#EAC1B6"
+            android:text="Register Here"
+            android:textColor="@color/dark_purple"
+            android:foreground="?attr/selectableItemBackgroundBorderless"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

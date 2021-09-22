@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/add_feng_shui"
+            android:title="fung shuei" />
+    </group>
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/showColor"
+            android:title="show Color"/>
+    </group>
+
+    <item android:title="Share">
+        <menu>
+            <group android:checkableBehavior="all">
+                <item android:id="@+id/share_floor_plan_img"
+                    android:title="as a floor plan Image"
+                    android:icon="@drawable/ic_baseline_camera_alt_24"/>
+                <item android:id="@+id/share_item_list"
+                    android:title="as an item list"
+                    android:icon="@drawable/ic_baseline_whatsapp_24"/>
+            </group>
+        </menu>
+
+    </item>
+</menu>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/profileFragment2">
+    <fragment
+        android:id="@+id/profileFragment2"
+        android:name="postpc.finalproject.RoomInn.ui.ProfileFragment"
+        android:label="ProfileFragment" >
+        <action
+            android:id="@+id/action_profileFragment2_to_floorPlanFragment"
+            app:destination="@id/floorPlanFragment" />
+        <action
+            android:id="@+id/action_profileFragment2_to_floorPlanPlacingFragment"
+            app:destination="@id/floorPlanPlacingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/floorPlanFragment"
+        android:name="postpc.finalproject.RoomInn.ui.FloorPlanFragment"
+        android:label="FloorPlanFragment" >
+        <action
+            android:id="@+id/action_floorPlanFragment_to_addFurnitureFragment2"
+            app:destination="@id/addFurnitureFragment2" />
+        <action
+            android:id="@+id/action_floorPlanFragment_to_profileFragment2"
+            app:destination="@id/profileFragment2" />
+        <action
+            android:id="@+id/action_floorPlanFragment_to_editFurnitureFragment"
+            app:destination="@id/editFurnitureFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addFurnitureFragment2"
+        android:name="postpc.finalproject.RoomInn.ui.AddFurnitureFragment"
+        android:label="AddFurnitureFragment" >
+        <action
+            android:id="@+id/action_addFurnitureFragment2_to_floorPlanFragment"
+            app:destination="@id/floorPlanFragment" />
+        <action
+            android:id="@+id/action_addFurnitureFragment2_to_editFurnitureFragment"
+            app:destination="@id/editFurnitureFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editFurnitureFragment"
+        android:name="postpc.finalproject.RoomInn.ui.EditFurnitureFragment"
+        android:label="EditFurnitureFragment" >
+        <action
+            android:id="@+id/action_editFurnitureFragment_to_floorPlanFragment"
+            app:destination="@id/floorPlanFragment" />
+        <action
+            android:id="@+id/action_editFurnitureFragment_to_floorPlanPlacingFragment"
+            app:destination="@id/floorPlanPlacingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/floorPlanPlacingFragment"
+        android:name="postpc.finalproject.RoomInn.ui.FloorPlanPlacingFragment"
+        android:label="FloorPlanPlacingFragment" >
+        <action
+            android:id="@+id/action_floorPlanPlacingFragment_to_floorPlanFragment"
+            app:destination="@id/floorPlanFragment" />
+        <action
+            android:id="@+id/action_floorPlanPlacingFragment_to_editFurnitureFragment"
+            app:destination="@id/editFurnitureFragment" />
+    </fragment>
+</navigation>
