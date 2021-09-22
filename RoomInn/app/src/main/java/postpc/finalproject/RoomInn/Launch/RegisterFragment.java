@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import postpc.finalproject.RoomInn.MainActivity;
 import postpc.finalproject.RoomInn.R;
+import postpc.finalproject.RoomInn.models.RoomInnApplication;
 
 public class RegisterFragment extends Fragment {
     String validateEmailPattern = "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
@@ -90,6 +91,8 @@ public class RegisterFragment extends Fragment {
     }
 
     private void getToMainActivity() {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        RoomInnApplication.getInstance().getRoomsDB().initialize(userId);
         Intent intent = new Intent(getActivity(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

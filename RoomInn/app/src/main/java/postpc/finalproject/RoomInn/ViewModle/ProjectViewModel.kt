@@ -16,7 +16,15 @@ import postpc.finalproject.RoomInn.ui.projectItem.ProjectItemAdapter
 class ProjectViewModel: ViewModel() {
     var roomEnableFurnitureOnBoard: Boolean = false
     @RequiresApi(Build.VERSION_CODES.N)
-    var room : Room = Room()  // TODO: change ro live data, so that each time it changes we save to the DB the room and the furniture of the room
+
+    open var room : Room = Room()
+        set(newRoom: Room) {
+            if (field.id != "user id") {
+                getInstance().getRoomsDB().saveRoom(field)
+            }
+            field = newRoom
+        }
+
     lateinit var projectName: String
     val layoutMeasures = intArrayOf(0,0)
     var loadingStage : LoadingStage = LoadingStage.SUCCESS

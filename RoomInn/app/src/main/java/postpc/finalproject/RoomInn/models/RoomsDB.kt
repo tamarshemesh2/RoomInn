@@ -93,7 +93,7 @@ class RoomsDB(val context: Context) {
 
         FirebaseApp.initializeApp(context)
         userLoadingStage.value = LoadingStage.LOADING
-        var document = firebase.collection("users")
+        val document = firebase.collection("users")
                 .document(id)
         document.get().addOnSuccessListener { d: DocumentSnapshot ->
             if (d.exists()) {
@@ -222,12 +222,12 @@ class RoomsDB(val context: Context) {
     }
 
     private fun FurniturFactory(doc: DocumentSnapshot) : Furniture? {
-        return when(doc["type"]) {
-            "Bed" -> doc.toObject(Bed::class.java)
-            "Chair" -> doc.toObject(Chair::class.java)
-            "Desk" -> doc.toObject(Desk::class.java)
-            "Closet" -> doc.toObject(Closet::class.java)
-            else  -> null
+         when(doc["type"]) {
+            "Bed" -> return doc.toObject(Bed::class.java)
+            "Chair" -> return doc.toObject(Chair::class.java)
+            "Desk" -> return doc.toObject(Desk::class.java)
+            "Closet" -> return doc.toObject(Closet::class.java)
+            else  -> return null
         }
     }
 
@@ -240,26 +240,17 @@ class RoomsDB(val context: Context) {
         }
     }
 
+    fun saveFurniture(furniture: Furniture) {
+        firebase.collection("furniture").document(furniture.id).set(furniture)
+    }
 
-// TODO: do we need this?
-
-//    fun setRoomNewName(newName: String, oldName: String) {
-//        userLoadingStage.value = LoadingStage.LOADING
-//        firebase.collection("rooms").whereEqualTo("userID", user.id).whereEqualTo("name", oldName).get()
-//                .addOnSuccessListener {
-//                    val documents = it.documents
-//                    for (doc in documents) {
-//                        val room: Room ?= doc.toObject(Room::class.java)
-//
-//                              ...
-//
-//                        }
-//                    }
-//                    userLoadingStage.value = LoadingStage.SUCCESS
-//                }
-//                .addOnFailureListener {
-//                    userLoadingStage.value = LoadingStage.FAILURE
-//                }
-//    }
+    fun saveRoom(room: Room) {
+        firebase.collection("rooms").document(room.id).set(room)
+        if (roomToFurnitureMap[room.id] != null) {
+            for (furnitureId in roomToFurnitureMap[room.id]!!) {
+                saveFurniture(furnitureMap[furnitureId]!!)
+            }
+        }
+    }
 
 }

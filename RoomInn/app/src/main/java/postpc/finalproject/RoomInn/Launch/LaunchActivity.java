@@ -7,25 +7,26 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.facebook.CallbackManager;
+import com.facebook.AccessToken;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import postpc.finalproject.RoomInn.MainActivity;
 import postpc.finalproject.RoomInn.R;
 import postpc.finalproject.RoomInn.ViewModle.LoginViewModel;
+import postpc.finalproject.RoomInn.models.RoomInnApplication;
 
 public class LaunchActivity extends AppCompatActivity {
     int RC_SIGN_IN = 0;
 
-    private Fragment loginFragment;
-    private Fragment registerFragment;
     private LoginViewModel viewModel;
 
     @Override
@@ -37,25 +38,32 @@ public class LaunchActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
-        loginFragment = new LoginFragment();
-        registerFragment = new RegisterFragment();
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(fragment.getId(), loginFragment)
-                .commit();
+        if (viewModel.isRegistering()) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(fragment.getId(), viewModel.getRegisterFragment())
+                    .commit();
+        }
+        else {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(fragment.getId(), viewModel.getLoginFragment())
+                    .commit();
+        }
     }
 
     // TODO: uncomment this! (do not delete this piece of code!)
     @Override
     protected void onStart() {
-        // this function will activate if the user signed up with google before
         super.onStart();
-        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-//        getToMainActivity();
+        String userId = getUserId();
+        if (userId != null) {
+            getToMainActivity(userId);
+        } else {
+            FirebaseAuth.getInstance().signOut();
+        }
     }
 
-    private void getToMainActivity() {
+    private void getToMainActivity(String userId) {
+        RoomInnApplication.getInstance().getRoomsDB().initialize(userId);
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
@@ -84,11 +92,49 @@ public class LaunchActivity extends AppCompatActivity {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
             // Signed in successfully, show authenticated UI.
-            getToMainActivity();
+            getToMainActivity(account.getId());
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w("Error", "signInResult:failed code=" + e.getStatusCode());
+        }
+    }
+
+    private String getUserId() {
+        String userId = null;
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+        if (acct != null) {
+            userId = acct.getId();
+            Log.d("login", "login with google id: " + userId);
+        }
+
+        // user  is already logged in with facebook
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+        if (isLoggedIn) {
+            userId = accessToken.getUserId();
+            Log.d("login", "login with facebook id: " + userId);
+        }
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            userId = user.getUid();
+            Log.d("login", "login with firebase id: " + userId);
+
+        }
+
+        return userId;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (viewModel.isRegistering()) {
+            viewModel.setRegistering(false);
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction()
+                    .replace(findViewById(R.id.fragment_frame).getId(), viewModel.getLoginFragment());
+            ft.commit();
+        } else {
+            super.onBackPressed();
         }
     }
 }

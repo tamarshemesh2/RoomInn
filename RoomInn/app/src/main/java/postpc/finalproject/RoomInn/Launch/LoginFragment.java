@@ -24,6 +24,7 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
@@ -36,6 +37,7 @@ import com.google.firebase.auth.FirebaseUser;
 import postpc.finalproject.RoomInn.MainActivity;
 import postpc.finalproject.RoomInn.R;
 import postpc.finalproject.RoomInn.ViewModle.LoginViewModel;
+import postpc.finalproject.RoomInn.models.RoomInnApplication;
 
 public class LoginFragment extends Fragment {
 
@@ -130,10 +132,10 @@ public class LoginFragment extends Fragment {
 
 
         // log in with firebase
-
         registerButton = view.findViewById(R.id.register_from_login_button);
         logInButton = view.findViewById(R.id.login_submit_button);
         registerButton.setOnClickListener(v -> {
+            viewModel.setRegistering(true);
             FragmentActivity activity = getActivity();
             activity.getSupportFragmentManager().beginTransaction()
                     .replace(activity.findViewById(R.id.fragment_frame).getId(), viewModel.getRegisterFragment())
@@ -186,6 +188,7 @@ public class LoginFragment extends Fragment {
     }
 
     private void getToMainActivity() {
+        RoomInnApplication.getInstance().getRoomsDB().initialize(getUserId());
         Intent intent = new Intent(getActivity(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
@@ -195,5 +198,31 @@ public class LoginFragment extends Fragment {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         // TODO: deprecated: check what to do
         startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private String getUserId() {
+        String userId = null;
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getActivity());
+        if (acct != null) {
+            userId = acct.getId();
+            Log.d("login", "login with google id: " + userId);
+        }
+
+        // user  is already logged in with facebook
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+        if (isLoggedIn) {
+            userId = accessToken.getUserId();
+            Log.d("login", "login with facebook id: " + userId);
+        }
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            userId = user.getUid();
+            Log.d("login", "login with firebase id: " + userId);
+
+        }
+
+        return userId;
     }
 }

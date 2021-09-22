@@ -7,7 +7,8 @@ import postpc.finalproject.RoomInn.Launch.LoginFragment
 import postpc.finalproject.RoomInn.Launch.RegisterFragment
 
 class LoginViewModel : ViewModel(){
+    var isRegistering: Boolean = false
     var callbackManager: CallbackManager = CallbackManager.Factory.create()
-    val loginFragment: Fragment? = LoginFragment()
+    val loginFragment: Fragment = LoginFragment()
     val registerFragment: Fragment = RegisterFragment()
 }

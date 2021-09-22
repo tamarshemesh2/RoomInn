@@ -2,6 +2,7 @@ package postpc.finalproject.RoomInn.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.util.Size
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -172,6 +173,7 @@ class EditFurnitureFragment : Fragment() {
 
             // update the furniture in the DB
             DB.furnitureMap[projectViewModel.furniture!!.id] = projectViewModel.furniture!!
+            Log.d("furniture id: ", projectViewModel.furniture!!.id)
             if (projectViewModel.furniture!!.id !in DB.roomToFurnitureMap[projectViewModel.room.id]!!) {
                 DB.roomToFurnitureMap[projectViewModel.room.id]!!.add(projectViewModel.furniture!!.id)
             }
