@@ -1,17 +1,16 @@
-// TODO: delete this file
-
-package postpc.finalproject.RoomInn.Launch;
+package postpc.finalproject.RoomInn.launch;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -21,9 +20,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 import postpc.finalproject.RoomInn.MainActivity;
 import postpc.finalproject.RoomInn.R;
+import postpc.finalproject.RoomInn.models.RoomInnApplication;
 
-public class RegisterActivity extends AppCompatActivity {
-
+public class RegisterFragment extends Fragment {
     String validateEmailPattern = "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
 
     EditText inputEmail, inputPassword, repeatPassword;
@@ -32,17 +31,18 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser mUser;
 
+    public RegisterFragment() {
+        super(R.layout.register_fregment);
+    }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.register_activity);
-
-        inputEmail = findViewById(R.id.register_edit_text);
-        inputPassword = findViewById(R.id.register_password_text);
-        repeatPassword = findViewById(R.id.register_re_enter_password_text);
-        registerButton = findViewById(R.id.register_submit_button);
-        progressDialog = new ProgressDialog(this);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        inputEmail = view.findViewById(R.id.register_edit_text);
+        inputPassword = view.findViewById(R.id.register_password_text);
+        repeatPassword = view.findViewById(R.id.register_re_enter_password_text);
+        registerButton = view.findViewById(R.id.register_submit_button);
+        progressDialog = new ProgressDialog(getActivity());
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
 
@@ -50,6 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
             preformAuth();
         });
     }
+
 
     private void preformAuth() {
         String emailText = inputEmail.getText().toString();
@@ -69,28 +70,30 @@ public class RegisterActivity extends AppCompatActivity {
             progressDialog.show();
 
             mAuth.createUserWithEmailAndPassword(emailText, passwordText)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            progressDialog.dismiss();
-                            Toast.makeText(RegisterActivity.this, "registration successful", Toast.LENGTH_SHORT)
-                                    .show();
-                            getToMainActivity();
-                        } else {
-                            progressDialog.dismiss();
-                            Toast.makeText(RegisterActivity.this, ""+task.getException(), Toast.LENGTH_SHORT)
-                                    .show();
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                progressDialog.dismiss();
+                                Toast.makeText(getActivity(), "registration successful", Toast.LENGTH_SHORT)
+                                        .show();
+                                getToMainActivity();
+                            } else {
+                                progressDialog.dismiss();
+                                Toast.makeText(getActivity(), ""+task.getException(), Toast.LENGTH_SHORT)
+                                        .show();
+                            }
                         }
-                    }
-                });
+                    });
         }
 
 
     }
 
     private void getToMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        RoomInnApplication.getInstance().getRoomsDB().initialize(userId);
+        Intent intent = new Intent(getActivity(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }

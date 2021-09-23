@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RoomInn">
-        <activity android:name=".Launch.LaunchActivity">  </activity>
+        <activity android:name=".launch.LaunchActivity">  </activity>
         <activity android:name=".ui.UnityHandler" />
         <activity android:name=".MainActivity"></activity>
         <meta-data

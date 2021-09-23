@@ -1,4 +1,4 @@
-package postpc.finalproject.RoomInn.Launch;
+package postpc.finalproject.RoomInn.launch;
 
 import android.content.Intent;
 import android.os.Bundle;

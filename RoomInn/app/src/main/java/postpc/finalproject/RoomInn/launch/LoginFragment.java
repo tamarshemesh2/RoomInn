@@ -1,4 +1,4 @@
-package postpc.finalproject.RoomInn.Launch;
+package postpc.finalproject.RoomInn.launch;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -15,10 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 
 import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;

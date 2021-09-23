@@ -1,6 +1,6 @@
 // TODO: delete this file
 
-package postpc.finalproject.RoomInn.Launch;
+package postpc.finalproject.RoomInn.launch;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

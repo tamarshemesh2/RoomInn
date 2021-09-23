@@ -6,7 +6,7 @@
     app:startDestination="@id/loginFragment">
     <fragment
         android:id="@+id/loginFragment"
-        android:name="postpc.finalproject.RoomInn.Launch.LoginFragment"
+        android:name="postpc.finalproject.RoomInn.launch.LoginFragment"
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
@@ -14,7 +14,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="postpc.finalproject.RoomInn.Launch.RegisterFragment"
+        android:name="postpc.finalproject.RoomInn.launch.RegisterFragment"
         android:label="RegisterFragment" >
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
