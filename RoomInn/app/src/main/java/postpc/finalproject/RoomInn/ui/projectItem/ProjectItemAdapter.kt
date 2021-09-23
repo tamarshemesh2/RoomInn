@@ -17,9 +17,13 @@ class ProjectItemAdapter : RecyclerView.Adapter<ProjectItemHolder>() {
 
     private var _projects: MutableList<ProjectItem> = ArrayList()
     private var viewModel: ProjectViewModel? =null
+    private lateinit var context:android.content.Context
 
     init {
         setItems()
+    }
+    fun setContext(context:android.content.Context){
+        this.context = context
     }
 
     fun setItems() {

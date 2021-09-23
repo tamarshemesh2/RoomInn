@@ -39,6 +39,7 @@ class ProfileFragment : Fragment() {
         val projectRecyclerView: RecyclerView = view.findViewById(R.id.projects_recycler)
         val addProjectFab: FloatingActionButton = view.findViewById(R.id.fab_add)
 
+        projectViewModel.adapter.setContext(requireContext())
 
         // setup function to call from DB upon change the current rendered room
         RoomInnApplication.getInstance().getRoomsDB().loadRoomNavLambda = {
