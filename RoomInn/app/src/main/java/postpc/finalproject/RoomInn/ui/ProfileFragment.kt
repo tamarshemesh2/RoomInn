@@ -1,5 +1,6 @@
 package postpc.finalproject.RoomInn.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -38,19 +39,6 @@ class ProfileFragment : Fragment() {
         val projectRecyclerView: RecyclerView = view.findViewById(R.id.projects_recycler)
         val addProjectFab: FloatingActionButton = view.findViewById(R.id.fab_add)
 
-        val junkMap = mapOf<String, Timestamp>(
-            "project 1" to Timestamp.now(),
-            "project 2" to Timestamp.now(),
-            "project 3" to Timestamp.now(),
-            "project 4" to Timestamp.now(),
-            "project 5" to Timestamp.now(),
-            "project 6" to Timestamp.now(),
-            "project 7" to Timestamp.now(),
-            "project 8" to Timestamp.now(),
-            "project 9" to Timestamp.now(),
-            "project 10" to Timestamp.now()
-        )
-//        adapter.setItems(junkMap)
 
         // setup function to call from DB upon change the current rendered room
         RoomInnApplication.getInstance().getRoomsDB().loadRoomNavLambda = {
@@ -58,6 +46,7 @@ class ProfileFragment : Fragment() {
         }
         // needs to be changed to daniella's unity features
         addProjectFab.setOnClickListener {
+            startActivity(Intent(requireContext(), UnityHandler::class.java))
             projectViewModel.doorsAndWindows.clear()
             Navigation.findNavController(view).navigate(R.id.action_profileFragment2_to_floorPlanPlacingFragment)
         }

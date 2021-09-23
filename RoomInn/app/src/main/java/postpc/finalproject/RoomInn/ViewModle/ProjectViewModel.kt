@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.postpc.myapplication.furnitureData.Wall
 import postpc.finalproject.RoomInn.Room
 import postpc.finalproject.RoomInn.furnitureData.Furniture
 import postpc.finalproject.RoomInn.furnitureData.Point3D
@@ -12,6 +13,8 @@ import postpc.finalproject.RoomInn.models.RoomInnApplication
 import postpc.finalproject.RoomInn.models.RoomInnApplication.Companion.getInstance
 import postpc.finalproject.RoomInn.ui.FurnitureOnBoard
 import postpc.finalproject.RoomInn.ui.projectItem.ProjectItemAdapter
+import kotlin.math.PI
+import kotlin.math.asin
 
 class ProjectViewModel: ViewModel() {
     var roomEnableFurnitureOnBoard: Boolean = false
@@ -30,8 +33,6 @@ class ProjectViewModel: ViewModel() {
     var loadingStage : LoadingStage = LoadingStage.SUCCESS
 
     var currentPosition: Point3D = Point3D()
-    var currentX :Float = 0f
-    var currentY : Float = 0f
     var furniture : Furniture? = null
     var newFurniture: Boolean = true
     val furnitureToErase: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -44,5 +45,18 @@ class ProjectViewModel: ViewModel() {
     init {
         adapter.setViewModel(this)
         getInstance().getRoomsDB().roomsListenerLambda = { adapter.setItems() }
+    }
+
+    fun createWalls(corners: MutableList<Point3D>, distances: MutableList<Float>): MutableList<Wall> {
+        val walls = mutableListOf<Wall>()
+        for (i in 1..distances.size){
+            val pos = Point3D(corners[i-1].add(corners[i]).multiply(0.5f)).apply { this.y=0f }
+            val scale=Point3D(distances[i-1],270f,25f)
+            val sinY =
+                Point3D(corners[i - 1]).add(Point3D(corners[i]).multiply(-1f)).x / distances[i - 1]
+            val rotation = Point3D(0f, asin(sinY) *(180/ PI).toFloat(),0f)
+            walls.add(Wall(pos,rotation,scale))
+        }
+        return walls
     }
 }

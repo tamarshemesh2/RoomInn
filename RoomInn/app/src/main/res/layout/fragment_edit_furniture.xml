@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/edit_title"
@@ -28,7 +27,9 @@
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="@id/edit_title"
         app:layout_constraintStart_toStartOf="@id/edit_title"
-        app:layout_constraintTop_toBottomOf="@id/edit_title" />
+        app:layout_constraintTop_toBottomOf="@id/edit_title"
+        android:transformPivotX="80dp"
+        android:transformPivotY="80dp"/>
 
 
     <TextView
@@ -79,6 +80,19 @@
         app:layout_constraintTop_toTopOf="@id/width_text" />
 
     <TextView
+        android:id="@+id/width_size_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/dosis_medium"
+        android:paddingStart="8dp"
+        android:text="cm"
+        android:textColor="@color/black_overlay"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/width_edit_text"
+        app:layout_constraintStart_toEndOf="@id/width_edit_text" />
+
+    <TextView
         android:id="@+id/length_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -102,6 +116,19 @@
         app:layout_constraintTop_toTopOf="@id/length_text" />
 
     <TextView
+        android:id="@+id/length_size_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/dosis_medium"
+        android:paddingStart="8dp"
+        android:text="cm"
+        android:textColor="@color/black_overlay"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/length_edit_text"
+        app:layout_constraintStart_toEndOf="@id/length_edit_text" />
+
+    <TextView
         android:id="@+id/height_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -113,7 +140,7 @@
         app:layout_constraintTop_toBottomOf="@id/length_text" />
 
     <EditText
-        android:id="@+id/heigh_edit_text"
+        android:id="@+id/height_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -124,6 +151,19 @@
         app:layout_constraintStart_toEndOf="@id/height_text"
         app:layout_constraintTop_toTopOf="@id/height_text"
         tools:ignore="LabelFor" />
+
+    <TextView
+        android:id="@+id/height_size_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/dosis_medium"
+        android:paddingStart="8dp"
+        android:text="cm"
+        android:textColor="@color/black_overlay"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/height_edit_text"
+        app:layout_constraintStart_toEndOf="@id/height_edit_text" />
 
     <TextView
         android:id="@+id/rotate_text"
@@ -153,14 +193,12 @@
         android:id="@+id/rotate_btn"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="1:1"
         android:layout_marginStart="8dp"
         android:src="@drawable/ic_baseline_rotate_90_degrees_cw_24"
         app:layout_constraintBottom_toBottomOf="@id/rotate_inner_text"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintStart_toEndOf="@id/rotate_inner_text"
         app:layout_constraintTop_toTopOf="@id/rotate_inner_text" />
-
-
 
 
     <CheckBox

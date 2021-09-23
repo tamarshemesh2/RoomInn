@@ -14,11 +14,13 @@ import androidx.annotation.RequiresApi
 import androidx.navigation.Navigation
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import postpc.finalproject.RoomInn.R
+import postpc.finalproject.RoomInn.Room
 import postpc.finalproject.RoomInn.RoomCanvas
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.furnitureData.Door
 import postpc.finalproject.RoomInn.furnitureData.Point3D
 import postpc.finalproject.RoomInn.furnitureData.Window
+import postpc.finalproject.RoomInn.models.RoomInnApplication
 
 
 class FloorPlanPlacingFragment : Fragment() {
@@ -28,6 +30,8 @@ class FloorPlanPlacingFragment : Fragment() {
             return FloorPlanPlacingFragment()
         }
     }
+    private val pointsPathName: String by lazy { "pointData.json" }
+    private val distancesPathName: String by lazy { "distances.json" }
 
     private val projectViewModel: ProjectViewModel by lazy {
         ViewModelProvider(requireActivity()).get(ProjectViewModel::class.java)
@@ -50,6 +54,7 @@ class FloorPlanPlacingFragment : Fragment() {
         val addWindowBtn = view.findViewById<ImageButton>(R.id.addWindowButton)
         val addDoorBtn = view.findViewById<ImageButton>(R.id.addDoorButton)
         val doneFab = view.findViewById<FloatingActionButton>(R.id.done_fab)
+        val app by lazy { RoomInnApplication.getInstance() }
 
         val vto = layout.viewTreeObserver
         vto.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
@@ -57,6 +62,18 @@ class FloorPlanPlacingFragment : Fragment() {
             override fun onGlobalLayout() {
                 layout.viewTreeObserver
                     .removeOnGlobalLayoutListener(this)
+
+//                reading from a json file- using this tutorial :
+//                https://medium.com/nplix/how-to-read-and-write-json-data-in-kotlin-with-gson-c2971fd2d124
+
+
+                //TODO: find a way to call those lines only after unity is closed
+
+//                val corners = app.readFromFileToPoints(pointsPathName)
+//                val distances = app.readFromFileToFloats(distancesPathName)
+//                val walls = projectViewModel.createWalls(corners, distances)
+//                projectViewModel.room = Room(corners,walls)
+
                 roomCanvas.setPath(
                     projectViewModel.room.drawFloorPlan(layout.measuredWidth,layout.measuredHeight))
 

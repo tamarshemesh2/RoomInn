@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/facebook-login" />
+            <option value="$PROJECT_DIR$/../UnityProject/unityLibrary" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

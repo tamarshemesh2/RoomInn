@@ -71,8 +71,6 @@ class DragAndScaleListener(
                 oldDist = spacing(event)
                 if (oldDist > 10f) {
                     mode = ZOOM
-                } else {
-                    Toast.makeText(context, "delete", Toast.LENGTH_SHORT).show()
                 }
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_POINTER_UP -> mode = NONE
@@ -97,7 +95,7 @@ class DragAndScaleListener(
                     val newDist = spacing(event)
                     if (newDist > 10f) {
                         val scale = newDist / oldDist * view.scaleX
-                        if (scale > 0.6) {
+                        if (scale > 0.4) {
                             // updates the furniture data according to the scale
                             furniture.scale(newDist / oldDist)
                             scaleDiff = scale

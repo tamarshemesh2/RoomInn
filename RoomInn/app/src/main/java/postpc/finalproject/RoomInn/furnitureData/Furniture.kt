@@ -21,7 +21,10 @@ abstract class Furniture(
     var freeScale: Boolean = false
 
     open fun scale(scaleFactor: Float): Point3D {
-        return Point3D(scale.multiply(scaleFactor))
+        // returns a Point3D item that holds the differ distance between the edges of the furniture from old to new scale
+        val oldScale = Point3D(scale)
+        val newScale = Point3D(scale.multiply(scaleFactor))
+        return newScale.add(oldScale.multiply(-1f)).multiply(1f).apply { this.y = 0f }
     }
     open fun getSizeToDraw(size: Size):Pair<Float,Float>{
         val ratioSize = min(size.height/(scale.z),size.width/scale.x)

@@ -44,7 +44,7 @@ class EditFurnitureFragment : Fragment() {
 
         val colorBtn: ImageView = view.findViewById(R.id.color_btn)
         val widthEditText = view.findViewById<EditText>(R.id.width_edit_text)
-        val heightEditText = view.findViewById<EditText>(R.id.heigh_edit_text)
+        val heightEditText = view.findViewById<EditText>(R.id.height_edit_text)
         val lengthEditText = view.findViewById<EditText>(R.id.length_edit_text)
         val rotateEditText = view.findViewById<EditText>(R.id.rotate_inner_text)
         val rotateBtn = view.findViewById<ImageButton>(R.id.rotate_btn)

@@ -2,3 +2,5 @@ include ':facebook-login'
 include ':facebook-login'
 include ':app'
 rootProject.name = "RoomInn"
+include ':unityLibrary'
+project(':unityLibrary').projectDir=new File('..\\UnityProject\\unityLibrary')

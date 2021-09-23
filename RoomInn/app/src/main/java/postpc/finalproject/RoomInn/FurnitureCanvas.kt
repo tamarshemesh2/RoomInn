@@ -16,6 +16,9 @@ open class FurnitureCanvas(
     private var path: Path,
     private var hasPath: Boolean = true
 ) : androidx.appcompat.widget.AppCompatImageView(context, attrs){
+    init {
+        this.scaleType = ScaleType.FIT_START
+    }
     constructor(context: Context) : this(context, null, Path()) {
         hasPath = false
     }
