@@ -13,9 +13,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RoomInn">
-        <activity android:name=".launch.LaunchActivity">  </activity>
         <activity android:name=".ui.UnityHandler" />
+        <activity android:name=".launch.LaunchActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".MainActivity"></activity>
+        <activity android:name=".ui.RoomUnityPlayerActivity"></activity>
+        <activity android:name=".ui.ScanUnityPlayerActivity"></activity>
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

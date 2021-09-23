@@ -1,16 +1,19 @@
 package postpc.finalproject.RoomInn.ui.projectItem
 
+import android.content.Intent
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Timestamp
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.models.RoomInnApplication
+import postpc.finalproject.RoomInn.ui.UnityHandler
 
 
 class ProjectItemAdapter : RecyclerView.Adapter<ProjectItemHolder>() {
@@ -66,6 +69,11 @@ class ProjectItemAdapter : RecyclerView.Adapter<ProjectItemHolder>() {
             holder.editFabButton.setOnClickListener {
                 RoomInnApplication.getInstance().getRoomsDB().loadRoomByName(projectItem.roomName, viewModel)
                 viewModel!!.projectName = projectItem.roomName
+            }
+
+            holder.playButton.setOnClickListener {
+//                val intent = Intent(requireContext(), UnityHandler::class.java)
+//                intent.putExtra("Scene Index", "1")
             }
         }
 

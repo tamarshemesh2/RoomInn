@@ -17,7 +17,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         // IMPORTANT: CHANGE TO YOUR FILE PATH TO UNITY NDK
-        ndkPath = "C:\\Users\\YuvalC\\Desktop\\postPC\\final_project_new\\final_project\\tools\\NDK" // Point to your own NDK
+        ndkPath = "C:\\Users\\natan\\PostPC\\RoomInn\\tools\\NDK" // Point to your own NDK
 
     }
 

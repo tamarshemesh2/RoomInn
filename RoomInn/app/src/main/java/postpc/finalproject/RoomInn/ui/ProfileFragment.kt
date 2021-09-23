@@ -11,11 +11,9 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.Timestamp
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.models.RoomInnApplication
-import postpc.finalproject.RoomInn.ui.projectItem.ProjectItemAdapter
 
 
 class ProfileFragment : Fragment() {
@@ -47,6 +45,8 @@ class ProfileFragment : Fragment() {
         }
         // needs to be changed to daniella's unity features
         addProjectFab.setOnClickListener {
+            val intent = Intent(requireContext(), UnityHandler::class.java)
+            intent.putExtra("Scene Index", "2")
             startActivity(Intent(requireContext(), UnityHandler::class.java))
             projectViewModel.doorsAndWindows.clear()
             Navigation.findNavController(view).navigate(R.id.action_profileFragment2_to_floorPlanPlacingFragment)

@@ -74,12 +74,12 @@ class FloorPlanPlacingFragment : Fragment() {
 //                val walls = projectViewModel.createWalls(corners, distances)
 //                projectViewModel.room = Room(corners,walls)
 
-                roomCanvas.setPath(
-                    projectViewModel.room.drawFloorPlan(layout.measuredWidth,layout.measuredHeight))
+//                roomCanvas.setPath(
+//                    projectViewModel.room.drawFloorPlan(layout.measuredWidth,layout.measuredHeight))
 
                 layout.getLocationOnScreen(projectViewModel.layoutMeasures)
 
-                val roomRatio = projectViewModel.room.getRoomRatio()
+                val roomRatio = 1f // projectViewModel.room.getRoomRatio()
 
                 for (door in projectViewModel.doorsAndWindows) {
                     val relativeLocation =
