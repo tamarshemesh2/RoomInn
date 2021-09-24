@@ -22,7 +22,7 @@ class ProjectViewModel: ViewModel() {
 
     open var room : Room = Room()
         set(newRoom: Room) {
-            if (field.id != "user id") {
+            if (field.userId != "user id") {
                 getInstance().getRoomsDB().saveRoom(field)
             }
             field = newRoom

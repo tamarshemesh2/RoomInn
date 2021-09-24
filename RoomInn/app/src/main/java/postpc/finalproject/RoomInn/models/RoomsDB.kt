@@ -6,6 +6,7 @@ import androidx.lifecycle.*
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.postpc.myapplication.furnitureData.Wall
 import postpc.finalproject.RoomInn.Room
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.furnitureData.*
@@ -64,6 +65,17 @@ class RoomsDB(val context: Context) {
         room3.userId = user.id
         room2.userId = user.id
         room1.userId = user.id
+
+        var door: Door = Door()
+        var wall: Wall = Wall(position = Point3D(), rotation = Point3D(), scale = Point3D())
+        var window: Window = Window()
+        var window2 : Window = Window()
+        window2.position.x = 10f
+//        room1.Walls.add(wall)
+        room1.windows.add(window)
+        room1.windows.add(window2)
+        room1.doors.add(door)
+
         createNewRoom(room1)
         createNewRoom(room2)
         createNewRoom(room3)
@@ -193,6 +205,7 @@ class RoomsDB(val context: Context) {
     }
 
     private fun addFurnitureToMap(room: Room, viewModel: ProjectViewModel?= null) {
+        // this function assumes that there are no furniture in loaded for this room yet in the DB
         roomToFurnitureMap[room.id] = mutableListOf()
         firebase.collection("furniture").whereEqualTo("roomId", room.id).get()
                 .addOnSuccessListener {
@@ -200,8 +213,9 @@ class RoomsDB(val context: Context) {
                     for (doc in documents) {
                         val furniture = FurniturFactory(doc)
                         if (furniture != null) {
+                            Log.d("furniture", furniture.type)
                             roomToFurnitureMap[room.id]!!.add(furniture.id)
-                            furnitureMap[room.id] = furniture
+                            furnitureMap[furniture.id] = furniture
                         }
                     }
                     // change to success only if both room and it's furniture are loaded
@@ -222,6 +236,7 @@ class RoomsDB(val context: Context) {
     }
 
     private fun FurniturFactory(doc: DocumentSnapshot) : Furniture? {
+        Log.d("furniture", doc.toString())
          when(doc["type"]) {
             "Bed" -> return doc.toObject(Bed::class.java)
             "Chair" -> return doc.toObject(Chair::class.java)

@@ -18,6 +18,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import postpc.finalproject.RoomInn.MainActivity;
 import postpc.finalproject.RoomInn.R;
@@ -56,7 +57,17 @@ public class LaunchActivity extends AppCompatActivity {
         super.onStart();
         String userId = getUserId();
         if (userId != null) {
-            getToMainActivity(userId);
+            FirebaseFirestore.getInstance().collection("users").document(userId).get()
+                    .addOnSuccessListener( v -> {
+                        if (v.exists()) {
+                            getToMainActivity(userId);
+                        } else {
+                            FirebaseAuth.getInstance().signOut();
+                        }
+                    })
+                    .addOnFailureListener(v -> {
+                        FirebaseAuth.getInstance().signOut();
+                    });
         } else {
             FirebaseAuth.getInstance().signOut();
         }
