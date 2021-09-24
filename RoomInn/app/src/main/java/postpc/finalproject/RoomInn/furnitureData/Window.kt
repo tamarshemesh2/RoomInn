@@ -14,7 +14,9 @@ class Window(
 ) : Furniture(position, rotation, scale, Color.BLACK) {
     init{
         type = "Window"
+        defaultScale = Point3D(this.scale)
     }
+
     override fun draw(sizeWidth: Float, sizeHeight: Float): Path {
         val path = Path()
         val margin = 8f
@@ -27,6 +29,7 @@ class Window(
         )
         return path
     }
+
     fun drawFront(sizeWidth: Float, sizeHeight: Float): Path {
         val path = Path()
         val margin = 8f

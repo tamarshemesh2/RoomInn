@@ -3,7 +3,7 @@ package postpc.finalproject.RoomInn.furnitureData
 import android.graphics.Color
 import android.graphics.Path
 import android.util.Size
-import java.lang.Double.min
+import postpc.finalproject.RoomInn.models.RoomInnApplication
 
 import java.util.*
 import kotlin.math.min
@@ -14,7 +14,7 @@ abstract class Furniture(
     var scale : Point3D,
     var color: Int = Color.GRAY,
     var id: String = UUID.randomUUID().toString()) {
-
+    var defaultScale = Point3D();
     var type: String = "unknown"
     var roomId: String = "unknown"
     var unityFuncName: String = ""
@@ -36,5 +36,30 @@ abstract class Furniture(
         val widthMargin = (windowWidth - (first * scale.x)) / 2
         return Pair(widthMargin,heightMargin)
     }
+
+    override fun toString() : String {
+        return  unityPosition().toString() + "\n" +
+                rotation.toString() + "\n" +
+                unityScale().toString() + "\n" +
+                color.toString()
+    }
+
+    open fun unityScale() : Point3D {
+        return scale.getDivideByPoint(defaultScale)
+    }
+
+    open fun unityPosition() : Point3D {
+        val screenPosition = position
+        val roomCenter = Point3D(RoomInnApplication.getInstance()
+                        .getRoomsDB().roomByRoomID(roomId)
+                        .getRoomCenter())
+        return screenPosition.add(roomCenter.multiply(-1f)).getDivideByPoint(Point3D(100f,100f,100f))
+    }
+
+
     abstract fun draw(sizeWidth:Float, sizeHeight: Float): Path
+
+
+
+
 }

@@ -1,34 +1,53 @@
 package postpc.finalproject.RoomInn.ui
 
 import android.os.Bundle
+import android.util.Log
 import com.postpc.myapplication.furnitureData.Wall
 import com.unity3d.player.UnityPlayer
 import com.unity3d.player.UnityPlayerActivity
 import postpc.finalproject.RoomInn.Room
 import postpc.finalproject.RoomInn.furnitureData.*
+import postpc.finalproject.RoomInn.models.RoomInnApplication
 
 
 class RoomUnityPlayerActivity : UnityPlayerActivity() {
 
+    companion object{
+        val sceneIndex = "1"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val roomName = intent.getStringExtra("Room Name")
+        val roomDB = RoomInnApplication.getInstance().getRoomsDB()
+        UnityPlayer.UnitySendMessage("GameObject", "loadScene", sceneIndex)
 
-        UnityPlayer.UnitySendMessage("GameObject", "loadScene", "1")
+        Log.e("roomid", roomDB.toString())
 
-        val wallList: MutableList<Wall> = mutableListOf()
-        wallList.add(Wall(Point3D(2.5f, 0f, 0f), Point3D(0f, 90f, 0f), Point3D(6f, 10f, 0.0001f)))
-        wallList.add(Wall(Point3D(0f, 0f, 3f), Point3D(0f, 0f, 0f), Point3D(5f, 10f, 0.0001f)))
-        wallList.add(Wall(Point3D(-2.5f, 0f, 0f), Point3D(0f, 90f, 0f), Point3D(6f, 10f, 0.0001f)))
-        wallList.add(Wall(Point3D(0f, 0f, -3f), Point3D(0f, 0f, 0f), Point3D(5f, 10f, 0.0001f)))
+        // render the walls.
+        renderWalls(roomDB.wallsByRoomName(roomName!!))
+
+        // render the furniture.
+        renderFurniture(roomDB.roomFurniture(roomName))
+
+        // render the doors.
+        renderDoors(roomDB.doorsByRoomName(roomName))
+
+        // render the windows.
+        renderWindows(roomDB.windowsByRoomName(roomName))
 
 
-//        val furnitureList :MutableList<Furniture> = mutableListOf()
-//        furnitureList.add(Bed(Point3D(-0.75f,0f,1f),Point3D(0f,180f,0f),Point3D(1f,1f,1f)))
-//        furnitureList.add(Closet(Point3D(0.75f,0f,1.75f),Point3D(0f,180f,0f),Point3D(1f,1f,1f)))
-//        furnitureList.add(Desk(Point3D(-1.2f,0f,-1.25f),Point3D(0f,90f,0f),Point3D(1f,1f,1f)))
-//        furnitureList.add(Chair(Point3D(-1f,0f,-1.25f),Point3D(0f,0f,0f),Point3D(1f,1f,1f)))
-        val room = Room(mutableListOf<Point3D>(), wallList)
-        renderRoom(room)
+
+
+
+//        val wallList: MutableList<Wall> = mutableListOf()
+//        wallList.add(Wall(Point3D(2.5f, 0f, 0f), Point3D(0f, 90f, 0f), Point3D(6f, 10f, 0.0001f)))
+//        wallList.add(Wall(Point3D(0f, 0f, 3f), Point3D(0f, 0f, 0f), Point3D(5f, 10f, 0.0001f)))
+//        wallList.add(Wall(Point3D(-2.5f, 0f, 0f), Point3D(0f, 90f, 0f), Point3D(6f, 10f, 0.0001f)))
+//        wallList.add(Wall(Point3D(0f, 0f, -3f), Point3D(0f, 0f, 0f), Point3D(5f, 10f, 0.0001f)))
+
+//        val room = Room(mutableListOf<Point3D>(), wallList)
+//        renderRoom(room)
 
     }
 
@@ -50,6 +69,7 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
 
     private fun renderFurniture(furnitureList: MutableList<Furniture>) {
         for (furniture in furnitureList) {
+            Log.e("funiture",furniture.toString() )
             UnityPlayer.UnitySendMessage(
                 "FPSController",
                 furniture.unityFuncName,
@@ -58,13 +78,13 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
         }
     }
 
-    private fun renderDoors(doorList: MutableList<Furniture>) {
+    private fun renderDoors(doorList: MutableList<Door>) {
         for (door in doorList) {
             UnityPlayer.UnitySendMessage("FPSController", "addNewDoor", door.toString())
         }
     }
 
-    private fun renderWindows(windowList: MutableList<Furniture>) {
+    private fun renderWindows(windowList: MutableList<Window>) {
         for (window in windowList) {
             UnityPlayer.UnitySendMessage("FPSController", "addNewWindow", window.toString())
         }

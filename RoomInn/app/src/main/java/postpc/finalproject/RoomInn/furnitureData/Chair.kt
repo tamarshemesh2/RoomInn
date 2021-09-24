@@ -6,7 +6,7 @@ import android.graphics.Path
 class Chair(
     position: Point3D = Point3D(),
     rotation: Point3D = Point3D(),
-    scale: Point3D = Point3D(42f, 96f, 52f),
+    scale: Point3D = Point3D(42f, 130f, 52f),
     color: Int = Color.GRAY,
     roomId: String = ""
 ): Furniture(position,rotation, scale, color){
@@ -14,6 +14,7 @@ class Chair(
         unityFuncName = "addNewChair"
         type = "Chair"
         this.roomId = roomId
+        defaultScale = Point3D(45f, 130f, 80f)
     }
 
     override fun draw(sizeWidth:Float, sizeHeight:Float): Path {

@@ -3,15 +3,15 @@ package postpc.finalproject.RoomInn.furnitureData
 import android.graphics.Color
 import android.graphics.Path
 
-class Closet(
+class Couch(
     position: Point3D = Point3D(),
     rotation: Point3D = Point3D(),
-    scale: Point3D = Point3D(150f, 180f, 50f),
+    scale: Point3D = Point3D(150f, 100f, 65f),
     color: Int = Color.GRAY,
     roomId: String = ""
 ) : Furniture(position, rotation, scale, color) {
     init {
-        unityFuncName = "addNewCloset"
+        unityFuncName = "addNewCouch"
         type = "Closet"
         this.roomId = roomId
         defaultScale = Point3D(scale)

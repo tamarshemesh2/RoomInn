@@ -15,7 +15,9 @@ class Bed(
     init {
         unityFuncName = "addNewBed"
         type = "Bed"
-        this.roomId = roomId    }
+        this.roomId = roomId
+        defaultScale = Point3D(scale)
+    }
 
     override fun draw(sizeWidth:Float, sizeHeight:Float): Path {
         val path = Path()

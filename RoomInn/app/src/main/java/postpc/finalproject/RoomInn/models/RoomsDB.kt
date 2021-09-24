@@ -239,6 +239,7 @@ class RoomsDB(val context: Context) {
         }
     }
 
+
     fun saveOnExit() {
         for ((roomName, room) in roomsMap) {
             firebase.collection("rooms").document(room.id).set(room)
@@ -261,7 +262,8 @@ class RoomsDB(val context: Context) {
         }
     }
 
-    fun getRoomFurniture(roomID : String) : MutableList<Furniture> {
+    fun roomFurniture(roomName : String) : MutableList<Furniture> {
+        var roomID = roomsMap[roomName]!!.id
         val furnitureIDS = RoomInnApplication.getInstance().getRoomsDB().roomToFurnitureMap[roomID]!!
         val furnitureList = mutableListOf<Furniture>()
         for (furnitureID in furnitureIDS) {
@@ -271,22 +273,31 @@ class RoomsDB(val context: Context) {
         return furnitureList
     }
 
-    fun getRoomRoomByRoomID(roomId: String): Room {
-        return roomsMap[roomId]!!
+    fun roomByRoomName(roomName: String): Room {
+        return roomsMap[roomName]!!
     }
 
-    fun getWallsByRoomId(roomId: String): MutableList<Wall> {
-        val room = getRoomRoomByRoomID(roomId)
+    fun roomByRoomID(roomID: String): Room {
+        for ((roomName, room) in roomsMap) {
+            if (roomID == room.id) {
+                return room
+            }
+        }
+        return Room()
+    }
+
+    fun wallsByRoomName(roomName: String): MutableList<Wall> {
+        val room = roomByRoomName(roomName)
         return room.Walls
     }
 
-    fun getDoorsByRoomId(roomId: String): MutableList<Door> {
-        val room = getRoomRoomByRoomID(roomId)
+    fun doorsByRoomName(roomName: String): MutableList<Door> {
+        val room = roomByRoomName(roomName)
         return room.doors
     }
 
-    fun getWindowsByRoomId(roomId: String): MutableList<Window> {
-        val room = getRoomRoomByRoomID(roomId)
+    fun windowsByRoomName(roomName: String): MutableList<Window> {
+        val room = roomByRoomName(roomName)
         return room.windows
     }
 

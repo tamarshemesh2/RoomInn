@@ -28,7 +28,7 @@ class ProjectViewModel: ViewModel() {
             field = newRoom
         }
 
-    lateinit var projectName: String
+    var projectName: String = ""
     val layoutMeasures = intArrayOf(0,0)
     var loadingStage : LoadingStage = LoadingStage.SUCCESS
 

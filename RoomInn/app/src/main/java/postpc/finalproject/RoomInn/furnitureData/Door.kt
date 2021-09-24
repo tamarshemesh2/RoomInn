@@ -12,9 +12,13 @@ class Door(
     color: Int = Color.BLACK
 ) : Furniture(position, rotation, scale, Color.BLACK) {
     var orientation:String = "RTL"
+
     init{
         type = "Door"
+        defaultScale = Point3D(scale)
     }
+
+
     override fun draw(sizeWidthA: Float, sizeHeight: Float): Path {
         val path = Path()
         val margin = 8f

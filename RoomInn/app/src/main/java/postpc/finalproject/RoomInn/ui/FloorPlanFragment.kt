@@ -1,6 +1,7 @@
 package postpc.finalproject.RoomInn.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Rect
 import android.graphics.RectF
 import android.os.Bundle
@@ -15,6 +16,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
@@ -61,6 +63,7 @@ class FloorPlanFragment : Fragment() {
         val roomTitle: TextView = view.findViewById(R.id.titleTextView)
         val eraseImg: ImageView = view.findViewById(R.id.deleteImageView)
         val addFab: ImageButton = view.findViewById(R.id.addButton)
+        val playButton : FloatingActionButton = view.findViewById(R.id.playButton)
         var toAddFurniture = false
         //add all furniture to board
 
@@ -70,6 +73,13 @@ class FloorPlanFragment : Fragment() {
         hamburger = view.findViewById(R.id.hamburgerMenuButton)
 
         roomTitle.text = "${projectViewModel.projectName} \n- Floor Plan"
+
+        playButton.setOnClickListener {
+            val intent = Intent(context, UnityHandler::class.java)
+            intent.putExtra("Scene Index", RoomUnityPlayerActivity.sceneIndex)
+            intent.putExtra("Room Name", projectViewModel!!.room.name)
+            startActivity(intent)
+        }
 
         val vto = roomLayout.viewTreeObserver
         vto.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -104,8 +114,6 @@ class FloorPlanFragment : Fragment() {
         hamburger.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
-
-
     }
 
 

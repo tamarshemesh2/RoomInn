@@ -19,13 +19,14 @@ class UnityHandler : AppCompatActivity() {
             var intent: Intent
             if (sceneIndex == "1") {
                 intent = Intent(this@UnityHandler, RoomUnityPlayerActivity::class.java)
+                intent.putExtra("Room Name", this.intent.getStringExtra("Room Name"))
             }
             else {
                 intent = Intent(this@UnityHandler, ScanUnityPlayerActivity::class.java)
             }
             startActivity(intent)
-            getInstance().pathToUnity = UnityPlayer.currentActivity.getExternalFilesDir("")!!
-                .absolutePath
+//            getInstance().pathToUnity = UnityPlayer.currentActivity.getExternalFilesDir("")!!
+//                .absolutePath
         }
     }
 }

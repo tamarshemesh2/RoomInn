@@ -13,7 +13,9 @@ class Desk(
     init {
         unityFuncName = "addNewDesk"
         type = "Desk"
-        this.roomId = roomId    }
+        this.roomId = roomId
+        defaultScale = Point3D(scale)
+    }
 
     override fun draw(sizeWidth:Float, sizeHeight:Float): Path {
         val path = Path()

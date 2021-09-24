@@ -40,4 +40,17 @@ data class Point3D(
     }
 
 
+    fun getDivideByPoint(point : Point3D)  :Point3D {
+        return Point3D(
+            x / point.x,
+            y / point.y,
+            z / point.z)
+
+    }
+
+    override fun toString(): String {
+        return "($x,$y,$z)"
+    }
+
+
 }

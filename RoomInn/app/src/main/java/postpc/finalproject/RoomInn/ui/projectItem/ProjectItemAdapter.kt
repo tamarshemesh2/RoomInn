@@ -6,13 +6,12 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.Timestamp
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.models.RoomInnApplication
+import postpc.finalproject.RoomInn.ui.RoomUnityPlayerActivity
+import postpc.finalproject.RoomInn.ui.ScanUnityPlayerActivity
 import postpc.finalproject.RoomInn.ui.UnityHandler
 
 
@@ -72,8 +71,11 @@ class ProjectItemAdapter : RecyclerView.Adapter<ProjectItemHolder>() {
             }
 
             holder.playButton.setOnClickListener {
-//                val intent = Intent(requireContext(), UnityHandler::class.java)
-//                intent.putExtra("Scene Index", "1")
+                val intent = Intent(context, UnityHandler::class.java)
+                intent.putExtra("Scene Index", RoomUnityPlayerActivity.sceneIndex)
+                intent.putExtra("Room ID", viewModel!!.room.id)
+                context.startActivity(intent)
+
             }
         }
 

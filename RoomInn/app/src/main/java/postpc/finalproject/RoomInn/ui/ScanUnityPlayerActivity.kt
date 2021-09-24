@@ -10,9 +10,13 @@ import postpc.finalproject.RoomInn.furnitureData.*
 
 class ScanUnityPlayerActivity : UnityPlayerActivity() {
 
+    companion object{
+        val sceneIndex = "2"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        UnityPlayer.UnitySendMessage("GameObject", "loadScene", "2")
+        UnityPlayer.UnitySendMessage("GameObject", "loadScene", sceneIndex)
 
     }
 
