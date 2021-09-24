@@ -43,6 +43,8 @@ class AddFurnitureFragment : Fragment() {
             "Chair" to (Chair(position = Point3D(position), roomId = projectViewModel.room.id)),
             "Closet" to (Closet(position = Point3D(position), roomId = projectViewModel.room.id)),
             "Desk" to (Desk(position = Point3D(position), roomId = projectViewModel.room.id)),
+            "Couch" to (Couch(position = Point3D(position), roomId = projectViewModel.room.id)),
+            "Dresser" to (Dresser(position = Point3D(position), roomId = projectViewModel.room.id)),
         )
         defaultItems.forEach {
             it.value.position = it.value.position.add(Point3D(it.value.scale).multiply(-0.5f))

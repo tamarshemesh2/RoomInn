@@ -23,8 +23,8 @@ class Desk(
         path.addRect(
             margin,
             margin,
-            (scale.x * sizeWidth) + margin,
-            (scale.z * sizeHeight)+margin,
+            (scale.x * sizeWidth) - margin,
+            (scale.z * sizeHeight)-margin,
             Path.Direction.CCW
         )
         return path

@@ -35,7 +35,7 @@ class FurnitureOnBoard(
         // This gesture listener is used with the image view.
         val imageViewGestureListener =
             GeneralGestureListener(context, projectViewModel, furniture, board, imageView)
-        val layoutLocation= intArrayOf(0,0)
+        val layoutLocation = intArrayOf(0, 0)
         board.getLocationOnScreen(layoutLocation)
         val imageViewDragGestureListener =
             DragAndScaleListener(context, projectViewModel, furniture, board, imageView)
@@ -70,9 +70,13 @@ class FurnitureOnBoard(
         board.addView(imageView)
 
         val params = imageView.layoutParams as RelativeLayout.LayoutParams
-
-        params.width = (furniture.scale.x * roomRatio).roundToInt() + margin
-        params.height = (furniture.scale.z * roomRatio).roundToInt() + margin
+        if (furniture.type == "Door") {
+            params.width = (furniture.scale.x * roomRatio).roundToInt() + margin
+            params.height = (furniture.scale.x * roomRatio).roundToInt() + margin
+        } else {
+            params.width = (furniture.scale.x * roomRatio).roundToInt() + margin
+            params.height = (furniture.scale.z * roomRatio).roundToInt() + margin
+        }
 
         params.leftMargin = (coorX).toInt()
         params.topMargin = (coorY).toInt()

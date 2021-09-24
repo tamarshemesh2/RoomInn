@@ -2,7 +2,7 @@ package postpc.finalproject.RoomInn.ui
 
 import android.os.Bundle
 import android.util.Log
-import com.postpc.myapplication.furnitureData.Wall
+import postpc.finalproject.RoomInn.furnitureData.Wall
 import com.unity3d.player.UnityPlayer
 import com.unity3d.player.UnityPlayerActivity
 import postpc.finalproject.RoomInn.Room

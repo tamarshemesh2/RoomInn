@@ -2,12 +2,10 @@ package postpc.finalproject.RoomInn
 
 import android.graphics.Path
 import android.os.Build
-import android.util.Log
 import android.util.Size
 import androidx.annotation.RequiresApi
-import com.postpc.myapplication.furnitureData.Wall
+import postpc.finalproject.RoomInn.furnitureData.Wall
 import postpc.finalproject.RoomInn.furnitureData.Door
-import postpc.finalproject.RoomInn.furnitureData.Furniture
 import postpc.finalproject.RoomInn.furnitureData.Point3D
 import postpc.finalproject.RoomInn.furnitureData.Window
 import java.util.*

@@ -6,63 +6,68 @@ import androidx.lifecycle.*
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.postpc.myapplication.furnitureData.Wall
+import postpc.finalproject.RoomInn.furnitureData.Wall
 import postpc.finalproject.RoomInn.Room
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.furnitureData.*
 
 class RoomsDB(val context: Context) {
-    private var firebase: FirebaseFirestore= FirebaseFirestore.getInstance()
+    private var firebase: FirebaseFirestore = FirebaseFirestore.getInstance()
     lateinit var user: User
     private var isInitialized: Boolean = false
     lateinit var rooms: MutableLiveData<MutableList<String>>  // live data fo the rooms, containing copy of the users roomsSet
-    var userLoadingStage: MutableLiveData<LoadingStage> = MutableLiveData<LoadingStage>(LoadingStage.SUCCESS)
+    var userLoadingStage: MutableLiveData<LoadingStage> =
+        MutableLiveData<LoadingStage>(LoadingStage.SUCCESS)
     var roomsListenerLambda: () -> Unit = {}
     var loadRoomNavLambda: () -> Unit = {}
     var roomsMap: MutableMap<String, Room> = mutableMapOf()
     var furnitureMap: MutableMap<String, Furniture> = mutableMapOf()
     var roomToFurnitureMap: MutableMap<String, MutableList<String>> = mutableMapOf()
 
-    var isRoomLoaded : Boolean = false
-    var areFurnitureLoaded : Boolean = false
+    var isRoomLoaded: Boolean = false
+    var areFurnitureLoaded: Boolean = false
 
     init {
         FirebaseApp.initializeApp(context)
     }
 
-    fun isInitialized() : Boolean {
+    fun isInitialized(): Boolean {
         return isInitialized
     }
 
     fun createNewUser(id: String) {
         userLoadingStage.value = LoadingStage.LOADING
         val document = firebase.collection("users")
-                .document(id)
+            .document(id)
 
         // TODO: remove this lines:
         user.roomsList = mutableListOf("project 1", "project 2", "project 3")
         val room1 = Room()
         room1.Corners = mutableListOf(
-                Point3D(5f, 5f, 5f),
-                Point3D(287.5f, 5f, 5f),
-                Point3D(287.5f, 5f, 152f),
-                Point3D(5f, 5f, 152f)
+            Point3D(5f, 5f, 5f),
+            Point3D(287.5f, 5f, 5f),
+            Point3D(287.5f, 5f, 152f),
+            Point3D(5f, 5f, 152f)
         )
         room1.name = "project 1"
         val room2 = Room()
         room2.Corners = mutableListOf(
-                Point3D(-0.015324175357818604f,-0.8654714822769165f,1.9097247123718262f).multiply(100f),
-                Point3D(0.8313037157058716f,-1.3702747821807862f,-0.5127741098403931f).multiply(100f),
-                Point3D(-2.139707326889038f,-0.8447096347808838f,-1.2366341352462769f).multiply(100f),
-                Point3D(-2.084784984588623f,-0.5958563089370728f,1.5056521892547608f).multiply(100f)
+            Point3D(
+                -0.015324175357818604f,
+                -0.8654714822769165f,
+                1.9097247123718262f
+            ).multiply(100f),
+            Point3D(0.8313037157058716f, -1.3702747821807862f, -0.5127741098403931f).multiply(100f),
+            Point3D(-2.139707326889038f, -0.8447096347808838f, -1.2366341352462769f).multiply(100f),
+            Point3D(-2.084784984588623f, -0.5958563089370728f, 1.5056521892547608f).multiply(100f)
         )
         room2.name = "project 2"
         val room3 = Room()
         room3.Corners = mutableListOf(
-                Point3D(5f, 5f, 5f),
-                Point3D(200f, 5f, 5f),
-                Point3D(200f, 5f, 152f),
-                Point3D(5f, 5f, 152f)
+            Point3D(5f, 5f, 5f),
+            Point3D(200f, 5f, 5f),
+            Point3D(200f, 5f, 152f),
+            Point3D(5f, 5f, 152f)
         )
         room3.name = "project 3"
         room3.userId = user.id
@@ -72,7 +77,7 @@ class RoomsDB(val context: Context) {
         var door: Door = Door()
         var wall: Wall = Wall()
         var window: Window = Window()
-        var window2 : Window = Window()
+        var window2: Window = Window()
         window2.position.x = 10f
 //        room1.Walls.add(wall)
         room1.windows.add(window)
@@ -89,25 +94,25 @@ class RoomsDB(val context: Context) {
 
 
         document.set(user)
-                .addOnSuccessListener {
-                    isInitialized = true
-                    Log.d("Firebase", "loading user data succeeded")
-                    userLoadingStage.value = LoadingStage.SUCCESS
-                }
-                .addOnFailureListener {
-                    userLoadingStage.value = LoadingStage.FAILURE
-                    Log.d("Firebase", "loading user data failed")
-                }
-                .addOnCanceledListener {
-                    userLoadingStage.value = LoadingStage.SUCCESS
-                    Log.d("Firebase", "loading user data failed")
-                }
+            .addOnSuccessListener {
+                isInitialized = true
+                Log.d("Firebase", "loading user data succeeded")
+                userLoadingStage.value = LoadingStage.SUCCESS
+            }
+            .addOnFailureListener {
+                userLoadingStage.value = LoadingStage.FAILURE
+                Log.d("Firebase", "loading user data failed")
+            }
+            .addOnCanceledListener {
+                userLoadingStage.value = LoadingStage.SUCCESS
+                Log.d("Firebase", "loading user data failed")
+            }
     }
 
     fun initialize(id: String) {
         userLoadingStage.value = LoadingStage.LOADING
         val document = firebase.collection("users")
-                .document(id)
+            .document(id)
         document.get().addOnSuccessListener { d: DocumentSnapshot ->
             if (d.exists()) {
                 user = d.toObject(User::class.java)!!
@@ -115,21 +120,21 @@ class RoomsDB(val context: Context) {
                 isInitialized = true
                 userLoadingStage.value = LoadingStage.SUCCESS
             } else {
-                user = User(id=id)
+                user = User(id = id)
                 rooms = MutableLiveData(user.roomsList)
                 createNewUser(id)
                 isInitialized = true
             }
             setRoomsListListener()
         }
-                .addOnFailureListener {
-                    userLoadingStage.value = LoadingStage.FAILURE
-                    Log.d("Firebase", "loading user data failed")
-                }
-                .addOnCanceledListener {
-                    userLoadingStage.value = LoadingStage.SUCCESS
-                    Log.d("Firebase", "loading user data failed")
-                }
+            .addOnFailureListener {
+                userLoadingStage.value = LoadingStage.FAILURE
+                Log.d("Firebase", "loading user data failed")
+            }
+            .addOnCanceledListener {
+                userLoadingStage.value = LoadingStage.SUCCESS
+                Log.d("Firebase", "loading user data failed")
+            }
 
     }
 
@@ -154,7 +159,7 @@ class RoomsDB(val context: Context) {
     /**
      * This function loade the roon into the room map, and updates the view model to hold the current room.
      */
-    fun loadRoomByName(roomName: String, viewModel: ProjectViewModel ?= null) {
+    fun loadRoomByName(roomName: String, viewModel: ProjectViewModel? = null) {
 
         userLoadingStage.value = LoadingStage.LOADING
         if (roomName in roomsMap) {
@@ -166,76 +171,79 @@ class RoomsDB(val context: Context) {
             return
 
         }
-        firebase.collection("rooms").whereEqualTo("userId", user.id).whereEqualTo("name", roomName).get()
-                .addOnSuccessListener {
-                    val documents = it.documents
-                    var room: Room? = null
-                    for (doc in documents) {
-                        room = doc.toObject(Room::class.java)
-                        if (room != null) {
-                            roomsMap[roomName] = room
-                            addFurnitureToMap(room)
-                        }
+        firebase.collection("rooms").whereEqualTo("userId", user.id).whereEqualTo("name", roomName)
+            .get()
+            .addOnSuccessListener {
+                val documents = it.documents
+                var room: Room? = null
+                for (doc in documents) {
+                    room = doc.toObject(Room::class.java)
+                    if (room != null) {
+                        roomsMap[roomName] = room
+                        addFurnitureToMap(room)
                     }
-                    if (viewModel != null && room != null) {
-                        viewModel.room = roomsMap[roomName]!!
-                    }
+                }
+                if (viewModel != null && room != null) {
+                    viewModel.room = roomsMap[roomName]!!
+                }
 
-                    // change to success only if both room and it's furniture are loaded
-                    if (userLoadingStage.value == LoadingStage.LOADING) {
-                        isRoomLoaded = true
-                        if (areFurnitureLoaded) {
-                            loadRoomNavLambda()
-                            userLoadingStage.value = LoadingStage.SUCCESS
-                            areFurnitureLoaded = false
-                            isRoomLoaded = false
-                        }
+                // change to success only if both room and it's furniture are loaded
+                if (userLoadingStage.value == LoadingStage.LOADING) {
+                    isRoomLoaded = true
+                    if (areFurnitureLoaded) {
+                        loadRoomNavLambda()
+                        userLoadingStage.value = LoadingStage.SUCCESS
+                        areFurnitureLoaded = false
+                        isRoomLoaded = false
                     }
                 }
-                .addOnFailureListener {
-                    userLoadingStage.value = LoadingStage.FAILURE
-                }
+            }
+            .addOnFailureListener {
+                userLoadingStage.value = LoadingStage.FAILURE
+            }
     }
 
-    private fun addFurnitureToMap(room: Room, viewModel: ProjectViewModel?= null) {
+    private fun addFurnitureToMap(room: Room, viewModel: ProjectViewModel? = null) {
         // this function assumes that there are no furniture in loaded for this room yet in the DB
         roomToFurnitureMap[room.id] = mutableListOf()
         firebase.collection("furniture").whereEqualTo("roomId", room.id).get()
-                .addOnSuccessListener {
-                    val documents = it.documents
-                    for (doc in documents) {
-                        val furniture = FurniturFactory(doc)
-                        if (furniture != null) {
-                            Log.d("furniture", furniture.type)
-                            roomToFurnitureMap[room.id]!!.add(furniture.id)
-                            furnitureMap[furniture.id] = furniture
-                        }
-                    }
-                    // change to success only if both room and it's furniture are loaded
-                    if (userLoadingStage.value == LoadingStage.LOADING) {
-                        areFurnitureLoaded = true
-                        if (isRoomLoaded) {
-                            loadRoomNavLambda()
-                            userLoadingStage.value = LoadingStage.SUCCESS
-                            areFurnitureLoaded = false
-                            isRoomLoaded = false
-                        }
+            .addOnSuccessListener {
+                val documents = it.documents
+                for (doc in documents) {
+                    val furniture = furniturFactory(doc)
+                    if (furniture != null) {
+                        Log.d("furniture", furniture.type)
+                        roomToFurnitureMap[room.id]!!.add(furniture.id)
+                        furnitureMap[furniture.id] = furniture
                     }
                 }
-                .addOnFailureListener {
-                    // TODO: is this right?
-                    userLoadingStage.value = LoadingStage.FAILURE
+                // change to success only if both room and it's furniture are loaded
+                if (userLoadingStage.value == LoadingStage.LOADING) {
+                    areFurnitureLoaded = true
+                    if (isRoomLoaded) {
+                        loadRoomNavLambda()
+                        userLoadingStage.value = LoadingStage.SUCCESS
+                        areFurnitureLoaded = false
+                        isRoomLoaded = false
+                    }
                 }
+            }
+            .addOnFailureListener {
+                // TODO: is this right?
+                userLoadingStage.value = LoadingStage.FAILURE
+            }
     }
 
-    private fun FurniturFactory(doc: DocumentSnapshot) : Furniture? {
+    private fun furniturFactory(doc: DocumentSnapshot): Furniture? {
         Log.d("furniture", doc.toString())
-         when(doc["type"]) {
-            "Bed" -> return doc.toObject(Bed::class.java)
-            "Chair" -> return doc.toObject(Chair::class.java)
-            "Desk" -> return doc.toObject(Desk::class.java)
-            "Closet" -> return doc.toObject(Closet::class.java)
-            else  -> return null
+        return when (doc["type"]) {
+            "Bed" -> doc.toObject(Bed::class.java)
+            "Chair" -> doc.toObject(Chair::class.java)
+            "Desk" -> doc.toObject(Desk::class.java)
+            "Closet" -> doc.toObject(Closet::class.java)
+            "Couch" -> doc.toObject(Couch::class.java)
+            "Dresser" -> doc.toObject(Dresser::class.java)
+            else -> null
         }
     }
 
@@ -262,9 +270,10 @@ class RoomsDB(val context: Context) {
         }
     }
 
-    fun roomFurniture(roomName : String) : MutableList<Furniture> {
+    fun roomFurniture(roomName: String): MutableList<Furniture> {
         var roomID = roomsMap[roomName]!!.id
-        val furnitureIDS = RoomInnApplication.getInstance().getRoomsDB().roomToFurnitureMap[roomID]!!
+        val furnitureIDS =
+            RoomInnApplication.getInstance().getRoomsDB().roomToFurnitureMap[roomID]!!
         val furnitureList = mutableListOf<Furniture>()
         for (furnitureID in furnitureIDS) {
             furnitureList.add(furnitureMap[furnitureID]!!)
