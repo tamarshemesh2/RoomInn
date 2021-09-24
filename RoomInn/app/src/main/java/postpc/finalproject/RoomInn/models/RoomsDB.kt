@@ -67,7 +67,7 @@ class RoomsDB(val context: Context) {
         room1.userId = user.id
 
         var door: Door = Door()
-        var wall: Wall = Wall(position = Point3D(), rotation = Point3D(), scale = Point3D())
+        var wall: Wall = Wall()
         var window: Window = Window()
         var window2 : Window = Window()
         window2.position.x = 10f
@@ -149,14 +149,6 @@ class RoomsDB(val context: Context) {
             firebase.collection("users").document(user.id).set(user)
         }
     }
-
-//    fun setFurnitureListListener(viewModel : ProjectViewModel) {
-//        roomToFurnitureMap[viewModel.room.id]!!.observeForever {
-//            viewModel.room.furniture = it
-//            // todo: update some lambda??
-//            firebase.collection("rooms").document(viewModel.room.id).set(viewModel.room)
-//        }
-//    }
 
     /**
      * This function loade the roon into the room map, and updates the view model to hold the current room.
@@ -266,6 +258,35 @@ class RoomsDB(val context: Context) {
                 saveFurniture(furnitureMap[furnitureId]!!)
             }
         }
+    }
+
+    fun getRoomFurniture(roomID : String) : MutableList<Furniture> {
+        val furnitureIDS = RoomInnApplication.getInstance().getRoomsDB().roomToFurnitureMap[roomID]!!
+        val furnitureList = mutableListOf<Furniture>()
+        for (furnitureID in furnitureIDS) {
+            furnitureList.add(furnitureMap[furnitureID]!!)
+        }
+
+        return furnitureList
+    }
+
+    fun getRoomRoomByRoomID(roomId: String): Room {
+        return roomsMap[roomId]!!
+    }
+
+    fun getWallsByRoomId(roomId: String): MutableList<Wall> {
+        val room = getRoomRoomByRoomID(roomId)
+        return room.Walls
+    }
+
+    fun getDoorsByRoomId(roomId: String): MutableList<Door> {
+        val room = getRoomRoomByRoomID(roomId)
+        return room.doors
+    }
+
+    fun getWindowsByRoomId(roomId: String): MutableList<Window> {
+        val room = getRoomRoomByRoomID(roomId)
+        return room.windows
     }
 
 }
