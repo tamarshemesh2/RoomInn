@@ -21,7 +21,6 @@ import postpc.finalproject.RoomInn.models.RoomInnApplication;
 import postpc.finalproject.RoomInn.models.RoomsDB;
 
 public class MainActivity extends AppCompatActivity {
-    private String userId = null;
     ProgressDialog progressDialog;
 
     @Override
@@ -32,17 +31,6 @@ public class MainActivity extends AppCompatActivity {
         ProjectViewModel viewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
 
         listenToLoadingStage();
-        initializeDB();
-
-    }
-
-    private void initializeDB() {
-        if (userId != null) {
-            RoomInnApplication.getInstance().getRoomsDB().initialize(userId);
-            Toast.makeText(this, "Loaded user" , Toast.LENGTH_LONG).show();
-        } else {
-            Log.d("Firebase", "user in null");
-        }
     }
 
     private void listenToLoadingStage() {
