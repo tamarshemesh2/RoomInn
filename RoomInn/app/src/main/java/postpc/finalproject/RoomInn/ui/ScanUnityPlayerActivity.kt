@@ -8,7 +8,7 @@ import com.unity3d.player.UnityPlayerActivity
 class ScanUnityPlayerActivity : UnityPlayerActivity() {
 
     companion object{
-        val sceneIndex = "2"
+        val sceneIndex = "1"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

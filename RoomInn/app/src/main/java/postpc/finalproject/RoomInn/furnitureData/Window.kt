@@ -10,7 +10,6 @@ class Window(
     position: Point3D = Point3D(),
     rotation: Point3D = Point3D(),
     scale: Point3D = Point3D(130f, 60f, 65f),
-    color: Int = Color.BLACK
 ) : Furniture(position, rotation, scale, Color.BLACK) {
     init{
         type = "Window"

@@ -2,6 +2,7 @@ package postpc.finalproject.RoomInn.furnitureData
 
 import android.graphics.Color
 import android.graphics.Path
+import android.util.Log
 import android.util.Size
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 
@@ -52,6 +53,8 @@ abstract class Furniture(
     }
 
     open fun unityScale(): Point3D {
+        Log.e("yuvalScale",scale.toString() )
+        Log.e("NatiScale",defaultScale.toString() )
         return scale.getDivideByPoint(defaultScale)
     }
 

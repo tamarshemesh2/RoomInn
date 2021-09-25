@@ -4,10 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.unity3d.player.UnityPlayer
-import com.unity3d.player.UnityPlayerActivity
 import postpc.finalproject.RoomInn.R
-import postpc.finalproject.RoomInn.models.RoomInnApplication.Companion.getInstance
 
 class UnityHandler : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,16 +12,21 @@ class UnityHandler : AppCompatActivity() {
         setContentView(R.layout.activity_unity_handler)
         val unityButton = findViewById<Button>(R.id.startUnityButton)
         unityButton.setOnClickListener {
-            val sceneIndex = intent.getStringExtra("Scene Index")
-            var intent: Intent
-            if (sceneIndex == "1") {
-                intent = Intent(this@UnityHandler, RoomUnityPlayerActivity::class.java)
-                intent.putExtra("Room Name", this.intent.getStringExtra("Room Name"))
-            }
-            else {
-                intent = Intent(this@UnityHandler, ScanUnityPlayerActivity::class.java)
-            }
+            var intent = Intent(this@UnityHandler, MainUnityPlayerActivity::class.java)
+            intent.putExtra("Scene Index", this.intent.getStringExtra("Scene Index"))
+            intent.putExtra("Room Name", this.intent.getStringExtra("Room Name"))
             startActivity(intent)
+//            if (sceneIndex == RoomUnityPlayerActivity.sceneIndex) {
+//                UnityPlayer.UnitySendMessage("ScenceLoader", "loadScene",
+//                    RoomUnityPlayerActivity.sceneIndex
+//                )
+//                intent = Intent(this@UnityHandler, RoomUnityPlayerActivity::class.java)
+//                intent.putExtra("Room Name", this.intent.getStringExtra("Room Name"))
+//            }
+//            else {
+//                intent = Intent(this@UnityHandler, ScanUnityPlayerActivity::class.java)
+//            }
+//            startActivity(intent)
 //            getInstance().pathToUnity = UnityPlayer.currentActivity.getExternalFilesDir("")!!
 //                .absolutePath
         }

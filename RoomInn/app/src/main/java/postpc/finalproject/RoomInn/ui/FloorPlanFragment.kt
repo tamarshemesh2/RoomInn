@@ -2,8 +2,6 @@ package postpc.finalproject.RoomInn.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Rect
-import android.graphics.RectF
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -76,7 +74,7 @@ class FloorPlanFragment : Fragment() {
 
         playButton.setOnClickListener {
             val intent = Intent(context, UnityHandler::class.java)
-            intent.putExtra("Scene Index", RoomUnityPlayerActivity.sceneIndex)
+            intent.putExtra("Scene Index", MainUnityPlayerActivity.sceneIndex)
             intent.putExtra("Room Name", projectViewModel!!.room.name)
             startActivity(intent)
         }

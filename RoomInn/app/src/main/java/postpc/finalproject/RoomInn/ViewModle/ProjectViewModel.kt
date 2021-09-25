@@ -1,6 +1,7 @@
 package postpc.finalproject.RoomInn.ViewModle
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -43,7 +44,9 @@ class ProjectViewModel: ViewModel() {
 
     init {
         adapter.setViewModel(this)
-        getInstance().getRoomsDB().roomsListenerLambda = { adapter.setItems() }
+        getInstance().getRoomsDB().roomsListenerLambda = { adapter.setItems()
+            Log.e("dooe-window", room.windows.toString()) // todo - delete
+        }
     }
 
     fun createWalls(corners: MutableList<Point3D>, distances: MutableList<Float>): MutableList<Wall> {

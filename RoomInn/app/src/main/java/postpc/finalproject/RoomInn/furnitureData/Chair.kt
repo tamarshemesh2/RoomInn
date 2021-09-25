@@ -6,7 +6,7 @@ import android.graphics.Path
 class Chair(
     position: Point3D = Point3D(),
     rotation: Point3D = Point3D(),
-    scale: Point3D = Point3D(45f, 130f, 80f),
+    scale: Point3D = Point3D(75f, 110f, 75f),
     color: Int = Color.GRAY,
     roomId: String = ""
 ): Furniture(position,rotation, scale, color){
