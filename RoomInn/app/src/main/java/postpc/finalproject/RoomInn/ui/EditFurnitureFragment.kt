@@ -16,6 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import postpc.finalproject.RoomInn.FurnitureCanvas
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
+import postpc.finalproject.RoomInn.furnitureData.Point3D
 import postpc.finalproject.RoomInn.furnitureData.Window
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 import postpc.finalproject.RoomInn.models.RoomsDB

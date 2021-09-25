@@ -47,7 +47,7 @@ class AddFurnitureFragment : Fragment() {
             "Dresser" to (Dresser(position = Point3D(position), roomId = projectViewModel.room.id)),
         )
         defaultItems.forEach {
-            it.value.position = it.value.position.add(Point3D(it.value.scale).multiply(-0.5f))
+            it.value.position = it.value.position.add(Point3D(it.value.scale).multiply(-0.5f)).apply { y=0f }
         }
         adapter.setViewModel(projectViewModel)
         adapter.setContext(requireContext())

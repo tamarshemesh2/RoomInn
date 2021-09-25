@@ -21,11 +21,15 @@ abstract class Furniture(
     var unityFuncName: String = ""
     var freeScale: Boolean = false
 
-    open fun scale(scaleFactor: Float): Point3D {
+
+    open fun scale(scaleFactor: Float, newPivot: Point3D = Point3D(position).add(Point3D(scale).multiply(0.5f))): Point3D {
         // returns a Point3D item that holds the differ distance between the edges of the furniture from old to new scale
         val oldScale = Point3D(scale)
         val newScale = Point3D(scale.multiply(scaleFactor))
-        return newScale.add(oldScale.multiply(-1f)).multiply(1f).apply { this.y = 0f }
+        val oldPivot = Point3D(position).add(Point3D(scale).multiply(0.5f))
+        val distance = newPivot.add(oldPivot.multiply(-1f)) // newPivot-oldPivot
+        return newScale.add(oldScale.multiply(-1f)).multiply(0.5f)
+            .add(distance.multiply(-1f)).multiply(-1f).apply { this.y = 0f }
     }
 
     open fun getSizeToDraw(size: Size): Pair<Float, Float> {
