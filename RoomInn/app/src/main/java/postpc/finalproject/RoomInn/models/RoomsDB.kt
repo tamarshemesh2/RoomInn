@@ -153,6 +153,7 @@ class RoomsDB(val context: Context) {
 
     fun setRoomsListListener() {
         rooms.observeForever {
+            Log.d("rooms", it.toString())
             user.roomsList = it
             roomsListenerLambda()
             firebase.collection("users").document(user.id).set(user)
@@ -335,9 +336,14 @@ class RoomsDB(val context: Context) {
     fun renameRoom(oldRoomName: String, newRoomName: String) {
         for (i in rooms.value!!.indices) {
             if (rooms.value!![i] == oldRoomName) {
-                rooms.value!![i] = newRoomName   // the observer of rooms should update the remote DB and the adapter
+                rooms.value!![i] = newRoomName
+                break
             }
         }
+        user.roomsList = rooms.value!!
+        roomsListenerLambda()
+        firebase.collection("users").document(user.id).update("roomsList", user.roomsList)
+
 
         // if room was loaded before, change room map and firebase room name :
         if (oldRoomName in roomsMap) {
@@ -376,6 +382,9 @@ class RoomsDB(val context: Context) {
 
     fun deleteRoom(roomName: String) {
         rooms.value!!.remove(roomName)   // the observer of rooms should update the remote DB and the adapter
+        user.roomsList = rooms.value!!
+        roomsListenerLambda()
+        firebase.collection("users").document(user.id).update("roomsList", user.roomsList)
 
         // if room is already loaded, delete it from map and remote DB
         if (roomName in roomsMap) {
@@ -400,9 +409,13 @@ class RoomsDB(val context: Context) {
                         for (doc in documents) {
                             val roomId = doc["id"] as String
                             firebase.collection("rooms").document(roomId).delete()
-                            firebase.collection("furniture").whereEqualTo("roomId", roomId).get().result.forEach {
-                                batch.delete(it.reference)
-                            }
+                            firebase.collection("furniture").whereEqualTo("roomId", roomId).get()
+                                    .addOnSuccessListener {
+                                        val documentsFur = it.documents
+                                        for (docFur in documentsFur) {
+                                            batch.delete(docFur.reference)
+                                        }
+                                    }
                         }
                     }
         }

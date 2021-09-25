@@ -43,8 +43,6 @@ class ProjectItemAdapter : RecyclerView.Adapter<ProjectItemHolder>() {
 
     fun deleteProject(position: Int) {
         roomsDB.deleteRoom(_projects[position].roomName)
-        _projects.removeAt(position)
-        notifyItemRemoved(position)
     }
 
 

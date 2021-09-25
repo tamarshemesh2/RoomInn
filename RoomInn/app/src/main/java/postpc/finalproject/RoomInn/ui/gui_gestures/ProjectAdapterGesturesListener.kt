@@ -66,9 +66,7 @@ class ProjectAdapterGesturesListener(
                 viewHolder.projectName.visibility = View.GONE
                 viewHolder.projectNameEditText.visibility = View.VISIBLE
                 viewHolder.projectNameEditText.text = projectItem.roomName
-                viewHolder.projectNameEditText.doOnTextChanged { txt, _, _, _ ->
-                    //todo: track the typing process, do we need it?
-                }
+
             } else {
                 val txt = viewHolder.projectNameEditText.text.toString()
                 if (txt in items) {

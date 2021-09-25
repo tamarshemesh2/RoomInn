@@ -1,5 +1,6 @@
 package postpc.finalproject.RoomInn;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -22,6 +23,7 @@ import postpc.finalproject.RoomInn.models.RoomsDB;
 
 public class MainActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        Log.d("main activity", "onSaveInstanceState");
+        super.onSaveInstanceState(outState);
+        RoomsDB DB = RoomInnApplication.getInstance().getRoomsDB();
+        DB.saveOnExit();
+    }
+
+    @Override
     protected void onDestroy() {
+        Log.d("main activity", "onDestroy");
         RoomsDB DB = RoomInnApplication.getInstance().getRoomsDB();
         DB.getRooms().removeObservers(this);
         DB.getUserLoadingStage().removeObservers(this);
@@ -63,4 +74,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onPause() {
+        Log.d("main activity", "onPause");
+        RoomsDB DB = RoomInnApplication.getInstance().getRoomsDB();
+        DB.saveOnExit();
+        super.onPause();
+    }
 }
