@@ -27,6 +27,9 @@ class RoomsDB(val context: Context) {
     var isRoomLoaded: Boolean = false
     var areFurnitureLoaded: Boolean = false
 
+    var roomNameIsLoading: Boolean = false
+    var isWaitingForName: Boolean = false
+
     init {
         FirebaseApp.initializeApp(context)
     }
@@ -160,8 +163,17 @@ class RoomsDB(val context: Context) {
      * This function loade the roon into the room map, and updates the view model to hold the current room.
      */
     fun loadRoomByName(roomName: String, viewModel: ProjectViewModel? = null) {
-
+        isWaitingForName =  false
         userLoadingStage.value = LoadingStage.LOADING
+
+        // Busy wait, waiting for the name of the room in the collection to change
+        if (roomNameIsLoading) {
+            isWaitingForName = true
+            return
+        }
+        if (userLoadingStage.value == LoadingStage.FAILURE) { return}   // loading of the name failed
+
+        //room already loaded
         if (roomName in roomsMap) {
             if (viewModel != null) {
                 viewModel.room = roomsMap[roomName]!!
@@ -171,6 +183,8 @@ class RoomsDB(val context: Context) {
             return
 
         }
+
+        // load room from remote DB
         firebase.collection("rooms").whereEqualTo("userId", user.id).whereEqualTo("name", roomName)
             .get()
             .addOnSuccessListener {
@@ -308,6 +322,90 @@ class RoomsDB(val context: Context) {
     fun windowsByRoomName(roomName: String): MutableList<Window> {
         val room = roomByRoomName(roomName)
         return room.windows
+    }
+
+    fun deleteFurniture(furniture: Furniture, ) {
+        furnitureMap.remove(furniture.id)
+        if (furniture.id in roomToFurnitureMap[furniture.roomId]!!) {
+            roomToFurnitureMap[furniture.roomId]!!.remove(furniture.id)
+        }
+        firebase.collection("furniture").document(furniture.id).delete()
+    }
+
+    fun renameRoom(oldRoomName: String, newRoomName: String) {
+        for (i in rooms.value!!.indices) {
+            if (rooms.value!![i] == oldRoomName) {
+                rooms.value!![i] = newRoomName   // the observer of rooms should update the remote DB and the adapter
+            }
+        }
+
+        // if room was loaded before, change room map and firebase room name :
+        if (oldRoomName in roomsMap) {
+            val room = roomsMap[oldRoomName]!!
+            room.name = newRoomName
+            roomsMap[newRoomName] = room
+            roomsMap.remove(oldRoomName)
+            firebase.collection("rooms").document(room.id).update("name", newRoomName)
+        }
+
+        //if room was never loaded, change rooms name in DB
+        else {
+            roomNameIsLoading = true
+            firebase.collection("rooms").whereEqualTo("userId", user.id).whereEqualTo("name", oldRoomName).get()
+                    .addOnSuccessListener {
+                        val documents = it.documents
+                        for (doc in documents) {
+                            val roomId = doc["id"] as String
+                            firebase.collection("rooms").document(roomId).update("name", newRoomName)
+                                    .addOnSuccessListener {
+                                        roomNameIsLoading = false
+                                        if (isWaitingForName) {
+                                            loadRoomByName(newRoomName)
+                                        }
+                                    }
+                                    .addOnFailureListener {
+                                        userLoadingStage.value = LoadingStage.FAILURE
+                                    }
+                        }
+                    }
+                    .addOnFailureListener {
+                        userLoadingStage.value = LoadingStage.FAILURE
+                    }
+        }
+    }
+
+    fun deleteRoom(roomName: String) {
+        rooms.value!!.remove(roomName)   // the observer of rooms should update the remote DB and the adapter
+
+        // if room is already loaded, delete it from map and remote DB
+        if (roomName in roomsMap) {
+            val roomId = roomsMap[roomName]!!.id
+            roomsMap.remove(roomName)
+            firebase.collection("rooms").document(roomId).delete()
+
+            // remove furniture:
+            for (furnitureId in roomToFurnitureMap[roomId]!!) {
+                furnitureMap.remove(furnitureId)
+                firebase.collection("furniture").document(furnitureId).delete()
+            }
+            roomToFurnitureMap.remove(roomId)
+        }
+
+        // else, delete only from remote DB
+        else {
+            val batch = firebase.batch()
+            firebase.collection("rooms").whereEqualTo("userId", user.id).whereEqualTo("name", roomName).get()
+                    .addOnSuccessListener {
+                        val documents = it.documents
+                        for (doc in documents) {
+                            val roomId = doc["id"] as String
+                            firebase.collection("rooms").document(roomId).delete()
+                            firebase.collection("furniture").whereEqualTo("roomId", roomId).get().result.forEach {
+                                batch.delete(it.reference)
+                            }
+                        }
+                    }
+        }
     }
 
 }

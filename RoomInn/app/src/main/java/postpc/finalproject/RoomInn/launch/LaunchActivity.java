@@ -1,9 +1,11 @@
 package postpc.finalproject.RoomInn.launch;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +31,7 @@ public class LaunchActivity extends AppCompatActivity {
     int RC_SIGN_IN = 0;
 
     private LoginViewModel viewModel;
+    private ProgressDialog progressDialog = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,16 +60,30 @@ public class LaunchActivity extends AppCompatActivity {
         super.onStart();
         String userId = getUserId();
         if (userId != null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Login");
+            progressDialog.setMessage("Please wait");
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.show();
             FirebaseFirestore.getInstance().collection("users").document(userId).get()
                     .addOnSuccessListener( v -> {
                         if (v.exists()) {
                             getToMainActivity(userId);
+                            progressDialog.dismiss();
+                            Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT)
+                                    .show();
                         } else {
                             FirebaseAuth.getInstance().signOut();
+                            progressDialog.dismiss();
+                            Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT)
+                                    .show();
                         }
                     })
                     .addOnFailureListener(v -> {
                         FirebaseAuth.getInstance().signOut();
+                        progressDialog.dismiss();
+                        Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT)
+                                .show();
                     });
         } else {
             FirebaseAuth.getInstance().signOut();

@@ -147,10 +147,7 @@ class EditFurnitureFragment : Fragment() {
 
         delFab.setOnClickListener {
             if (projectViewModel.furniture!!.id in DB.furnitureMap) {
-                DB.furnitureMap.remove(projectViewModel.furniture!!.id)
-                if (projectViewModel.furniture!!.id in DB.roomToFurnitureMap[projectViewModel.room.id]!!) {
-                    DB.roomToFurnitureMap[projectViewModel.room.id]!!.remove(projectViewModel.furniture!!.id)
-                }
+                DB.deleteFurniture(projectViewModel.furniture!!)
             }
             if (furniture.type in listOf("Door", "Window") || !projectViewModel.newFurniture) {
                 Navigation.findNavController(it).popBackStack()
