@@ -64,7 +64,7 @@ class ProjectItemAdapter : RecyclerView.Adapter<ProjectItemHolder>() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: ProjectItemHolder, position: Int) {
-
+        holder.delButton.visibility = View.GONE
         if (_projects.size == 0) {
             holder.playButton.visibility = View.GONE
             holder.editFabButton.visibility = View.GONE
