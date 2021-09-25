@@ -1,7 +1,7 @@
 package postpc.finalproject.RoomInn.ui.projectItem
 
+import android.annotation.SuppressLint
 import android.content.Intent
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -11,20 +11,22 @@ import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 import postpc.finalproject.RoomInn.ui.RoomUnityPlayerActivity
-import postpc.finalproject.RoomInn.ui.ScanUnityPlayerActivity
 import postpc.finalproject.RoomInn.ui.UnityHandler
+import postpc.finalproject.RoomInn.ui.gui_gestures.ProjectAdapterGesturesListener
 
 
 class ProjectItemAdapter : RecyclerView.Adapter<ProjectItemHolder>() {
 
     private var _projects: MutableList<ProjectItem> = ArrayList()
-    private var viewModel: ProjectViewModel? =null
-    private lateinit var context:android.content.Context
+    private var viewModel: ProjectViewModel? = null
+    private val roomsDB = RoomInnApplication.getInstance().getRoomsDB()
+    private lateinit var context: android.content.Context
 
     init {
         setItems()
     }
-    fun setContext(context:android.content.Context){
+
+    fun setContext(context: android.content.Context) {
         this.context = context
     }
 
@@ -35,10 +37,25 @@ class ProjectItemAdapter : RecyclerView.Adapter<ProjectItemHolder>() {
             roomsNamesSet.forEach {
                 _projects.add(ProjectItem(it))
             }
-            Log.d("Rooms List: ", "list form adapter is ${roomsNamesSet}.")
             notifyDataSetChanged()
         }
     }
+
+    fun deleteProject(position: Int) {
+        roomsDB.deleteRoom(_projects[position].roomName)
+        _projects.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+
+    fun getItems(): List<String> {
+        val mutableList = mutableListOf<String>()
+        for (pro in _projects) {
+            mutableList.add(pro.roomName)
+        }
+        return mutableList
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProjectItemHolder {
         val context = parent.context
@@ -47,26 +64,38 @@ class ProjectItemAdapter : RecyclerView.Adapter<ProjectItemHolder>() {
         return ProjectItemHolder(view)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: ProjectItemHolder, position: Int) {
+
         if (_projects.size == 0) {
             holder.playButton.visibility = View.GONE
             holder.editFabButton.visibility = View.GONE
             holder.projectName.gravity = Gravity.CENTER
-            holder.projectName.text = "\n\nYou don't have any projects yet \n\n \uD83D\uDE31 \n\nPress on the add button below to get started!"
+            holder.projectName.text =
+                "\n\nYou don't have any projects yet \n\n \uD83D\uDE31 \n\nPress on the add button below to get started!"
             holder.border.visibility = View.GONE
 
-        }
-        else {
+        } else {
+            val projectItem = _projects[position]
             holder.playButton.visibility = View.VISIBLE
             holder.editFabButton.visibility = View.VISIBLE
             holder.projectName.gravity = Gravity.START
             holder.border.visibility = View.VISIBLE
-            val projectItem = _projects[position]
             holder.projectName.text = projectItem.roomName
+            holder.bg.setOnTouchListener(
+                ProjectAdapterGesturesListener(
+                    context,
+                    holder.delButton,
+                    viewModel!!.adapter,
+                    holder,
+                    projectItem
+                )
+            )
 
 
             holder.editFabButton.setOnClickListener {
-                RoomInnApplication.getInstance().getRoomsDB().loadRoomByName(projectItem.roomName, viewModel)
+                RoomInnApplication.getInstance().getRoomsDB()
+                    .loadRoomByName(projectItem.roomName, viewModel)
                 viewModel!!.projectName = projectItem.roomName
             }
 
@@ -78,11 +107,6 @@ class ProjectItemAdapter : RecyclerView.Adapter<ProjectItemHolder>() {
 
             }
         }
-
-    //TODO:
-    // 1. add option to edit the name of the project.
-    // 2. add the 'play' button on click (after we create the play VR & fragment).
-    // 3. adding option to delete project using 'fling' (ask Yuval what the hell is fling)
 
     }
 

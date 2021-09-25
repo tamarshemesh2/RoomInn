@@ -10,12 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.*
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import postpc.finalproject.RoomInn.FurnitureCanvas
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
+import postpc.finalproject.RoomInn.furnitureData.Furniture
 import postpc.finalproject.RoomInn.furnitureData.Point3D
 import postpc.finalproject.RoomInn.furnitureData.Window
 import postpc.finalproject.RoomInn.models.RoomInnApplication
@@ -36,6 +38,30 @@ class EditFurnitureFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    }
+
+    private fun renderDrawing(furniture: Furniture, furnitureImageView: FurnitureCanvas) {
+        val sizeToDraw = furniture.getSizeToDraw(
+            Size(
+                furnitureImageView.height - 20,
+                furnitureImageView.height - 20
+            )
+        )
+        if (furniture.type == "Window") {
+            furnitureImageView.setPath(
+                (furniture as Window).drawFront(
+                    sizeToDraw.first,
+                    sizeToDraw.second
+                )
+            )
+        } else {
+            furnitureImageView.setPath(
+                furniture.draw(
+                    sizeToDraw.first,
+                    sizeToDraw.second
+                )
+            )
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -70,27 +96,8 @@ class EditFurnitureFragment : Fragment() {
             override fun onGlobalLayout() {
                 furnitureImageView.viewTreeObserver
                     .removeOnGlobalLayoutListener(this)
-                val sizeToDraw = furniture.getSizeToDraw(
-                    Size(
-                        furnitureImageView.height - 20,
-                        furnitureImageView.height - 20
-                    )
-                )
-                if (furniture.type=="Window"){
-                    furnitureImageView.setPath(
-                        (furniture as Window).drawFront(
-                            sizeToDraw.first,
-                            sizeToDraw.second
-                        )
-                    )
-                }else{
-                furnitureImageView.setPath(
-                    furniture.draw(
-                        sizeToDraw.first,
-                        sizeToDraw.second
-                    )
-                )
-            }}
+                renderDrawing(furniture, furnitureImageView)
+            }
         })
         furnitureImageView.rotation = furniture.rotation.y
 
@@ -139,17 +146,28 @@ class EditFurnitureFragment : Fragment() {
             rotateEditText.setText(furniture.rotation.y.toString())
             furnitureImageView.rotation = furniture.rotation.y
         }
+        widthEditText.doOnTextChanged { txt, _, _, _ ->
+            furniture.scale.x = txt.toString().toFloat()
+            renderDrawing(furniture, furnitureImageView)
+        }
+        heightEditText.doOnTextChanged { txt, _, _, _ ->
+            furniture.scale.y = txt.toString().toFloat()
+            renderDrawing(furniture, furnitureImageView)
+        }
 
-        rotateEditText.setOnFocusChangeListener { v, hasFocus ->
-            furniture.rotation.y = rotateEditText.text.toString().toFloat() % 360
-            rotateEditText.setText(furniture.rotation.y.toString())
+        lengthEditText.doOnTextChanged { txt, _, _, _ ->
+            furniture.scale.z = txt.toString().toFloat()
+            renderDrawing(furniture, furnitureImageView)
+        }
+
+        rotateEditText.doOnTextChanged { txt, _, _, _ ->
+            furniture.rotation.y = txt.toString().toFloat() % 360
             furnitureImageView.rotation = furniture.rotation.y
         }
 
         delFab.setOnClickListener {
-            if (projectViewModel.furniture!!.id in DB.furnitureMap) {
-                DB.deleteFurniture(projectViewModel.furniture!!)
-            }
+            DB.deleteFurniture(projectViewModel.furniture!!)
+
             if (furniture.type in listOf("Door", "Window") || !projectViewModel.newFurniture) {
                 Navigation.findNavController(it).popBackStack()
             } else {
@@ -163,7 +181,7 @@ class EditFurnitureFragment : Fragment() {
             if (furniture.type == "Window") {
                 furniture.position.y = lengthEditText.text.toString().toFloat()
             } else {
-                furniture.scale.y = lengthEditText.text.toString().toFloat()
+                furniture.scale.y = heightEditText.text.toString().toFloat()
             }
             furniture.scale.z = lengthEditText.text.toString().toFloat()
             furniture.scale.x = widthEditText.text.toString().toFloat()
@@ -171,7 +189,6 @@ class EditFurnitureFragment : Fragment() {
 
             // update the furniture in the DB
             DB.furnitureMap[projectViewModel.furniture!!.id] = projectViewModel.furniture!!
-            Log.d("furniture id: ", projectViewModel.furniture!!.id)
             if (projectViewModel.furniture!!.id !in DB.roomToFurnitureMap[projectViewModel.room.id]!!) {
                 DB.roomToFurnitureMap[projectViewModel.room.id]!!.add(projectViewModel.furniture!!.id)
             }

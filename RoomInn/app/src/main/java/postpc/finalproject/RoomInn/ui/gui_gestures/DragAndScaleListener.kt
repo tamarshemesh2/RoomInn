@@ -1,4 +1,4 @@
-package postpc.finalproject.RoomInn.ui.gui_listeners
+package postpc.finalproject.RoomInn.ui.gui_gestures
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -7,9 +7,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
-import android.widget.ImageView
 import android.widget.RelativeLayout
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import postpc.finalproject.RoomInn.FurnitureCanvas
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel

@@ -14,7 +14,6 @@ data class Point3D(
 
     fun getRelativeLocation(roomRatio: Float, roomLocation: IntArray): Point3D {
         return Point3D((x * roomRatio) + roomLocation[0], y, (z * roomRatio) + roomLocation[1])
-
     }
 
     fun toAbsolutLocation(roomRatio: Float, roomLocation: IntArray) :Point3D{
@@ -27,7 +26,6 @@ data class Point3D(
         x += step.x
         y += step.y
         z += step.z
-
         return this
     }
 
@@ -35,7 +33,6 @@ data class Point3D(
         x *= scaleFactor
         y *= scaleFactor
         z *= scaleFactor
-
         return this
     }
 
@@ -45,11 +42,10 @@ data class Point3D(
             x / point.x,
             y / point.y,
             z / point.z)
-
     }
 
     override fun toString(): String {
-        return "($x,$y,$z)"
+        return "(${String.format("%.4f", x)},${String.format("%.4f", y)},${String.format("%.4f", z)})"
     }
 
 

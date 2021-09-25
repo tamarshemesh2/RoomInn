@@ -3,17 +3,15 @@ package postpc.finalproject.RoomInn.ui
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
-import android.util.Size
 import android.widget.RelativeLayout
-import android.widget.Toast
 import androidx.core.view.GestureDetectorCompat
 import postpc.finalproject.RoomInn.FurnitureCanvas
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.furnitureData.Furniture
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 import postpc.finalproject.RoomInn.models.RoomsDB
-import postpc.finalproject.RoomInn.ui.gui_listeners.DragAndScaleListener
-import postpc.finalproject.RoomInn.ui.gui_listeners.GeneralGestureListener
+import postpc.finalproject.RoomInn.ui.gui_gestures.DragAndScaleListener
+import postpc.finalproject.RoomInn.ui.gui_gestures.GeneralGestureListener
 import kotlin.math.roundToInt
 
 @SuppressLint("ClickableViewAccessibility")

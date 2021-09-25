@@ -1,10 +1,9 @@
-package postpc.finalproject.RoomInn.ui.gui_listeners
+package postpc.finalproject.RoomInn.ui.gui_gestures
 
 import android.content.Context
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
 import android.widget.RelativeLayout
-import android.widget.Toast
 import androidx.navigation.Navigation
 import postpc.finalproject.RoomInn.FurnitureCanvas
 import postpc.finalproject.RoomInn.R
