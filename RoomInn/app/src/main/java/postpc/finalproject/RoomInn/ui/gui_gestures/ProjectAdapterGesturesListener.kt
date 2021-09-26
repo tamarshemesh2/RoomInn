@@ -15,6 +15,7 @@ import postpc.finalproject.RoomInn.ui.projectItem.ProjectItem
 import postpc.finalproject.RoomInn.ui.projectItem.ProjectItemAdapter
 import postpc.finalproject.RoomInn.ui.projectItem.ProjectItemHolder
 import kotlin.math.abs
+import kotlin.math.sqrt
 
 /**
  * Detects left and right swipes across a view.
@@ -30,24 +31,26 @@ class ProjectAdapterGesturesListener(
     private val gestureDetector: GestureDetector
     fun onSwipeLeft() {
         deleteBtn.animate()
-            .translationX(-50f).setDuration(100)
-            .alpha(0f).setDuration(100)
-        deleteBtn.visibility = View.GONE
-        deleteBtn.isClickable = false
+            .translationX(-50f).setDuration(600).withEndAction {
+                deleteBtn.visibility = View.GONE
+                deleteBtn.isClickable = false
+            }.start()
+
     }
 
     fun onSwipeRight() {
-        deleteBtn.animate().translationX(-50f)
+        deleteBtn.animate().translationX(-50f).start()
         deleteBtn.visibility = View.VISIBLE
         deleteBtn.animate()
-            .translationX(0f).setDuration(100)
-            .alpha(1f).setDuration(100)
-        deleteBtn.isClickable = true
-        deleteBtn.setOnClickListener {
-            adapter.deleteProject(
-                viewHolder.adapterPosition
-            )
-        }
+            .translationX(10f).setDuration(600)
+            .withEndAction {
+                deleteBtn.animate()
+                    .translationX(0f).setDuration(100).start()
+                deleteBtn.isClickable = true
+                deleteBtn.setOnClickListener {
+                    adapter.deleteProject(
+                        viewHolder.adapterPosition)}
+            }.start()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -82,22 +85,20 @@ class ProjectAdapterGesturesListener(
             return true
         }
 
-        override fun onFling(
-            e1: MotionEvent,
-            e2: MotionEvent,
-            velocityX: Float,
-            velocityY: Float
+        override fun onScroll(
+            e1: MotionEvent?,
+            e2: MotionEvent?,
+            distanceX: Float,
+            distanceY: Float
         ): Boolean {
-            val distanceX: Float = e2.x - e1.x
-            val distanceY: Float = e2.y - e1.y
-            if (abs(distanceX) > abs(distanceY) &&
-                abs(distanceX) > SWIPE_DISTANCE_THRESHOLD &&
-                abs(velocityX) > SWIPE_VELOCITY_THRESHOLD
-            ) {
-                if (distanceX > 0) onSwipeRight() else onSwipeLeft()
-                return true
+            if (e1 != null && e2 != null) {
+                val dx = e2.rawX - e1.rawX
+                val dy = e2.rawY - e1.rawY
+                if (sqrt((dx * dx) + (dy * dy)) > 10) {
+                    if (dx > 0) onSwipeRight() else onSwipeLeft()
+                }
             }
-            return false
+            return super.onScroll(e1, e2, distanceX, distanceY)
         }
 
 
