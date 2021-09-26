@@ -275,6 +275,7 @@ class RoomsDB(val context: Context) {
             "Closet" -> doc.toObject(Closet::class.java)
             "Couch" -> doc.toObject(Couch::class.java)
             "Dresser" -> doc.toObject(Dresser::class.java)
+            "Armchair" -> doc.toObject(Armchair::class.java)
             else -> null
         }
     }

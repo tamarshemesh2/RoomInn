@@ -2,6 +2,7 @@ package postpc.finalproject.RoomInn.furnitureData
 
 import android.graphics.Color
 import android.graphics.Path
+import postpc.finalproject.RoomInn.R
 
 class Dresser(
     position: Point3D = Point3D(),
@@ -26,6 +27,14 @@ class Dresser(
         defaultScale = Point3D(scale)
     }
 
+    companion object {
+        val typeMap = mapOf<Int, FurnitureType>(
+            1 to FurnitureType("Fashion", R.id.save_scale_type, Point3D(120f,	90f	,50f), "addNewDresserTypeOne"),
+            2 to FurnitureType("Practical", R.id.save_scale_type, Point3D(100f,	85f	,45f), "addNewDresserTypeTwo"),
+            3 to FurnitureType("Night Stand" , R.id.save_scale_type, Point3D(40f	,50f	,45f), "addNewDresserTypeThree")
+        )
+
+    }
     override fun draw(sizeWidth: Float, sizeHeight: Float): Path {
         val path = Path()
         val margin = 8f

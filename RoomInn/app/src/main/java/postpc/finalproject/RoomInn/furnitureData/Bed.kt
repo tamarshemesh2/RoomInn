@@ -2,6 +2,7 @@ package postpc.finalproject.RoomInn.furnitureData
 
 import android.graphics.Color
 import android.graphics.Path
+import postpc.finalproject.RoomInn.R
 import java.util.*
 
 
@@ -26,6 +27,16 @@ class Bed(
         type = "Bed"
         this.roomId = roomId
         defaultScale = Point3D(scale)
+    }
+
+
+    companion object {
+        val typeMap = mapOf<Int, FurnitureType>(
+            1 to FurnitureType("Standard", R.id.save_scale_type, Point3D(   150f	,50f	,200f), "addNewBedTypeOne"),
+            2 to FurnitureType("Fancy", R.id.save_scale_type, Point3D(180f	,93f	 ,200f), "addNewBedTypeTwo"),
+            3 to FurnitureType("Single" , R.id.save_scale_type, Point3D(100f,	100f	,180f), "addNewBedTypeThree")
+        )
+
     }
 
     override fun draw(sizeWidth:Float, sizeHeight:Float): Path {

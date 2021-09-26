@@ -2,6 +2,7 @@ package postpc.finalproject.RoomInn.furnitureData
 
 import android.graphics.Color
 import android.graphics.Path
+import postpc.finalproject.RoomInn.R
 
 class Couch(
     position: Point3D = Point3D(),
@@ -24,6 +25,17 @@ class Couch(
         type = "Couch"
         this.roomId = roomId
         defaultScale = Point3D(scale)
+    }
+
+
+
+    companion object {
+        val typeMap = mapOf<Int, FurnitureType>(
+            1 to FurnitureType("Two Seats", R.id.save_scale_type, Point3D(   150f	,75f	,70f), "addNewCouchTypeOne"),
+            2 to FurnitureType("L Couch - Left", R.id.save_scale_type, Point3D(185f	,75f	,130f), "addNewCouchTypeTwo"),
+            3 to FurnitureType("L Couch - Right" , R.id.save_scale_type, Point3D(180f	,55f	,130f), "addNewCouchTypeThree")
+        )
+
     }
 
 

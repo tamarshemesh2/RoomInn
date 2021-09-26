@@ -14,20 +14,17 @@ abstract class Furniture(
     var rotation: Point3D,
     var scale: Point3D,
     var color: Int = Color.GRAY,
-    var id: String = UUID.randomUUID().toString()
+    var id: String = UUID.randomUUID().toString(),
 ) {
-    var defaultScale = Point3D();
+    var unityType : FurnitureType = FurnitureType()
     var type: String = "unknown"
     var roomId: String = "unknown"
-    var unityFuncName: String = ""
     var freeScale: Boolean = false
-    var renderType: Int = 0
     //copy constructor
     constructor(fur:Furniture) : this(fur.position,fur.rotation,fur.scale,fur.color, fur.id){
-        defaultScale = fur.defaultScale
         type=fur.type
+        unityType = fur.unityType
         roomId=fur.roomId
-        unityFuncName=fur.unityFuncName
         freeScale=fur.freeScale
     }
 
@@ -66,9 +63,7 @@ abstract class Furniture(
     }
 
     open fun unityScale(): Point3D {
-        Log.e("yuvalScale",scale.toString() )
-        Log.e("NatiScale",defaultScale.toString() )
-        return scale.getDivideByPoint(defaultScale)
+        return scale.getDivideByPoint(unityType.defaultScale)
     }
 
     open fun unityPosition(): Point3D {
@@ -90,10 +85,10 @@ abstract class Furniture(
                 (this.rotation == o.rotation) &&
                 (this.scale == o.scale) &&
                 (this.color == o.color) &&
-                (this.defaultScale == o.defaultScale) &&
+                (this.unityType.defaultScale == o.unityType.defaultScale) &&
                 (this.type == o.type) && (
                 this.roomId == o.roomId) &&
-                (this.unityFuncName == o.unityFuncName) &&
+                (this.unityType.defaultScale == o.unityType.defaultScale) &&
                 (this.freeScale == o.freeScale)
     }
 
@@ -105,10 +100,8 @@ abstract class Furniture(
         result = 31 * result + scale.hashCode()
         result = 31 * result + color
         result = 31 * result + id.hashCode()
-        result = 31 * result + defaultScale.hashCode()
         result = 31 * result + type.hashCode()
         result = 31 * result + roomId.hashCode()
-        result = 31 * result + unityFuncName.hashCode()
         result = 31 * result + freeScale.hashCode()
         return result
     }
