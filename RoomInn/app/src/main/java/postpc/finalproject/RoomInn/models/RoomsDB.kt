@@ -271,7 +271,7 @@ class RoomsDB(val context: Context) {
         return when (doc["type"]) {
             "Bed" -> doc.toObject(Bed::class.java)
             "Chair" -> doc.toObject(Chair::class.java)
-            "Desk" -> doc.toObject(Desk::class.java)
+            "Table" -> doc.toObject(Table::class.java)
             "Closet" -> doc.toObject(Closet::class.java)
             "Couch" -> doc.toObject(Couch::class.java)
             "Dresser" -> doc.toObject(Dresser::class.java)

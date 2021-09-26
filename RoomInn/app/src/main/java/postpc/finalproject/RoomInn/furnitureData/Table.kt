@@ -3,7 +3,7 @@ package postpc.finalproject.RoomInn.furnitureData
 import android.graphics.Color
 import android.graphics.Path
 
-class Desk(
+class Table(
     position: Point3D = Point3D(),
     rotation: Point3D = Point3D(),
     scale: Point3D = Point3D(150f, 120f, 60f),
@@ -11,7 +11,7 @@ class Desk(
     roomId: String = ""
 ): Furniture(position,rotation, scale, color){
     //copy constructor
-    constructor(fur:Desk) : this(fur.position,fur.rotation,fur.scale,fur.color, fur.roomId){
+    constructor(fur:Table) : this(fur.position,fur.rotation,fur.scale,fur.color, fur.roomId){
         id = fur.id
         defaultScale = fur.defaultScale
         type=fur.type
@@ -20,8 +20,8 @@ class Desk(
         freeScale=fur.freeScale
     }
     init {
-        unityFuncName = "addNewDesk"
-        type = "Desk"
+        unityFuncName = "addNewTable"
+        type = "Table"
         this.roomId = roomId
         defaultScale = Point3D(scale)
     }

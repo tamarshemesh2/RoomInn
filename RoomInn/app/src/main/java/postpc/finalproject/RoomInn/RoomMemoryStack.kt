@@ -91,7 +91,7 @@ class RoomMemoryStack(
             val fur = when (it.type) {
                 "Bed" -> Bed(it as Bed)
                 "Chair" -> Chair(it as Chair)
-                "Desk" -> Desk(it as Desk)
+                "Table" -> Table(it as Table)
                 "Closet" -> Closet(it as Closet)
                 "Couch" -> Couch(it as Couch)
                 "Dresser" -> Dresser(it as Dresser)
