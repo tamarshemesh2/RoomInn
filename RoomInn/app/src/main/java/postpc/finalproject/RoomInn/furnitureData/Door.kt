@@ -11,6 +11,15 @@ class Door(
     scale: Point3D = Point3D(80f, 206f, 10f),
     color: Int = Color.BLACK
 ) : Furniture(position, rotation, scale, Color.BLACK) {
+    //copy constructor
+    constructor(fur:Door) : this(fur.position,fur.rotation,fur.scale,fur.color){
+        id = fur.id
+        defaultScale = fur.defaultScale
+        type=fur.type
+        roomId=fur.roomId
+        unityFuncName=fur.unityFuncName
+        freeScale=fur.freeScale
+    }
     var orientation:String = "RTL"
 
     init{

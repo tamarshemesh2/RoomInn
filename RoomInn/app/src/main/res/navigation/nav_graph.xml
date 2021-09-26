@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_floorPlanFragment_to_editFurnitureFragment"
             app:destination="@id/editFurnitureFragment" />
+        <action
+            android:id="@+id/action_floorPlanFragment_self"
+            app:destination="@id/floorPlanFragment" />
     </fragment>
     <fragment
         android:id="@+id/addFurnitureFragment2"
@@ -36,6 +39,10 @@
         <action
             android:id="@+id/action_addFurnitureFragment2_to_floorPlanFragment"
             app:destination="@id/floorPlanFragment" />
+
+        <action
+            android:id="@+id/action_addFurnitureFragment2_to_chooseFurnitureTypeFragment"
+            app:destination="@id/chooseFurnitureTypeFragment" />
         <action
             android:id="@+id/action_addFurnitureFragment2_to_editFurnitureFragment"
             app:destination="@id/editFurnitureFragment" />
@@ -55,6 +62,9 @@
             app:destination="@id/floorPlanPlacingFragment"
             app:popUpTo="@id/floorPlanPlacingFragment"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_editFurnitureFragment_to_chooseFurnitureTypeFragment"
+            app:destination="@id/chooseFurnitureTypeFragment" />
     </fragment>
     <fragment
         android:id="@+id/floorPlanPlacingFragment"
@@ -65,6 +75,17 @@
             app:destination="@id/floorPlanFragment" />
         <action
             android:id="@+id/action_floorPlanPlacingFragment_to_editFurnitureFragment"
+            app:destination="@id/editFurnitureFragment" />
+        <action
+            android:id="@+id/action_floorPlanPlacingFragment_to_profileFragment2"
+            app:destination="@id/profileFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseFurnitureTypeFragment"
+        android:name="postpc.finalproject.RoomInn.ui.ChooseFurnitureTypeFragment"
+        android:label="ChooseFurnitureTypeFragment" >
+        <action
+            android:id="@+id/action_chooseFurnitureTypeFragment_to_editFurnitureFragment"
             app:destination="@id/editFurnitureFragment" />
     </fragment>
 </navigation>

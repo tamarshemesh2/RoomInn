@@ -70,6 +70,9 @@ class FurnitureCategoryItemAdapter : RecyclerView.Adapter<FurnitureCategoryItemH
         }
         holder.bg.setOnClickListener {
             projectViewModel.furniture = furnitureClass
+            //todo- after all maps of rendering are working - unComment it
+//            Navigation.findNavController(it)
+//                .navigate(R.id.action_addFurnitureFragment2_to_chooseFurnitureTypeFragment)
             Navigation.findNavController(it)
                 .navigate(R.id.action_addFurnitureFragment2_to_editFurnitureFragment)
         }

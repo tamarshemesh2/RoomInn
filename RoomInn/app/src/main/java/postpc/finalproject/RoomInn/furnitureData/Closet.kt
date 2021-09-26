@@ -10,6 +10,15 @@ class Closet(
     color: Int = Color.GRAY,
     roomId: String = ""
 ) : Furniture(position, rotation, scale, color) {
+    //copy constructor
+    constructor(fur:Closet) : this(fur.position,fur.rotation,fur.scale,fur.color, fur.roomId){
+        id = fur.id
+        defaultScale = fur.defaultScale
+        type=fur.type
+        roomId=fur.roomId
+        unityFuncName=fur.unityFuncName
+        freeScale=fur.freeScale
+    }
     init {
         unityFuncName = "addNewCloset"
         type = "Closet"

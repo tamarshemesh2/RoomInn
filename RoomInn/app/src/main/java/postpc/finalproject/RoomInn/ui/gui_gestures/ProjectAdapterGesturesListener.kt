@@ -101,10 +101,6 @@ class ProjectAdapterGesturesListener(
             return super.onScroll(e1, e2, distanceX, distanceY)
         }
 
-
-        private val SWIPE_DISTANCE_THRESHOLD by lazy { 100 }
-        private val SWIPE_VELOCITY_THRESHOLD by lazy { 100 }
-
     }
 
     init {

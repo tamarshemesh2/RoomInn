@@ -11,6 +11,15 @@ class Window(
     rotation: Point3D = Point3D(),
     scale: Point3D = Point3D(130f, 60f, 65f),
 ) : Furniture(position, rotation, scale, Color.BLACK) {
+    //copy constructor
+    constructor(fur:Window) : this(fur.position,fur.rotation,fur.scale){
+        id= fur.id
+        defaultScale = fur.defaultScale
+        type=fur.type
+        roomId=fur.roomId
+        unityFuncName=fur.unityFuncName
+        freeScale=fur.freeScale
+    }
     init{
         type = "Window"
         defaultScale = Point3D(this.scale)

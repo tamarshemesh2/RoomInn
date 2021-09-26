@@ -48,6 +48,11 @@ data class Point3D(
         return "(${String.format("%.4f", x)},${String.format("%.4f", y)},${String.format("%.4f", z)})"
     }
 
+    override fun equals(other: Any?): Boolean {
+        val o = other as Point3D
+        return (x==o.x)&&(y==o.y)&&(z==o.z)
+    }
+
 
 
 }

@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         progressDialog =  new ProgressDialog(this);
         ProjectViewModel viewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
-
+        viewModel.setActivityContext(this);
         listenToLoadingStage();
     }
 

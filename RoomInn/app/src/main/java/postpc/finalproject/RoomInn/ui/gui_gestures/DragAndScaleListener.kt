@@ -68,7 +68,9 @@ class DragAndScaleListener(
         projectViewModel.furniture = furniture
         when (event.action and MotionEvent.ACTION_MASK) {
             MotionEvent.ACTION_DOWN -> {
-                Log.e("XYdown", "x=${event.rawX},   y=${event.rawY}")
+                if (mode==NONE){
+                    projectViewModel.memoryStack.saveRoomChange()
+                }
                 params = view.layoutParams as RelativeLayout.LayoutParams
                 startWidth = params.width
                 startHeight = params.height
@@ -77,14 +79,17 @@ class DragAndScaleListener(
                 mode = DRAG
             }
             MotionEvent.ACTION_POINTER_DOWN -> {
+
                 oldDist = spacing(event)
                 if (oldDist > 10f) {
+                    projectViewModel.memoryStack.saveRoomChange()
+
                     mode = ZOOM
                 }
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_POINTER_UP -> {
                 mode = NONE
-                Log.e("XYup", "x=${event.rawX},   y=${event.rawY}")
+                projectViewModel.memoryStack.saveRoomChange()
 
             }
 
@@ -145,6 +150,7 @@ class DragAndScaleListener(
         ).toAbsolutLocation(roomRatio, intArrayOf(0, 0)).add(scaleDiff)
 
         projectViewModel.furniture = furniture
+
         return true
     }
 

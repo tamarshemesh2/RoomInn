@@ -1,5 +1,6 @@
 package postpc.finalproject.RoomInn.ViewModle
 
+import android.content.Context
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -7,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import postpc.finalproject.RoomInn.furnitureData.Wall
 import postpc.finalproject.RoomInn.Room
+import postpc.finalproject.RoomInn.RoomMemoryStack
 import postpc.finalproject.RoomInn.furnitureData.Furniture
 import postpc.finalproject.RoomInn.furnitureData.Point3D
 import postpc.finalproject.RoomInn.models.LoadingStage
@@ -20,13 +22,17 @@ class ProjectViewModel: ViewModel() {
     var roomEnableFurnitureOnBoard: Boolean = false
     @RequiresApi(Build.VERSION_CODES.N)
 
-    open var room : Room = Room()
+    var room : Room = Room()
         set(newRoom: Room) {
             if (field.userId != "user id") {
                 getInstance().getRoomsDB().saveRoom(field)
             }
             field = newRoom
+            memoryStack = RoomMemoryStack(newRoom)
         }
+
+    var memoryStack : RoomMemoryStack = RoomMemoryStack(room)
+    val redoUndoPresses = MutableLiveData(false)
 
     var projectName: String = ""
     val layoutMeasures = intArrayOf(0,0)
@@ -35,7 +41,7 @@ class ProjectViewModel: ViewModel() {
     var currentPosition: Point3D = Point3D()
     var furniture : Furniture? = null
     var newFurniture: Boolean = true
-    val furnitureToErase: MutableLiveData<Boolean> = MutableLiveData(false)
+    var activityContext: Context?= null
 
     val doorsAndWindows = mutableListOf<FurnitureOnBoard>()
 

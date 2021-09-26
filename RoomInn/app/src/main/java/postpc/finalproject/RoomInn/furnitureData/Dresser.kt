@@ -10,6 +10,15 @@ class Dresser(
     color: Int = Color.GRAY,
     roomId: String = ""
 ) : Furniture(position, rotation, scale, color) {
+    //copy constructor
+    constructor(fur:Dresser) : this(fur.position,fur.rotation,fur.scale,fur.color, fur.roomId){
+        id = fur.id
+        defaultScale = fur.defaultScale
+        type=fur.type
+        roomId=fur.roomId
+        unityFuncName=fur.unityFuncName
+        freeScale=fur.freeScale
+    }
     init {
         unityFuncName = "addNewDresser"
         type = "Dresser"

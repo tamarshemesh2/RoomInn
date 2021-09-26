@@ -21,9 +21,22 @@ abstract class Furniture(
     var roomId: String = "unknown"
     var unityFuncName: String = ""
     var freeScale: Boolean = false
+    var renderType: Int = 0
+    //copy constructor
+    constructor(fur:Furniture) : this(fur.position,fur.rotation,fur.scale,fur.color, fur.id){
+        defaultScale = fur.defaultScale
+        type=fur.type
+        roomId=fur.roomId
+        unityFuncName=fur.unityFuncName
+        freeScale=fur.freeScale
+    }
 
 
-    open fun scale(scaleFactor: Float, newPivot: Point3D = Point3D(position).add(Point3D(scale).multiply(0.5f))): Point3D {
+
+    open fun scale(
+        scaleFactor: Float,
+        newPivot: Point3D = Point3D(position).add(Point3D(scale).multiply(0.5f))
+    ): Point3D {
         // returns a Point3D item that holds the differ distance between the edges of the furniture from old to new scale
         val oldScale = Point3D(scale)
         val newScale = Point3D(scale.multiply(scaleFactor))
@@ -70,8 +83,35 @@ abstract class Furniture(
             .getDivideByPoint(Point3D(100f, 100f, 100f)).apply { y = 0f }
     }
 
+    override fun equals(other: Any?): Boolean {
+        val o = other as Furniture
+        return (this.id == o.id) &&
+                (this.position == o.position) &&
+                (this.rotation == o.rotation) &&
+                (this.scale == o.scale) &&
+                (this.color == o.color) &&
+                (this.defaultScale == o.defaultScale) &&
+                (this.type == o.type) && (
+                this.roomId == o.roomId) &&
+                (this.unityFuncName == o.unityFuncName) &&
+                (this.freeScale == o.freeScale)
+    }
+
 
     abstract fun draw(sizeWidth: Float, sizeHeight: Float): Path
+    override fun hashCode(): Int {
+        var result = position.hashCode()
+        result = 31 * result + rotation.hashCode()
+        result = 31 * result + scale.hashCode()
+        result = 31 * result + color
+        result = 31 * result + id.hashCode()
+        result = 31 * result + defaultScale.hashCode()
+        result = 31 * result + type.hashCode()
+        result = 31 * result + roomId.hashCode()
+        result = 31 * result + unityFuncName.hashCode()
+        result = 31 * result + freeScale.hashCode()
+        return result
+    }
 
 
 }

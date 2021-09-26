@@ -2,7 +2,6 @@ package postpc.finalproject.RoomInn.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.util.Size
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -18,7 +17,6 @@ import postpc.finalproject.RoomInn.FurnitureCanvas
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.furnitureData.Furniture
-import postpc.finalproject.RoomInn.furnitureData.Point3D
 import postpc.finalproject.RoomInn.furnitureData.Window
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 import postpc.finalproject.RoomInn.models.RoomsDB
@@ -67,6 +65,8 @@ class EditFurnitureFragment : Fragment() {
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        this.activity?.window?.decorView?.layoutDirection = View.LAYOUT_DIRECTION_LTR;
+
         // find all the views
 
         val colorBtn: ImageView = view.findViewById(R.id.color_btn)
@@ -77,13 +77,12 @@ class EditFurnitureFragment : Fragment() {
         val rotateBtn = view.findViewById<ImageButton>(R.id.rotate_btn)
 
         val freeRatioCheckBox = view.findViewById<CheckBox>(R.id.enable_ratio_checkbox)
-        val furnitureImageView = view.findViewById<FurnitureCanvas>(R.id.furniture_img)
+        val furnitureCanvas = view.findViewById<FurnitureCanvas>(R.id.furniture_img)
         val saveFab = view.findViewById<FloatingActionButton>(R.id.save_fab)
         val delFab = view.findViewById<FloatingActionButton>(R.id.delete_fab)
+        val furnitureImageView = view.findViewById<ImageView>(R.id.furniture_render_img)
 
-        val heightText = view.findViewById<TextView>(R.id.height_text)
-        val lengthText = view.findViewById<TextView>(R.id.length_text)
-        val widthText = view.findViewById<TextView>(R.id.width_text)
+
 
         //TODO: support the delete button
 
@@ -91,15 +90,33 @@ class EditFurnitureFragment : Fragment() {
         val DB: RoomsDB = RoomInnApplication.getInstance().getRoomsDB()
 
 
-        val vto = furnitureImageView.viewTreeObserver
+        val vto = furnitureCanvas.viewTreeObserver
         vto.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                furnitureImageView.viewTreeObserver
+                furnitureCanvas.viewTreeObserver
                     .removeOnGlobalLayoutListener(this)
-                renderDrawing(furniture, furnitureImageView)
+                renderDrawing(furniture, furnitureCanvas)
             }
         })
-        furnitureImageView.rotation = furniture.rotation.y
+        furnitureCanvas.rotation = furniture.rotation.y
+        //todo: make the map or something better
+        val typeMap: Map<Int, Int>? = (when (furniture.type) {
+            ("Chair") -> mapOf<Int,Int>()
+            ("Bed") -> mapOf<Int, Int>()
+            ("Closet") -> mapOf<Int, Int>()
+            ("Couch") -> mapOf<Int, Int>()
+            ("Desk") -> mapOf<Int, Int>()
+            ("Dresser") -> mapOf<Int, Int>()
+            ("Window") -> mapOf<Int, Int>()
+            ("Door") -> mapOf<Int, Int>()
+            else -> null
+        })
+        if (typeMap!=null){
+        furnitureImageView.setImageResource(typeMap[furniture.renderType]!!)
+        furnitureImageView.setOnClickListener {
+            Navigation.findNavController(it)
+                .navigate(R.id.action_editFurnitureFragment_to_chooseFurnitureTypeFragment)
+        }}
 
         colorBtn.setColorFilter(furniture.color)
         widthEditText.setText(furniture.scale.x.toString())
@@ -144,29 +161,30 @@ class EditFurnitureFragment : Fragment() {
         rotateBtn.setOnClickListener {
             furniture.rotation.y = (furniture.rotation.y + 45) % 360
             rotateEditText.setText(furniture.rotation.y.toString())
-            furnitureImageView.rotation = furniture.rotation.y
+            furnitureCanvas.rotation = furniture.rotation.y
         }
         widthEditText.doOnTextChanged { txt, _, _, _ ->
             furniture.scale.x = txt.toString().toFloat()
-            renderDrawing(furniture, furnitureImageView)
+            renderDrawing(furniture, furnitureCanvas)
         }
         heightEditText.doOnTextChanged { txt, _, _, _ ->
             furniture.scale.y = txt.toString().toFloat()
-            renderDrawing(furniture, furnitureImageView)
+            renderDrawing(furniture, furnitureCanvas)
         }
 
         lengthEditText.doOnTextChanged { txt, _, _, _ ->
             furniture.scale.z = txt.toString().toFloat()
-            renderDrawing(furniture, furnitureImageView)
+            renderDrawing(furniture, furnitureCanvas)
         }
 
         rotateEditText.doOnTextChanged { txt, _, _, _ ->
             furniture.rotation.y = txt.toString().toFloat() % 360
-            furnitureImageView.rotation = furniture.rotation.y
+            furnitureCanvas.rotation = furniture.rotation.y
         }
 
         delFab.setOnClickListener {
             DB.deleteFurniture(projectViewModel.furniture!!)
+            projectViewModel.memoryStack.saveRoomChange()
 
             if (furniture.type in listOf("Door", "Window") || !projectViewModel.newFurniture) {
                 Navigation.findNavController(it).popBackStack()
@@ -192,6 +210,7 @@ class EditFurnitureFragment : Fragment() {
             if (projectViewModel.furniture!!.id !in DB.roomToFurnitureMap[projectViewModel.room.id]!!) {
                 DB.roomToFurnitureMap[projectViewModel.room.id]!!.add(projectViewModel.furniture!!.id)
             }
+            projectViewModel.memoryStack.saveRoomChange()
             if (furniture.type in listOf("Door", "Window") || !projectViewModel.newFurniture) {
                 Navigation.findNavController(it).popBackStack()
             } else {
