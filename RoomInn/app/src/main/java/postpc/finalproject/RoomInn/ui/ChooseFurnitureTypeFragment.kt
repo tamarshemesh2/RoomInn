@@ -77,7 +77,7 @@ class ChooseFurnitureTypeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_Choose_Type_furniture, container, false)
+        return inflater.inflate(R.layout.fragment_choose_type_furniture, container, false)
     }
 
 }
