@@ -99,24 +99,24 @@ class EditFurnitureFragment : Fragment() {
             }
         })
         furnitureCanvas.rotation = furniture.rotation.y
-        //todo: make the map or something better
-        val typeMap: Map<Int, Int>? = (when (furniture.type) {
-            ("Chair") -> mapOf<Int,Int>()
-            ("Bed") -> mapOf<Int, Int>()
-            ("Closet") -> mapOf<Int, Int>()
-            ("Couch") -> mapOf<Int, Int>()
-            ("Desk") -> mapOf<Int, Int>()
-            ("Dresser") -> mapOf<Int, Int>()
-            ("Window") -> mapOf<Int, Int>()
-            ("Door") -> mapOf<Int, Int>()
-            else -> null
-        })
-        if (typeMap!=null){
-        furnitureImageView.setImageResource(typeMap[furniture.renderType]!!)
-        furnitureImageView.setOnClickListener {
-            Navigation.findNavController(it)
-                .navigate(R.id.action_editFurnitureFragment_to_chooseFurnitureTypeFragment)
-        }}
+//        todo: make the map or something better and undo comment
+//        val typeMap: Map<Int, Int>? = (when (furniture.type) {
+//            ("Chair") -> mapOf<Int,Int>()
+//            ("Bed") -> mapOf<Int, Int>()
+//            ("Closet") -> mapOf<Int, Int>()
+//            ("Couch") -> mapOf<Int, Int>()
+//            ("Desk") -> mapOf<Int, Int>()
+//            ("Dresser") -> mapOf<Int, Int>()
+//            ("Window") -> mapOf<Int, Int>()
+//            ("Door") -> mapOf<Int, Int>()
+//            else -> null
+//        })
+//        if (typeMap!=null){
+//        furnitureImageView.setImageResource(typeMap[furniture.renderType]!!)
+//        furnitureImageView.setOnClickListener {
+//            Navigation.findNavController(it)
+//                .navigate(R.id.action_editFurnitureFragment_to_chooseFurnitureTypeFragment)
+//        }}
 
         colorBtn.setColorFilter(furniture.color)
         widthEditText.setText(furniture.scale.x.toString())
