@@ -11,7 +11,7 @@ import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 import postpc.finalproject.RoomInn.ui.MainUnityPlayerActivity
-import postpc.finalproject.RoomInn.ui.UnityHandler
+import postpc.finalproject.RoomInn.ui.ScanUnityHandler
 import postpc.finalproject.RoomInn.ui.gui_gestures.ProjectAdapterGesturesListener
 
 
@@ -98,7 +98,7 @@ class ProjectItemAdapter : RecyclerView.Adapter<ProjectItemHolder>() {
             }
 
             holder.playButton.setOnClickListener {
-                val intent = Intent(context, UnityHandler::class.java)
+                val intent = Intent(context, ScanUnityHandler::class.java)
                 intent.putExtra("Scene Index", MainUnityPlayerActivity.sceneIndex)
                 intent.putExtra("Room ID", viewModel!!.room.id)
                 context.startActivity(intent)

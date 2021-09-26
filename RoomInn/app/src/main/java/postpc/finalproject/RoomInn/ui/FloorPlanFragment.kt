@@ -14,13 +14,11 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.furnitureData.Point3D
-import postpc.finalproject.RoomInn.models.RoomInnApplication
 import java.util.*
 
 
@@ -76,11 +74,12 @@ class FloorPlanFragment : Fragment() {
         roomTitle.text = "${projectViewModel.projectName} \n- Floor Plan"
 
         playButton.setOnClickListener {
-            val intent = Intent(context, UnityHandler::class.java)
-            intent.putExtra("Scene Index", MainUnityPlayerActivity.sceneIndex)
-            intent.putExtra("Room Name", projectViewModel!!.room.name)
-            startActivity(intent)
-        }
+                var intent = Intent(context, MainUnityPlayerActivity::class.java)
+                intent.putExtra("Scene Index", MainUnityPlayerActivity.sceneIndex)
+                intent.putExtra("Room Name", projectViewModel.room.name)
+                startActivity(intent)
+
+            }
 
         val vto = roomLayout.viewTreeObserver
         vto.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
