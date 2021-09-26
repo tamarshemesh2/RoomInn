@@ -16,8 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import postpc.finalproject.RoomInn.FurnitureCanvas
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
-import postpc.finalproject.RoomInn.furnitureData.Furniture
-import postpc.finalproject.RoomInn.furnitureData.Window
+import postpc.finalproject.RoomInn.furnitureData.*
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 import postpc.finalproject.RoomInn.models.RoomsDB
 import top.defaults.colorpicker.ColorPickerPopup
@@ -98,21 +97,19 @@ class EditFurnitureFragment : Fragment() {
                 renderDrawing(furniture, furnitureCanvas)
             }
         })
-        furnitureCanvas.rotation = furniture.rotation.y
-//        todo: make the map or something better and undo comment
-//        val typeMap: Map<Int, Int>? = (when (furniture.type) {
-//            ("Chair") -> mapOf<Int,Int>()
-//            ("Bed") -> mapOf<Int, Int>()
-//            ("Closet") -> mapOf<Int, Int>()
-//            ("Couch") -> mapOf<Int, Int>()
-//            ("Desk") -> mapOf<Int, Int>()
-//            ("Dresser") -> mapOf<Int, Int>()
-//            ("Window") -> mapOf<Int, Int>()
-//            ("Door") -> mapOf<Int, Int>()
+//        furnitureCanvas.rotation = furniture.rotation.y
+////        todo: make the map or something better and undo comment
+//        val typeMap: Map<Int,FurnitureType>? = (when (furniture.type) {
+//            ("Chair") -> Chair.typeMap
+//            ("Bed") -> Bed.typeMap
+//            ("Closet") -> Closet.typeMap
+//            ("Couch") -> Couch.typeMap
+//            ("Table") -> Table.typeMap
+//            ("Dresser") -> Dresser.typeMap
 //            else -> null
 //        })
 //        if (typeMap!=null){
-//        furnitureImageView.setImageResource(typeMap[furniture.renderType]!!)
+//        furnitureImageView.setImageResource(typeMap[furniture.unityType.key]!!.typeRecID)
 //        furnitureImageView.setOnClickListener {
 //            Navigation.findNavController(it)
 //                .navigate(R.id.action_editFurnitureFragment_to_chooseFurnitureTypeFragment)

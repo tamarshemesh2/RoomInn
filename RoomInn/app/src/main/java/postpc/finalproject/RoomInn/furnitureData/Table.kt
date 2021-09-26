@@ -14,24 +14,22 @@ class Table(
     //copy constructor
     constructor(fur:Table) : this(fur.position,fur.rotation,fur.scale,fur.color, fur.roomId){
         id = fur.id
-        defaultScale = fur.defaultScale
+        unityType=fur.unityType
         type=fur.type
         roomId=fur.roomId
-        unityFuncName=fur.unityFuncName
         freeScale=fur.freeScale
     }
     init {
-        unityFuncName = "addNewTable"
+        unityType= typeMap[1]!!
         type = "Table"
         this.roomId = roomId
-        defaultScale = Point3D(scale)
     }
 
     companion object {
         val typeMap = mapOf<Int, FurnitureType>(
-            1 to FurnitureType("Desk", R.id.save_scale_type, Point3D(   150f	,75f,	60f), "addNewTableTypeOne"),
-            2 to FurnitureType("Table", R.id.save_scale_type, Point3D(100f,	80f	,60f), "addNewTableTypeTwo"),
-            3 to FurnitureType("Coffee Table" , R.id.save_scale_type, Point3D(100f,	30f	,60f), "addNewTableTypeThree")
+            1 to FurnitureType("Desk", R.id.save_scale_type, Point3D(   150f	,75f,	60f), "addNewTableTypeOne",1),
+            2 to FurnitureType("Table", R.id.save_scale_type, Point3D(100f,	80f	,60f), "addNewTableTypeTwo",2),
+            3 to FurnitureType("Coffee Table" , R.id.save_scale_type, Point3D(100f,	30f	,60f), "addNewTableTypeThree",3)
         )
 
     }

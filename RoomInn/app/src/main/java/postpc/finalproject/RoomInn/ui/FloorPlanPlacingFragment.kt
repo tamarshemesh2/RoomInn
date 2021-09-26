@@ -30,8 +30,7 @@ class FloorPlanPlacingFragment : Fragment() {
             return FloorPlanPlacingFragment()
         }
     }
-    private val pointsPathName: String by lazy { "pointData.json" }
-    private val distancesPathName: String by lazy { "distances.json" }
+
 
     private val projectViewModel: ProjectViewModel by lazy {
         ViewModelProvider(requireActivity()).get(ProjectViewModel::class.java)

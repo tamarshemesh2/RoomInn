@@ -14,18 +14,16 @@ class Door(
     //copy constructor
     constructor(fur:Door) : this(fur.position,fur.rotation,fur.scale,fur.color){
         id = fur.id
-        defaultScale = fur.defaultScale
         type=fur.type
         roomId=fur.roomId
-        unityFuncName=fur.unityFuncName
+        unityType=fur.unityType
         freeScale=fur.freeScale
     }
     var orientation:String = "RTL"
 
     init{
         type = "Door"
-        defaultScale = Point3D(scale)
-    }
+        unityType = FurnitureType("door", defaultScale = Point3D(scale),unityFuncName = "")    }
 
 
     override fun draw(sizeWidthA: Float, sizeHeight: Float): Path {

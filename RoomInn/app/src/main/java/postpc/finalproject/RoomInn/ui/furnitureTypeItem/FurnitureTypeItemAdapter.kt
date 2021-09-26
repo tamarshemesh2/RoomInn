@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.furnitureData.Furniture
+import postpc.finalproject.RoomInn.furnitureData.FurnitureType
 import postpc.finalproject.RoomInn.ui.furnitureCategoryItem.FurnitureCategoryItem
 import postpc.finalproject.RoomInn.ui.furnitureCategoryItem.FurnitureCategoryItemHolder
 import kotlin.math.roundToInt
@@ -29,9 +30,9 @@ class FurnitureTypeItemAdapter : RecyclerView.Adapter<FurnitureTypeItemHolder>()
         context = cxt
     }
 
-    fun setItems(items: Map<String, Pair<Int, Int>>) {
+    fun setItems(items: Map<Int, FurnitureType>) {
         _types.clear()
-        items.forEach { _types.add(FurnitureTypeItem(it.key, it.value.first, it.value.second)) }
+        items.forEach { _types.add(FurnitureTypeItem(it.value)) }
         notifyDataSetChanged()
     }
 
@@ -43,13 +44,13 @@ class FurnitureTypeItemAdapter : RecyclerView.Adapter<FurnitureTypeItemHolder>()
     }
 
     override fun onBindViewHolder(holder: FurnitureTypeItemHolder, position: Int) {
-        val furnitureType = _types[position]
+        val furnitureType = _types[position].furnitureType
 
-        holder.typeImg.setImageResource(furnitureType.furnitureTypeImg)
-        holder.typeTitle.text = furnitureType.furnitureTypeName
+        holder.typeImg.setImageResource(furnitureType.typeRecID)
+        holder.typeTitle.text = furnitureType.typeName
 
         holder.bg.setOnClickListener {
-            projectViewModel.furniture!!.renderType = furnitureType.furnitureRenderType
+            projectViewModel.furniture!!.unityType = furnitureType
             Navigation.findNavController(it)
                 .navigate(R.id.action_chooseFurnitureTypeFragment_to_editFurnitureFragment)
         }

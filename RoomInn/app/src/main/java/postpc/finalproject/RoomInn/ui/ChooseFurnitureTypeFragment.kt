@@ -43,25 +43,23 @@ class ChooseFurnitureTypeFragment : Fragment() {
         // string - type name to show,
         // first int - R.id.img,
         // second int- number to put in renderType in Furniture Object
-        val defaultItems: Map<String, Pair<Int, Int>>? = (when (furnitureType) {
-            ("Chair") -> mapOf<String, Pair<Int, Int>>()
-            ("Bed") -> mapOf<String, Pair<Int, Int>>()
-            ("Closet") -> mapOf<String, Pair<Int, Int>>()
-            ("Couch") -> mapOf<String, Pair<Int, Int>>()
-            ("Desk") -> mapOf<String, Pair<Int, Int>>()
-            ("Dresser") -> mapOf<String, Pair<Int, Int>>()
-            ("Window") -> mapOf<String, Pair<Int, Int>>()
-            ("Door") -> mapOf<String, Pair<Int, Int>>()
+        val typeMap: Map<Int,FurnitureType>? = (when (furnitureType) {
+            ("Chair") -> Chair.typeMap
+            ("Bed") -> Bed.typeMap
+            ("Closet") -> Closet.typeMap
+            ("Couch") -> Couch.typeMap
+            ("Table") -> Table.typeMap
+            ("Dresser") -> Dresser.typeMap
             else -> null
         })
-        if (defaultItems == null) {
+        if (typeMap == null) {
             Navigation.findNavController(view)
                 .navigate(R.id.action_chooseFurnitureTypeFragment_to_editFurnitureFragment)
         } else {
 
             adapter.setViewModel(projectViewModel) as Map<String, Pair<Int, Int>>
             adapter.setContext(requireContext())
-            adapter.setItems(defaultItems)
+            adapter.setItems(typeMap)
 
             // set the recycle view
             furnitureRecyclerView.adapter = adapter

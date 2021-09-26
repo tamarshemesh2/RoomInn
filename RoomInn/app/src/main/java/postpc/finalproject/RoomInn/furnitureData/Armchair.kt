@@ -14,25 +14,23 @@ class Armchair(
     //copy constructor
     constructor(fur: Armchair) : this(fur.position, fur.rotation, fur.scale, fur.color, fur.roomId) {
         id = fur.id
-        defaultScale = fur.defaultScale
+        unityType = fur.unityType
         type = fur.type
         roomId = fur.roomId
-        unityFuncName = fur.unityFuncName
         freeScale = fur.freeScale
     }
 
     init {
-        unityFuncName = "addNewArmchair"
         type = "Armchair"
         this.roomId = roomId
-        defaultScale = Point3D(scale)
+        unityType = typeMap[1]!!
     }
 
     companion object {
         val typeMap = mapOf<Int, FurnitureType>(
-            1 to FurnitureType("Classy", R.id.save_scale_type, Point3D(70f,	100f,	80f), "addNewArmchairTypeOne"),
-            2 to FurnitureType("Square", R.id.save_scale_type, Point3D(100f	,95f	,100f), "addNewArmchairTypeTwo"),
-            3 to FurnitureType("IKEA" ,R.id.save_scale_type, Point3D(80f	,140f	,100f), "addNewArmchairTypeThree")
+            1 to FurnitureType("Classy", R.id.save_scale_type, Point3D(70f,	100f,	80f), "addNewArmchairTypeOne",1),
+            2 to FurnitureType("Square", R.id.save_scale_type, Point3D(100f	,95f	,100f), "addNewArmchairTypeTwo",2),
+            3 to FurnitureType("IKEA" ,R.id.save_scale_type, Point3D(80f	,140f	,100f), "addNewArmchairTypeThree",3)
         )
 
     }

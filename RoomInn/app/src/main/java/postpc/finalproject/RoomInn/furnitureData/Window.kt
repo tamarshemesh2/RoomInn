@@ -14,16 +14,14 @@ class Window(
     //copy constructor
     constructor(fur:Window) : this(fur.position,fur.rotation,fur.scale){
         id= fur.id
-        defaultScale = fur.defaultScale
+        unityType=fur.unityType
         type=fur.type
         roomId=fur.roomId
-        unityFuncName=fur.unityFuncName
         freeScale=fur.freeScale
     }
     init{
         type = "Window"
-        defaultScale = Point3D(this.scale)
-    }
+        unityType= FurnitureType(defaultScale = Point3D(scale))    }
 
     override fun draw(sizeWidth: Float, sizeHeight: Float): Path {
         val path = Path()

@@ -14,24 +14,21 @@ class Closet(
     //copy constructor
     constructor(fur:Closet) : this(fur.position,fur.rotation,fur.scale,fur.color, fur.roomId){
         id = fur.id
-        defaultScale = fur.defaultScale
         type=fur.type
         roomId=fur.roomId
-        unityFuncName=fur.unityFuncName
+        unityType=fur.unityType
         freeScale=fur.freeScale
     }
     init {
-        unityFuncName = "addNewCloset"
         type = "Closet"
         this.roomId = roomId
-        defaultScale = Point3D(scale)
-    }
+        unityType = typeMap[1]!!    }
 
     companion object {
         val typeMap = mapOf<Int, FurnitureType>(
-            1 to FurnitureType("Small", R.id.save_scale_type, Point3D(   150f,	200f	,50f), "addNewClosetTypeOne"),
-            2 to FurnitureType("Medium", R.id.save_scale_type, Point3D(200f	,200f	,70f), "addNewClosetTypeTwo"),
-            3 to FurnitureType("Large" , R.id.save_scale_type, Point3D(75f,	200f,	55f), "addNewClosetTypeThree")
+            1 to FurnitureType("Small", R.id.save_scale_type, Point3D(   150f,	200f	,50f), "addNewClosetTypeOne",1),
+            2 to FurnitureType("Medium", R.id.save_scale_type, Point3D(200f	,200f	,70f), "addNewClosetTypeTwo",2),
+            3 to FurnitureType("Large" , R.id.save_scale_type, Point3D(75f,	200f,	55f), "addNewClosetTypeThree",3)
         )
 
     }
