@@ -16,7 +16,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         // IMPORTANT: CHANGE TO YOUR FILE PATH TO UNITY NDK
-        ndkPath = "C:\\Users\\tamar\\AndroidStudioProjects\\RoomInnFinal\\tools\\NDK" // Point to your own NDK
+        ndkPath = "C:\\Users\\danie\\AndroidStudioProjects\\final_project4.0\\tools\\NDK" // Point to your own NDK
 
     }
 
@@ -61,6 +61,7 @@ dependencies {
     implementation 'com.github.duanhong169:colorpicker:1.1.6'
     // P.S: For Android Studio versions below 3.0, use compile keyword
     implementation 'com.shobhitpuri.custombuttons:google-signin:1.0.0'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17'
 
     implementation project(':unityLibrary')
     implementation fileTree(dir: project(':unityLibrary').getProjectDir().toString() + ('\\libs'), include: ['*.jar'])
