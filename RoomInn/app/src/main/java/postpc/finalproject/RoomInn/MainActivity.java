@@ -8,13 +8,6 @@ import androidx.lifecycle.ViewModelProvider;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
-
-import com.facebook.AccessToken;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel;
 import postpc.finalproject.RoomInn.models.LoadingStage;

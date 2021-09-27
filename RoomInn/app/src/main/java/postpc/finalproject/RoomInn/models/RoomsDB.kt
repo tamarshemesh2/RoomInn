@@ -1,5 +1,6 @@
 package postpc.finalproject.RoomInn.models
 
+import android.app.Activity
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.*
@@ -44,7 +45,6 @@ class RoomsDB(val context: Context) {
             .document(id)
 
         // TODO: remove this lines:
-        user.roomsList = mutableListOf("project 1", "project 2", "project 3")
         val room1 = Room()
         room1.Corners = mutableListOf(
             Point3D(5f, 5f, 5f),
@@ -145,7 +145,6 @@ class RoomsDB(val context: Context) {
                 createNewUser(id)
                 isInitialized = true
             }
-            setRoomsListListener()
         }
             .addOnFailureListener {
                 userLoadingStage.value = LoadingStage.FAILURE
@@ -159,22 +158,23 @@ class RoomsDB(val context: Context) {
     }
 
     fun updateRoom(room: Room) {
+        roomsMap[room.name] = room
         firebase.collection("rooms").document(room.id).set(room)
     }
 
     fun createNewRoom(room: Room) {
         updateRoom(room)
+        roomToFurnitureMap[room.id] = mutableListOf()
         rooms.value!!.add(room.name)
+        roomListChanged()
         Log.d("Rooms List: ", "list form createRoom is ${rooms.value}.")
     }
 
-    fun setRoomsListListener() {
-        rooms.observeForever {
-            Log.d("rooms", it.toString())
-            user.roomsList = it
-            roomsListenerLambda()
-            firebase.collection("users").document(user.id).set(user)
-        }
+    fun roomListChanged() {
+        Log.d("rooms", rooms.value!!.toString())
+        user.roomsList = rooms.value!!
+        roomsListenerLambda()
+        firebase.collection("users").document(user.id).set(user)
     }
 
     /**
@@ -355,12 +355,10 @@ class RoomsDB(val context: Context) {
         for (i in rooms.value!!.indices) {
             if (rooms.value!![i] == oldRoomName) {
                 rooms.value!![i] = newRoomName
+                roomListChanged()
                 break
             }
         }
-        user.roomsList = rooms.value!!
-        roomsListenerLambda()
-        firebase.collection("users").document(user.id).update("roomsList", user.roomsList)
 
 
         // if room was loaded before, change room map and firebase room name :
@@ -400,9 +398,7 @@ class RoomsDB(val context: Context) {
 
     fun deleteRoom(roomName: String) {
         rooms.value!!.remove(roomName)   // the observer of rooms should update the remote DB and the adapter
-        user.roomsList = rooms.value!!
-        roomsListenerLambda()
-        firebase.collection("users").document(user.id).update("roomsList", user.roomsList)
+        roomListChanged()
 
         // if room is already loaded, delete it from map and remote DB
         if (roomName in roomsMap) {

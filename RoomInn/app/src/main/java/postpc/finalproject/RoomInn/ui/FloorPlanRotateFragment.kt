@@ -83,7 +83,7 @@ class FloorPlanRotateFragment : Fragment() {
 
                 //TODO: comment the next lines
 
-                val room2 = Room()
+                val room2 = Room(userId = RoomInnApplication.getInstance().getRoomsDB().user.id)
                 room2.Corners = mutableListOf(
                     Point3D(
                         -0.015324175357818604f,
