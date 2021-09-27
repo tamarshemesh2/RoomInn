@@ -2,12 +2,15 @@ package postpc.finalproject.RoomInn.ui
 
 import android.os.Bundle
 import android.util.Log
-import postpc.finalproject.RoomInn.furnitureData.Wall
 import com.unity3d.player.UnityPlayer
 import com.unity3d.player.UnityPlayerActivity
 import postpc.finalproject.RoomInn.Room
-import postpc.finalproject.RoomInn.furnitureData.*
+import postpc.finalproject.RoomInn.furnitureData.Door
+import postpc.finalproject.RoomInn.furnitureData.Furniture
+import postpc.finalproject.RoomInn.furnitureData.Wall
+import postpc.finalproject.RoomInn.furnitureData.Window
 import postpc.finalproject.RoomInn.models.RoomInnApplication
+import postpc.finalproject.RoomInn.models.RoomInnApplication.Companion.getInstance
 
 
 class MainUnityPlayerActivity : UnityPlayerActivity() {
@@ -18,6 +21,8 @@ class MainUnityPlayerActivity : UnityPlayerActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getInstance().pathToUnity.value =
+            UnityPlayer.currentActivity.getExternalFilesDir("")!!.absolutePath + "/"
         val sceneIndex = intent.getStringExtra("Scene Index")
         if (sceneIndex == ScanUnityPlayerActivity.sceneIndex) {
             UnityPlayer.UnitySendMessage(
