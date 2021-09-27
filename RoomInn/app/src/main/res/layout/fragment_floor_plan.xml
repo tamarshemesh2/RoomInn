@@ -61,27 +61,27 @@
             app:layout_constraintTop_toTopOf="@id/titleTextView"
             android:visibility="gone"/>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/undoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            app:layout_constraintBottom_toTopOf="@id/playButton"
-            app:layout_constraintEnd_toStartOf="@id/addButton"
-            app:layout_constraintTop_toBottomOf="@id/addButton"
-            app:maxImageSize="50dp"
-            app:srcCompat="@drawable/ic_round_undo_24" />
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/undoButton"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toTopOf="@id/playButton"-->
+<!--            app:layout_constraintEnd_toStartOf="@id/addButton"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/addButton"-->
+<!--            app:maxImageSize="50dp"-->
+<!--            app:srcCompat="@drawable/ic_round_undo_24" />-->
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/redoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            app:layout_constraintBottom_toTopOf="@id/playButton"
-            app:layout_constraintStart_toEndOf="@id/addButton"
-            app:layout_constraintTop_toBottomOf="@id/addButton"
-            app:maxImageSize="50dp"
-            app:srcCompat="@drawable/ic_round_redo_24" />
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/redoButton"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:clickable="true"-->
+<!--            app:layout_constraintBottom_toTopOf="@id/playButton"-->
+<!--            app:layout_constraintStart_toEndOf="@id/addButton"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/addButton"-->
+<!--            app:maxImageSize="50dp"-->
+<!--            app:srcCompat="@drawable/ic_round_redo_24" />-->
 
         <ImageButton
             android:id="@+id/addButton"

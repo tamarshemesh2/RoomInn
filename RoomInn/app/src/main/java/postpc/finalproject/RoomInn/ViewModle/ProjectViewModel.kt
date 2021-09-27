@@ -61,42 +61,11 @@ class ProjectViewModel : ViewModel() {
             getInstance().pathToUnity.observeForever {
                 if (it != "") {
                     Log.e("work it", it)
-                    val observer = object : FileObserver(it) {
-                        // set up a file observer to watch this directory on sd card
-                        override fun onEvent(event: Int, file: String?) {
-                            //if(event == FileObserver.CREATE && !file.equals(".probe")){ // check if its a "create" and not equal to .probe because thats created every time camera is launched
-                            if (file == pointsPathName || file == distancesPathName) {
-                                val distances =
-                                    getInstance().readFromFileToFloats(distancesPathName)
-                                val corners =
-                                    getInstance().readFromFileToPoints(pointsPathName)
-                                val walls = createWalls(corners, distances)
-                                room = Room(corners,walls)
-                            }
-                        }
-                    }
-                    observer.startWatching() //START OBSERVING
 
                 }
             }
         }
     }
 
-    fun createWalls(
-        corners: MutableList<Point3D>,
-        distances: MutableList<Float>
-    ): MutableList<Wall> {
-        val walls = mutableListOf<Wall>()
-        for (i in 1..distances.size) {
-            var wall = Wall()
-            wall.position =
-                Point3D(corners[i - 1].add(corners[i]).multiply(0.5f)).apply { this.y = 0f }
-            wall.scale = Point3D(distances[i - 1], 270f, 25f)
-            val sinY =
-                Point3D(corners[i - 1]).add(Point3D(corners[i]).multiply(-1f)).x / distances[i - 1]
-            wall.rotation = Point3D(0f, asin(sinY) * (180 / PI).toFloat(), 0f)
-            walls.add(wall)
-        }
-        return walls
-    }
+
 }

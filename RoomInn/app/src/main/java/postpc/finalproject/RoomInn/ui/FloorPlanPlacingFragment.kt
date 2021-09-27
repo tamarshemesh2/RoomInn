@@ -68,7 +68,6 @@ class FloorPlanPlacingFragment : Fragment() {
 
                 //TODO: find a way to call those lines only after unity is closed
 
-//                val corners = app.readFromFileToPoints(pointsPathName)
 //                val distances = app.readFromFileToFloats(distancesPathName)
 //                val walls = projectViewModel.createWalls(corners, distances)
 //                projectViewModel.room = Room(corners,walls)

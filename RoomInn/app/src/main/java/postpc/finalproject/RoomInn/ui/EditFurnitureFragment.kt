@@ -97,23 +97,24 @@ class EditFurnitureFragment : Fragment() {
                 renderDrawing(furniture, furnitureCanvas)
             }
         })
-//        furnitureCanvas.rotation = furniture.rotation.y
-////        todo: make the map or something better and undo comment
-//        val typeMap: Map<Int,FurnitureType>? = (when (furniture.type) {
-//            ("Chair") -> Chair.typeMap
-//            ("Bed") -> Bed.typeMap
-//            ("Closet") -> Closet.typeMap
-//            ("Couch") -> Couch.typeMap
-//            ("Table") -> Table.typeMap
-//            ("Dresser") -> Dresser.typeMap
-//            else -> null
-//        })
-//        if (typeMap!=null){
-//        furnitureImageView.setImageResource(typeMap[furniture.unityType.key]!!.typeRecID)
-//        furnitureImageView.setOnClickListener {
-//            Navigation.findNavController(it)
-//                .navigate(R.id.action_editFurnitureFragment_to_chooseFurnitureTypeFragment)
-//        }}
+        furnitureCanvas.rotation = furniture.rotation.y
+//        todo: make the map or something better and undo comment
+        val typeMap: Map<Int,FurnitureType>? = (when (furniture.type) {
+            ("Chair") -> Chair.typeMap
+            ("Armchair") -> Armchair.typeMap
+            ("Bed") -> Bed.typeMap
+            ("Closet") -> Closet.typeMap
+            ("Couch") -> Couch.typeMap
+            ("Table") -> Table.typeMap
+            ("Dresser") -> Dresser.typeMap
+            else -> null
+        })
+        if (typeMap!=null){
+        furnitureImageView.setImageResource(typeMap[furniture.unityType.key]!!.typeRecID)
+        furnitureImageView.setOnClickListener {
+            Navigation.findNavController(it)
+                .navigate(R.id.action_editFurnitureFragment_to_chooseFurnitureTypeFragment)
+        }}
 
         colorBtn.setColorFilter(furniture.color)
         widthEditText.setText(furniture.scale.x.toString())
@@ -160,22 +161,14 @@ class EditFurnitureFragment : Fragment() {
             rotateEditText.setText(furniture.rotation.y.toString())
             furnitureCanvas.rotation = furniture.rotation.y
         }
-        widthEditText.doOnTextChanged { txt, _, _, _ ->
-            furniture.scale.x = txt.toString().toFloat()
-            renderDrawing(furniture, furnitureCanvas)
-        }
-        heightEditText.doOnTextChanged { txt, _, _, _ ->
-            furniture.scale.y = txt.toString().toFloat()
-            renderDrawing(furniture, furnitureCanvas)
-        }
 
-        lengthEditText.doOnTextChanged { txt, _, _, _ ->
-            furniture.scale.z = txt.toString().toFloat()
-            renderDrawing(furniture, furnitureCanvas)
-        }
 
         rotateEditText.doOnTextChanged { txt, _, _, _ ->
-            furniture.rotation.y = txt.toString().toFloat() % 360
+            var num = txt.toString()
+            if (num==""){
+                num="0"
+            }
+            furniture.rotation.y = num.toFloat() % 360
             furnitureCanvas.rotation = furniture.rotation.y
         }
 
@@ -193,6 +186,16 @@ class EditFurnitureFragment : Fragment() {
         }
 
         saveFab.setOnClickListener {
+            if (lengthEditText.text.isEmpty()){
+                lengthEditText.setText("0")
+            }
+            if (heightEditText.text.isEmpty()){
+                heightEditText.setText("0")
+            }
+            if (widthEditText.text.isEmpty()){
+                widthEditText.setText("0")
+            }
+
             if (furniture.type == "Window") {
                 furniture.position.y = lengthEditText.text.toString().toFloat()
             } else {

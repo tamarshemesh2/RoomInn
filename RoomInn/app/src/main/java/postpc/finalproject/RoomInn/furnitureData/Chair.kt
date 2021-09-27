@@ -7,7 +7,7 @@ import postpc.finalproject.RoomInn.R
 class Chair(
     position: Point3D = Point3D(),
     rotation: Point3D = Point3D(),
-    scale: Point3D = Point3D(75f, 110f, 75f),
+    scale: Point3D = Point3D(Armchair.typeMap[1]!!.defaultScale),
     color: Int = Color.GRAY,
     roomId: String = ""
 ) : Furniture(position, rotation, scale, color) {
@@ -29,8 +29,8 @@ class Chair(
     companion object {
         val typeMap = mapOf<Int, FurnitureType>(
             1 to FurnitureType("Executive", R.drawable.chair1, Point3D(75f	,110f	,75f), "addNewChairTypeOne",1),
-            2 to FurnitureType("Urban", R.drawable.chair2, Point3D(50f	,105f	,55f), "addNewChairTypeTwo",2),
-            3 to FurnitureType("Standard" , R.drawable.chair3, Point3D(60f,	90f	,70f), "addNewChairTypeThree",3)
+            2 to FurnitureType("Standard", R.drawable.chair2, Point3D(50f	,105f	,55f), "addNewChairTypeTwo",2),
+            3 to FurnitureType("Urban" , R.drawable.chair3, Point3D(60f,	90f	,70f), "addNewChairTypeThree",3)
         )
 
     }

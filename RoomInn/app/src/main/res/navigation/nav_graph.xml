@@ -45,7 +45,10 @@
 
         <action
             android:id="@+id/action_addFurnitureFragment2_to_chooseFurnitureTypeFragment"
-            app:destination="@id/chooseFurnitureTypeFragment" />
+            app:destination="@id/chooseFurnitureTypeFragment"
+            app:popUpTo="@id/chooseFurnitureTypeFragment"
+            app:popUpToInclusive="true"
+            />
         <action
             android:id="@+id/action_addFurnitureFragment2_to_editFurnitureFragment"
             app:destination="@id/editFurnitureFragment" />
@@ -67,7 +70,9 @@
             app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_editFurnitureFragment_to_chooseFurnitureTypeFragment"
-            app:destination="@id/chooseFurnitureTypeFragment" />
+            app:destination="@id/chooseFurnitureTypeFragment"
+            app:popUpTo="@id/chooseFurnitureTypeFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/floorPlanPlacingFragment"
@@ -89,7 +94,9 @@
         android:label="ChooseFurnitureTypeFragment" >
         <action
             android:id="@+id/action_chooseFurnitureTypeFragment_to_editFurnitureFragment"
-            app:destination="@id/editFurnitureFragment" />
+            app:destination="@id/editFurnitureFragment"
+            app:popUpTo="@id/editFurnitureFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/floorPlanRotateFragment"
@@ -98,5 +105,11 @@
         <action
             android:id="@+id/action_floorPlanRotateFragment_to_floorPlanPlacingFragment"
             app:destination="@id/floorPlanPlacingFragment" />
+        <action
+            android:id="@+id/action_floorPlanRotateFragment_to_profileFragment2"
+            app:destination="@id/profileFragment2"
+            app:popUpTo="@id/profileFragment2"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 </navigation>

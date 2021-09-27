@@ -60,9 +60,13 @@ class FloorPlanRotateFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val app = RoomInnApplication.getInstance()
+
+        var corners = app.readFromFileToPoints(projectViewModel.pointsPathName)
 
         super.onViewCreated(view, savedInstanceState)
         this.activity?.window?.decorView?.layoutDirection = View.LAYOUT_DIRECTION_LTR;
+
 
         val roomCanvas = view.findViewById<RoomCanvas>(R.id.room_canvas)
         val rotateRightBtn = view.findViewById<ImageButton>(R.id.rotateRight)
@@ -70,7 +74,7 @@ class FloorPlanRotateFragment : Fragment() {
         val rotateEditText = view.findViewById<EditText>(R.id.rotateEditText)
         val projectNameEditText = view.findViewById<EditText>(R.id.giveProjectNameEditText)
         val doneFab = view.findViewById<FloatingActionButton>(R.id.done_fab)
-        val roomsDB = RoomInnApplication.getInstance().getRoomsDB()
+        val roomsDB = app.getRoomsDB()
 
         val vto = roomCanvas.viewTreeObserver
         vto.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
@@ -80,34 +84,37 @@ class FloorPlanRotateFragment : Fragment() {
             override fun onGlobalLayout() {
                 roomCanvas.viewTreeObserver
                     .removeOnGlobalLayoutListener(this)
+                if (corners.size <2){
+                    //TODO: comment the next lines
+                    corners = mutableListOf(
+                        Point3D(
+                            -0.015324175357818604f,
+                            -0.8654714822769165f,
+                            1.9097247123718262f
+                        ).multiply(100f),
+                        Point3D(
+                            0.8313037157058716f,
+                            -1.3702747821807862f,
+                            -0.5127741098403931f
+                        ).multiply(100f),
+                        Point3D(
+                            -2.139707326889038f,
+                            -0.8447096347808838f,
+                            -1.2366341352462769f
+                        ).multiply(100f),
+                        Point3D(
+                            -2.084784984588623f,
+                            -0.5958563089370728f,
+                            1.5056521892547608f
+                        ).multiply(100f)
+                    )
+                    //todo -- stop comment here and uncomment the next
 
-                //TODO: comment the next lines
+//                    Navigation.findNavController(view).navigate(R.id.action_floorPlanRotateFragment_to_profileFragment2)
+                }
+                val room = Room(Corners = corners, userId = roomsDB.user.id)
 
-                val room2 = Room(userId = RoomInnApplication.getInstance().getRoomsDB().user.id)
-                room2.Corners = mutableListOf(
-                    Point3D(
-                        -0.015324175357818604f,
-                        -0.8654714822769165f,
-                        1.9097247123718262f
-                    ).multiply(100f),
-                    Point3D(
-                        0.8313037157058716f,
-                        -1.3702747821807862f,
-                        -0.5127741098403931f
-                    ).multiply(100f),
-                    Point3D(
-                        -2.139707326889038f,
-                        -0.8447096347808838f,
-                        -1.2366341352462769f
-                    ).multiply(100f),
-                    Point3D(
-                        -2.084784984588623f,
-                        -0.5958563089370728f,
-                        1.5056521892547608f
-                    ).multiply(100f)
-                )
-                projectViewModel.room = room2
-                //todo -- stop comment here
+                projectViewModel.room = room
                 val minSize = min(roomCanvas.measuredWidth, roomCanvas.measuredHeight)
 
                 roomCanvas.setPath(

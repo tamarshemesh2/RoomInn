@@ -9,7 +9,7 @@ import java.util.*
 class Bed(
     position: Point3D = Point3D(),
     rotation: Point3D = Point3D(),
-    scale: Point3D = Point3D(150f, 50f, 200f),
+    scale: Point3D = Point3D(Armchair.typeMap[1]!!.defaultScale),
     color: Int = Color.GRAY,
     roomId: String = ""
 ) : Furniture(position, rotation, scale, color) {
@@ -48,9 +48,20 @@ class Bed(
             (scale.z * sizeHeight).toFloat() / 15,
             Path.Direction.CCW
         )
+        if (unityType.typeName=="Single"){
+            path.addRoundRect(
+                margin,
+                3*margin,
+                ((scale.x * sizeWidth) + margin),
+                (scale.z * sizeHeight + margin) / 2.5f,
+                (scale.x * sizeWidth)/ 5,
+                (scale.z * sizeHeight) / 5,
+                Path.Direction.CCW
+            )}else{
+
         path.addRoundRect(
             margin,
-            margin,
+            3*margin,
             ((scale.x * sizeWidth / 2f) + margin),
             (scale.z * sizeHeight + margin) / 2.5f,
             (scale.x * sizeWidth)/ 5,
@@ -59,13 +70,13 @@ class Bed(
         )
         path.addRoundRect(
             ((scale.x * sizeHeight) / 2) + margin,
-            margin,
+            3*margin,
             ((scale.x * sizeWidth) + margin),
             (scale.z * sizeHeight + margin) / 2.5f,
             (scale.x * sizeWidth) / 5,
             (scale.z * sizeHeight) / 5,
             Path.Direction.CCW
-        )
+        )}
         path.moveTo(margin,(scale.z * sizeHeight + margin) / 2f)
         path.lineTo(((scale.x * sizeWidth) + margin),(scale.z * sizeHeight + margin) / 2f)
         return path

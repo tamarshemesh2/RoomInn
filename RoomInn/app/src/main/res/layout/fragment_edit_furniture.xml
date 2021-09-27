@@ -33,10 +33,10 @@
 
     <ImageView
         android:id="@+id/furniture_render_img"
-        android:layout_width="160dp"
+        android:layout_width="0dp"
         android:layout_height="160dp"
-        android:layout_marginTop="32dp"
         android:src="@drawable/ic_baseline_camera_alt_24"
+        android:paddingEnd="16dp"
         app:layout_constraintEnd_toStartOf="@id/furniture_img"
         app:layout_constraintStart_toStartOf="@id/edit_title"
         app:layout_constraintTop_toBottomOf="@id/edit_title" />

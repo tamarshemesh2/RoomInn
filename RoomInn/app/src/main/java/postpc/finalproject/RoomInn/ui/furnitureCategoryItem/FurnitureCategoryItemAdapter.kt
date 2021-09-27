@@ -33,6 +33,7 @@ class FurnitureCategoryItemAdapter : RecyclerView.Adapter<FurnitureCategoryItemH
     fun setItems(items: Map<String, Furniture>) {
         _category.clear()
         items.forEach { _category.add(FurnitureCategoryItem(it.key, it.value)) }
+        _category.sortBy { it.furnitureCategory }
         notifyDataSetChanged()
     }
 
@@ -71,10 +72,10 @@ class FurnitureCategoryItemAdapter : RecyclerView.Adapter<FurnitureCategoryItemH
         holder.bg.setOnClickListener {
             projectViewModel.furniture = furnitureClass
             //todo- after all maps of rendering are working - unComment it
-//            Navigation.findNavController(it)
-//                .navigate(R.id.action_addFurnitureFragment2_to_chooseFurnitureTypeFragment)
             Navigation.findNavController(it)
-                .navigate(R.id.action_addFurnitureFragment2_to_editFurnitureFragment)
+                .navigate(R.id.action_addFurnitureFragment2_to_chooseFurnitureTypeFragment)
+//            Navigation.findNavController(it)
+//                .navigate(R.id.action_addFurnitureFragment2_to_editFurnitureFragment)
         }
     }
 

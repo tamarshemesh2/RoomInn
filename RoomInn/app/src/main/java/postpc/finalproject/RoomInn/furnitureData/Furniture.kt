@@ -16,19 +16,18 @@ abstract class Furniture(
     var color: Int = Color.GRAY,
     var id: String = UUID.randomUUID().toString(),
 ) {
-    var unityType : FurnitureType = FurnitureType()
+    var unityType: FurnitureType = FurnitureType()
     var type: String = "unknown"
     var roomId: String = "unknown"
     var freeScale: Boolean = false
+
     //copy constructor
-    constructor(fur:Furniture) : this(fur.position,fur.rotation,fur.scale,fur.color, fur.id){
-        type=fur.type
+    constructor(fur: Furniture) : this(fur.position, fur.rotation, fur.scale, fur.color, fur.id) {
+        type = fur.type
         unityType = fur.unityType
-        roomId=fur.roomId
-        freeScale=fur.freeScale
+        roomId = fur.roomId
+        freeScale = fur.freeScale
     }
-
-
 
     open fun scale(
         scaleFactor: Float,
@@ -64,6 +63,17 @@ abstract class Furniture(
 
     open fun unityScale(): Point3D {
         return scale.getDivideByPoint(unityType.defaultScale)
+    }
+
+    fun toExportString(): String {
+        val furName:String = if (unityType.typeName.contains(type)) {
+            unityType.typeName
+        } else {
+            unityType.typeName + "-" + type
+        }
+        val hexColor = String.format("#%06X", 0xFFFFFF and this.color)
+        return "*"+furName + "* >>> width: ${scale.x}cm, length: ${scale.z}cm, height: ${scale.y}cm," +
+                "\n Color: https://www.color-hex.com/color/$hexColor"
     }
 
     open fun unityPosition(): Point3D {
