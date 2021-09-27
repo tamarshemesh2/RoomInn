@@ -12,7 +12,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="80dp"
         android:layout_marginTop="32dp"
+        android:fontFamily="@font/dosis_medium"
         android:text="i'm ready!"
+        android:textStyle="bold"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -25,13 +28,33 @@
         android:layout_height="wrap_content"
         android:text="scan your room:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/project_name"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginTop="32dp"
-        android:textColor="@color/black"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/lobster"
+        android:textStyle="bold"
+        android:textColor="@color/dark_purple"
         android:textSize="40dp"/>
+
+    <EditText
+        android:id="@+id/project_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:autofillHints="project name"
+        android:cursorVisible="true"
+        android:fontFamily="@font/dosis_medium"
+        android:hint="project name"
+        android:textColorHint="#818180"
+        android:text=""
+        android:textSize="24dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toTopOf="@id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/gif"
@@ -57,6 +80,8 @@
             recent marker\n
         5. tap done when done\n
             measuring room"
+        android:fontFamily="@font/dosis_medium"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/gif"
         app:layout_constraintTop_toBottomOf="@id/gif"
         app:layout_constraintEnd_toEndOf="@id/gif"
