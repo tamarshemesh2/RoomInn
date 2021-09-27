@@ -2,19 +2,35 @@ package postpc.finalproject.RoomInn.furnitureData
 
 import android.graphics.Color
 import android.graphics.Path
+import postpc.finalproject.RoomInn.R
 
 class Closet(
     position: Point3D = Point3D(),
     rotation: Point3D = Point3D(),
-    scale: Point3D = Point3D(150f, 180f, 50f),
+    scale: Point3D = Point3D(150f, 200f, 50f),
     color: Int = Color.GRAY,
     roomId: String = ""
 ) : Furniture(position, rotation, scale, color) {
+    //copy constructor
+    constructor(fur:Closet) : this(fur.position,fur.rotation,fur.scale,fur.color, fur.roomId){
+        id = fur.id
+        type=fur.type
+        roomId=fur.roomId
+        unityType=fur.unityType
+        freeScale=fur.freeScale
+    }
     init {
-        unityFuncName = "addNewCloset"
         type = "Closet"
         this.roomId = roomId
-        defaultScale = Point3D(scale)
+        unityType = typeMap[1]!!    }
+
+    companion object {
+        val typeMap = mapOf<Int, FurnitureType>(
+            1 to FurnitureType("Small", R.drawable.closet1, Point3D(   150f,	200f	,50f), "addNewClosetTypeOne",1),
+            2 to FurnitureType("Medium", R.drawable.closet2, Point3D(200f	,200f	,70f), "addNewClosetTypeTwo",2),
+            3 to FurnitureType("Large" , R.drawable.closet3, Point3D(75f,	200f,	55f), "addNewClosetTypeThree",3)
+        )
+
     }
 
 

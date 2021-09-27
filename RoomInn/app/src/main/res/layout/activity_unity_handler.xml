@@ -4,16 +4,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.UnityHandler">
+    tools:context=".ui.ScanUnityHandler">
 
     <Button
         android:id="@+id/startUnityButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="80dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/dosis_medium"
+        android:text="i'm ready!"
+        android:textStyle="bold"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@id/instructions" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="scan your room:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/project_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/lobster"
+        android:textStyle="bold"
+        android:textColor="@color/dark_purple"
+        android:textSize="40dp"/>
+
+    <EditText
+        android:id="@+id/project_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:autofillHints="project name"
+        android:cursorVisible="true"
+        android:fontFamily="@font/dosis_medium"
+        android:hint="project name"
+        android:textColorHint="#818180"
+        android:text=""
+        android:textSize="24dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toTopOf="@id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gif"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:src="@drawable/room_scan_gif2"
+        app:layout_constraintBottom_toTopOf="@id/instructions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView"
+        app:layout_constraintVertical_bias="0.2" />
+
+    <TextView
+        android:id="@+id/instructions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="
+        1. move phone around the room\n
+            to detect floor plane\n
+        2. tap to place markers\n
+        3. tap a marker and drag to move\n
+        4. tap undo to erase most\n
+            recent marker\n
+        5. tap done when done\n
+            measuring room"
+        android:fontFamily="@font/dosis_medium"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/gif"
+        app:layout_constraintTop_toBottomOf="@id/gif"
+        app:layout_constraintEnd_toEndOf="@id/gif"
+        app:layout_constraintBottom_toTopOf="@id/startUnityButton"
+        android:textColor="@color/black"
+        android:textSize="20dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,19 +10,24 @@ import postpc.finalproject.RoomInn.furnitureData.*
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 
 
-class RoomUnityPlayerActivity : UnityPlayerActivity() {
+class MainUnityPlayerActivity : UnityPlayerActivity() {
 
-    companion object{
-        val sceneIndex = "1"
+    companion object {
+        val sceneIndex = "0"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val roomName = intent.getStringExtra("Room Name")
-        val roomDB = RoomInnApplication.getInstance().getRoomsDB()
-        UnityPlayer.UnitySendMessage("GameObject", "loadScene", sceneIndex)
-
-        Log.e("roomid", roomDB.toString())
+        val sceneIndex = intent.getStringExtra("Scene Index")
+        if (sceneIndex == ScanUnityPlayerActivity.sceneIndex) {
+            UnityPlayer.UnitySendMessage(
+                "SceneLoader",
+                "loadScene",
+                ScanUnityPlayerActivity.sceneIndex
+            )
+        } else {
+            val roomName = intent.getStringExtra("Room Name")
+            val roomDB = RoomInnApplication.getInstance().getRoomsDB()
 
         // render the walls.
         renderWalls(roomDB.wallsByRoomName(roomName!!))
@@ -35,9 +40,7 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
 
         // render the windows.
         renderWindows(roomDB.windowsByRoomName(roomName))
-
-
-
+        }
 
 
 //        val wallList: MutableList<Wall> = mutableListOf()
@@ -59,34 +62,45 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
 
     private fun renderWalls(wallList: MutableList<Wall>) {
         for (wall in wallList) {
-            UnityPlayer.UnitySendMessage("FPSController", "addNewWall", wall.toString())
+            Log.e("Wall", wall.toString())
+            UnityPlayer.UnitySendMessage("RigidBodyFPSController", "addNewWall", wall.toString())
         }
     }
 
     private fun updateCeiling(room: Room) {
-        UnityPlayer.UnitySendMessage("FPSController", "updateCeillingHight", "0.6")
+        UnityPlayer.UnitySendMessage("RigidBodyFPSController", "updateCeillingHight", "0.6")
     }
 
     private fun renderFurniture(furnitureList: MutableList<Furniture>) {
         for (furniture in furnitureList) {
-            Log.e("funiture",furniture.toString() )
-            UnityPlayer.UnitySendMessage(
-                "FPSController",
-                furniture.unityFuncName,
+            Log.e("funiture", furniture.toString())
+            UnityPlayer.UnitySendMessage("RigidBodyFPSController", furniture.unityType.unityFuncName,
                 furniture.toString()
             )
         }
     }
 
-    private fun renderDoors(doorList: MutableList<Door>) {
-        for (door in doorList) {
-            UnityPlayer.UnitySendMessage("FPSController", "addNewDoor", door.toString())
-        }
-    }
 
-    private fun renderWindows(windowList: MutableList<Window>) {
-        for (window in windowList) {
-            UnityPlayer.UnitySendMessage("FPSController", "addNewWindow", window.toString())
+//        UnityPlayer.UnitySendMessage(
+//            "RigidBodyFPSController",
+//            "addNewBed",
+//            "(0,0,0)" + "\n" +
+//                    "(0,0,0)" + "\n" +
+//                    "(1.0,0.5,1.0)" + "\n" +
+//                    "368")
+
+
+        private fun renderDoors(doorList: MutableList<Door>) {
+            for (door in doorList) {
+                Log.e("Door", door.toString())
+                UnityPlayer.UnitySendMessage("RigidBodyFPSController", "addNewDoor", door.toString())
+            }
+        }
+
+        private fun renderWindows(windowList: MutableList<Window>) {
+            for (window in windowList) {
+                Log.e("Window", window.toString())
+                UnityPlayer.UnitySendMessage("RigidBodyFPSController", "addNewWindow", window.toString())
+            }
         }
     }
-}

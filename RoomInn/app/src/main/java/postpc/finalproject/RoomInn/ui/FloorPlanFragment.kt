@@ -2,10 +2,7 @@ package postpc.finalproject.RoomInn.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Rect
-import android.graphics.RectF
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +11,7 @@ import android.widget.*
 
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -58,12 +56,13 @@ class FloorPlanFragment : Fragment() {
 
         // TODO: finish finding all the views
         // find all views
-        val roomCanvas: View? = view.findViewById(R.id.floorPlan)
+        val roomCanvas: FragmentContainerView = view.findViewById(R.id.floorPlan)
         val roomLayout: RelativeLayout = view.findViewById(R.id.floorPlanLayout)
         val roomTitle: TextView = view.findViewById(R.id.titleTextView)
-        val eraseImg: ImageView = view.findViewById(R.id.deleteImageView)
         val addFab: ImageButton = view.findViewById(R.id.addButton)
         val playButton: FloatingActionButton = view.findViewById(R.id.playButton)
+        val redoButton: FloatingActionButton = view.findViewById(R.id.redoButton)
+        val undoButton: FloatingActionButton = view.findViewById(R.id.undoButton)
         var toAddFurniture = false
         //add all furniture to board
 
@@ -75,11 +74,12 @@ class FloorPlanFragment : Fragment() {
         roomTitle.text = "${projectViewModel.projectName} \n- Floor Plan"
 
         playButton.setOnClickListener {
-            val intent = Intent(context, UnityHandler::class.java)
-            intent.putExtra("Scene Index", RoomUnityPlayerActivity.sceneIndex)
-            intent.putExtra("Room Name", projectViewModel!!.room.name)
-            startActivity(intent)
-        }
+                var intent = Intent(context, MainUnityPlayerActivity::class.java)
+                intent.putExtra("Scene Index", MainUnityPlayerActivity.sceneIndex)
+                intent.putExtra("Room Name", projectViewModel.room.name)
+                startActivity(intent)
+
+            }
 
         val vto = roomLayout.viewTreeObserver
         vto.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -87,27 +87,39 @@ class FloorPlanFragment : Fragment() {
                 roomLayout.viewTreeObserver
                         .removeOnGlobalLayoutListener(this)
 
-                val position =
-
-
-                        roomCanvas!!.setOnTouchListener { v, event ->
-                            if (toAddFurniture) {
-                                projectViewModel.currentPosition =
-                                        Point3D(event.rawX, 0f, event.rawY).toAbsolutLocation(
-                                                projectViewModel.room.getRoomRatio(),
-                                                projectViewModel.layoutMeasures)
-                                projectViewModel.newFurniture = true
-                                Navigation.findNavController(v)
-                                        .navigate(R.id.action_floorPlanFragment_to_addFurnitureFragment2)
-                            }
-                            toAddFurniture = false
-                            return@setOnTouchListener true
-                        }
+                roomCanvas.setOnTouchListener { v, event ->
+                    if (toAddFurniture) {
+                        projectViewModel.currentPosition =
+                            Point3D(event.rawX, 0f, event.rawY).toAbsolutLocation(
+                                projectViewModel.room.getRoomRatio(),
+                                projectViewModel.layoutMeasures
+                            )
+                        projectViewModel.newFurniture = true
+                        Navigation.findNavController(v)
+                            .navigate(R.id.action_floorPlanFragment_to_addFurnitureFragment2)
+                    }
+                    toAddFurniture = false
+                    return@setOnTouchListener true
+                }
                 addFab.setOnClickListener {
-                    Toast.makeText(requireContext(),
-                            "Tap where you wish to place a new furniture",
-                            Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Tap where you wish to place a new furniture",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     toAddFurniture = true
+                }
+                undoButton.setOnClickListener {
+                    if (!projectViewModel.memoryStack.undoStep()){
+                    Toast.makeText(requireContext(),"there is no step to undo",Toast.LENGTH_SHORT).show()}
+                    projectViewModel.redoUndoPresses.value=true
+                }
+                redoButton.setOnClickListener {
+                    if(!projectViewModel.memoryStack.redoStep()){
+                        Toast.makeText(requireContext(),"there is no step to redo",Toast.LENGTH_SHORT).show()}
+                    projectViewModel.redoUndoPresses.value=true
+
+
                 }
             }
         })
@@ -115,6 +127,8 @@ class FloorPlanFragment : Fragment() {
             drawerLayout.openDrawer(GravityCompat.START)
         }
     }
+}
+
 
 //
 //    hamburger.setOnClickListener {
@@ -163,4 +177,3 @@ class FloorPlanFragment : Fragment() {
 //
 //}
 
-}

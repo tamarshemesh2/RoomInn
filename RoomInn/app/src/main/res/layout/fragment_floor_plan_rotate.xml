@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/draw_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <postpc.finalproject.RoomInn.RoomCanvas
+        android:id="@+id/room_canvas"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="81dp"
+        android:layout_marginEnd="81dp"
+        app:layout_constraintBottom_toTopOf="@id/rotateRight"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/giveProjectNameEditText" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/dosis_medium"
+        android:gravity="center"
+        android:hint="How do you want to name it?"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="@color/dark_purple"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/giveProjectNameEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/lobster"
+        android:gravity="center"
+        android:hint="Name this project"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textSize="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title" />
+
+    <EditText
+        android:id="@+id/rotateEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/dosis_medium"
+        android:gravity="center"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:inputType="numberDecimal"
+        android:text="0"
+        android:textSize="32dp"
+        app:layout_constraintEnd_toStartOf="@id/rotateRight"
+        app:layout_constraintStart_toEndOf="@id/rotateLeft"
+        app:layout_constraintBottom_toTopOf="@id/done_fab"
+        android:paddingBottom="8dp"
+        />
+
+    <ImageButton
+        android:id="@+id/rotateRight"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="@dimen/fab_margin"
+        android:background="@drawable/ic_round_redo_24"
+        android:backgroundTint="@color/orange_brown"
+        android:foregroundTint="@color/black"
+        app:layout_constraintBottom_toBottomOf="@id/done_fab"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/rotateLeft" />
+
+    <ImageButton
+        android:id="@+id/rotateLeft"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="@dimen/fab_margin"
+        android:background="@drawable/ic_round_undo_24"
+        android:backgroundTint="@color/orange_brown"
+        android:foregroundTint="@color/black"
+        app:layout_constraintBottom_toBottomOf="@id/done_fab"
+        app:layout_constraintEnd_toStartOf="@id/rotateRight"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/done_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_baseline_done_24"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/rotateRight"
+        app:layout_constraintStart_toEndOf="@id/rotateLeft" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,25 +31,26 @@ class ProjectAdapterGesturesListener(
     private val gestureDetector: GestureDetector
     fun onSwipeLeft() {
         deleteBtn.animate()
-            .translationX(-50f).setDuration(100)
-            .alpha(0f).setDuration(100)
-        deleteBtn.visibility = View.GONE
-        deleteBtn.isClickable = false
+            .translationX(-50f).setDuration(600).withEndAction {
+                deleteBtn.visibility = View.GONE
+                deleteBtn.isClickable = false
+            }.start()
+
     }
 
     fun onSwipeRight() {
         deleteBtn.animate().translationX(-50f).start()
         deleteBtn.visibility = View.VISIBLE
         deleteBtn.animate()
-                .translationX(10f).setDuration(500)
-                .withEndAction { deleteBtn.animate()
-                        .translationX(0f).setDuration(100).start() }
-        deleteBtn.isClickable = true
-        deleteBtn.setOnClickListener {
-            adapter.deleteProject(
-                    viewHolder.adapterPosition
-            )
-        }
+            .translationX(10f).setDuration(600)
+            .withEndAction {
+                deleteBtn.animate()
+                    .translationX(0f).setDuration(100).start()
+                deleteBtn.isClickable = true
+                deleteBtn.setOnClickListener {
+                    adapter.deleteProject(
+                        viewHolder.adapterPosition)}
+            }.start()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -85,10 +86,10 @@ class ProjectAdapterGesturesListener(
         }
 
         override fun onScroll(
-                e1: MotionEvent?,
-                e2: MotionEvent?,
-                distanceX: Float,
-                distanceY: Float
+            e1: MotionEvent?,
+            e2: MotionEvent?,
+            distanceX: Float,
+            distanceY: Float
         ): Boolean {
             if (e1 != null && e2 != null) {
                 val dx = e2.rawX - e1.rawX
@@ -99,10 +100,6 @@ class ProjectAdapterGesturesListener(
             }
             return super.onScroll(e1, e2, distanceX, distanceY)
         }
-
-
-        private val SWIPE_DISTANCE_THRESHOLD by lazy { 100 }
-        private val SWIPE_VELOCITY_THRESHOLD by lazy { 100 }
 
     }
 

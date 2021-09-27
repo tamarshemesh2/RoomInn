@@ -22,15 +22,24 @@
 
     <postpc.finalproject.RoomInn.FurnitureCanvas
         android:id="@+id/furniture_img"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="@dimen/fab_margin"
+        app:layout_constraintEnd_toEndOf="@id/edit_title"
+        app:layout_constraintStart_toEndOf="@id/furniture_render_img"
+        app:layout_constraintTop_toBottomOf="@id/edit_title" />
+
+
+    <ImageView
+        android:id="@+id/furniture_render_img"
         android:layout_width="160dp"
         android:layout_height="160dp"
         android:layout_marginTop="32dp"
-        android:transformPivotX="80dp"
-        android:transformPivotY="80dp"
-        app:layout_constraintEnd_toEndOf="@id/edit_title"
+        android:src="@drawable/ic_baseline_camera_alt_24"
+        app:layout_constraintEnd_toStartOf="@id/furniture_img"
         app:layout_constraintStart_toStartOf="@id/edit_title"
         app:layout_constraintTop_toBottomOf="@id/edit_title" />
-
 
     <TextView
         android:id="@+id/color_text"

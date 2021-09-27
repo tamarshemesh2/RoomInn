@@ -77,14 +77,31 @@ class RoomsDB(val context: Context) {
         room2.userId = user.id
         room1.userId = user.id
 
-        var door: Door = Door()
+        val wallList: MutableList<Wall> = mutableListOf()
+        wallList.add(Wall(Point3D(250f, 0f, 0f), Point3D(0f, 90f, 0f), Point3D(6f, 10f, 0.0001f)))
+        wallList.add(Wall(Point3D(0f, 0f, 300f), Point3D(0f, 0f, 0f), Point3D(5f, 10f, 0.0001f)))
+        wallList.add(Wall(Point3D(-250f, 0f, 0f), Point3D(0f, 90f, 0f), Point3D(6f, 10f, 0.0001f)))
+        wallList.add(Wall(Point3D(0f, 0f, -300f), Point3D(0f, 0f, 0f), Point3D(5f, 10f, 0.0001f)))
+
+        room1.Walls = wallList
+
+//        addNewDoor("(2,0,-3)\n(0,0,0)\n(1,1,1)\n-16711681");
+//        // addNewCouch("(0,0,0)\n(0,0,0)\n(1,1,1)\n-16711681");
+//        // addNewArmchair("(0,0,-1.5)\n(0,0,0)\n(1,1,1)\n-16711681");
+//        // addNewDresser("(0,0,1.5)\n(0,180,0)\n(1,1,1)\n-16711681");
+//        // addNewWindow("(2.5,-0.3,0)\n(0,0,0)\n(0.01,1,2)\n-16711681");
+
+        var door: Door = Door(Point3D(2f,0f,-3f).multiply(100f).add(room1.getRoomCenter()),Point3D(0f,0f,0f),Point3D(1f,1f,1f),0)
         var wall: Wall = Wall()
-        var window: Window = Window()
-        var window2: Window = Window()
-        window2.position.x = 10f
+        var window: Window = Window(Point3D(2.5f,-0.3f,0f).multiply(100f).add(room1.getRoomCenter()),Point3D(0f,0f,0f),Point3D(0.01f,1f,2f))
+
+        door.roomId = room1.id
+        window.roomId = room1.id
+//        var window2: Window = Window()
+//        window2.position.x = 10f
 //        room1.Walls.add(wall)
         room1.windows.add(window)
-        room1.windows.add(window2)
+//        room1.windows.add(window2)
         room1.doors.add(door)
 
         createNewRoom(room1)
@@ -254,10 +271,11 @@ class RoomsDB(val context: Context) {
         return when (doc["type"]) {
             "Bed" -> doc.toObject(Bed::class.java)
             "Chair" -> doc.toObject(Chair::class.java)
-            "Desk" -> doc.toObject(Desk::class.java)
+            "Table" -> doc.toObject(Table::class.java)
             "Closet" -> doc.toObject(Closet::class.java)
             "Couch" -> doc.toObject(Couch::class.java)
             "Dresser" -> doc.toObject(Dresser::class.java)
+            "Armchair" -> doc.toObject(Armchair::class.java)
             else -> null
         }
     }

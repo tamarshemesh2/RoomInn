@@ -30,8 +30,7 @@ class FloorPlanPlacingFragment : Fragment() {
             return FloorPlanPlacingFragment()
         }
     }
-    private val pointsPathName: String by lazy { "pointData.json" }
-    private val distancesPathName: String by lazy { "distances.json" }
+
 
     private val projectViewModel: ProjectViewModel by lazy {
         ViewModelProvider(requireActivity()).get(ProjectViewModel::class.java)
@@ -74,12 +73,12 @@ class FloorPlanPlacingFragment : Fragment() {
 //                val walls = projectViewModel.createWalls(corners, distances)
 //                projectViewModel.room = Room(corners,walls)
 
-//                roomCanvas.setPath(
-//                    projectViewModel.room.drawFloorPlan(layout.measuredWidth,layout.measuredHeight))
+                roomCanvas.setPath(
+                    projectViewModel.room.drawFloorPlan(layout.measuredWidth,layout.measuredHeight))
 
                 layout.getLocationOnScreen(projectViewModel.layoutMeasures)
 
-                val roomRatio = 1f // projectViewModel.room.getRoomRatio()
+                val roomRatio =  projectViewModel.room.getRoomRatio()
 
                 for (door in projectViewModel.doorsAndWindows) {
                     val relativeLocation =
@@ -126,6 +125,7 @@ class FloorPlanPlacingFragment : Fragment() {
                             projectViewModel.room.windows += item.furniture as Window
                         }
                     }
+                    RoomInnApplication.getInstance().getRoomsDB().updateRoom(projectViewModel.room)
                     Navigation.findNavController(view)
                         .navigate(R.id.action_floorPlanPlacingFragment_to_floorPlanFragment)
                 }

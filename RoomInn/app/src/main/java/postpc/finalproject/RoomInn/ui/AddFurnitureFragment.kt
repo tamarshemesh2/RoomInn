@@ -42,7 +42,7 @@ class AddFurnitureFragment : Fragment() {
             "Bed" to (Bed(position = Point3D(position), roomId = projectViewModel.room.id)),
             "Chair" to (Chair(position = Point3D(position), roomId = projectViewModel.room.id)),
             "Closet" to (Closet(position = Point3D(position), roomId = projectViewModel.room.id)),
-            "Desk" to (Desk(position = Point3D(position), roomId = projectViewModel.room.id)),
+            "Table" to (Table(position = Point3D(position), roomId = projectViewModel.room.id)),
             "Couch" to (Couch(position = Point3D(position), roomId = projectViewModel.room.id)),
             "Dresser" to (Dresser(position = Point3D(position), roomId = projectViewModel.room.id)),
         )

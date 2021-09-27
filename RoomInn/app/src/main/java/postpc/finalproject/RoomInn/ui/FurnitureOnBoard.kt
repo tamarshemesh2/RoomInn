@@ -28,6 +28,20 @@ class FurnitureOnBoard(
     val roomRatio = projectViewModel.room.getRoomRatio()
     private lateinit var imageView: FurnitureCanvas
 
+//
+//    fun setFurnitureOnBoard(furniture: Furniture){
+//        this.furniture = furniture
+//        val relativeLocation = furniture.position.getRelativeLocation(
+//            projectViewModel.room.getRoomRatio(),
+//            projectViewModel.layoutMeasures
+//        )
+//        furniturPos(relativeLocation.x,relativeLocation.z)
+//    }
+//
+//    fun furID(): String {
+//        return furniture.id
+//    }
+
     /* Use GestureDetectorCompat to detect general gesture take place on the image view. */
     private fun addGeneralGestureListener() {
         // This gesture listener is used with the image view.
@@ -51,12 +65,13 @@ class FurnitureOnBoard(
             }
 
             // update the furniture in the DB
+            if (furniture.type !in listOf("Window","Door")){
             val DB: RoomsDB = RoomInnApplication.getInstance().getRoomsDB()
             furniture = projectViewModel.furniture!!
             DB.furnitureMap[furniture.id] = furniture
             if (furniture.id !in DB.roomToFurnitureMap[projectViewModel.room.id]!!) {
                 DB.roomToFurnitureMap[projectViewModel.room.id]!!.add(furniture.id)
-            }
+            }}
             // Return true to tell android OS this listener has consumed the event, do not need to pass the event to other listeners.
             true
         }
@@ -67,6 +82,14 @@ class FurnitureOnBoard(
         createNewImageView()
         board.addView(imageView)
 
+        furniturPos(coorX, coorY)
+
+        if (withListeners) {
+            addGeneralGestureListener()
+        }
+    }
+
+    private fun furniturPos(coorX: Float, coorY: Float) {
         val params = imageView.layoutParams as RelativeLayout.LayoutParams
         if (furniture.type == "Door") {
             params.width = (furniture.scale.x * roomRatio).roundToInt() + margin
@@ -85,11 +108,6 @@ class FurnitureOnBoard(
         params.bottomMargin = params.topMargin + 10 * params.height
 
         imageView.rotation = furniture.rotation.y
-
-
-        if (withListeners) {
-            addGeneralGestureListener()
-        }
     }
 
     private fun createNewImageView() {

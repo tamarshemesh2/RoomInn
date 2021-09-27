@@ -2,6 +2,7 @@ package postpc.finalproject.RoomInn.furnitureData
 
 import android.graphics.Color
 import android.graphics.Path
+import android.util.Log
 import android.util.Size
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 
@@ -13,16 +14,26 @@ abstract class Furniture(
     var rotation: Point3D,
     var scale: Point3D,
     var color: Int = Color.GRAY,
-    var id: String = UUID.randomUUID().toString()
+    var id: String = UUID.randomUUID().toString(),
 ) {
-    var defaultScale = Point3D();
+    var unityType : FurnitureType = FurnitureType()
     var type: String = "unknown"
     var roomId: String = "unknown"
-    var unityFuncName: String = ""
     var freeScale: Boolean = false
+    //copy constructor
+    constructor(fur:Furniture) : this(fur.position,fur.rotation,fur.scale,fur.color, fur.id){
+        type=fur.type
+        unityType = fur.unityType
+        roomId=fur.roomId
+        freeScale=fur.freeScale
+    }
 
 
-    open fun scale(scaleFactor: Float, newPivot: Point3D = Point3D(position).add(Point3D(scale).multiply(0.5f))): Point3D {
+
+    open fun scale(
+        scaleFactor: Float,
+        newPivot: Point3D = Point3D(position).add(Point3D(scale).multiply(0.5f))
+    ): Point3D {
         // returns a Point3D item that holds the differ distance between the edges of the furniture from old to new scale
         val oldScale = Point3D(scale)
         val newScale = Point3D(scale.multiply(scaleFactor))
@@ -52,7 +63,7 @@ abstract class Furniture(
     }
 
     open fun unityScale(): Point3D {
-        return scale.getDivideByPoint(defaultScale)
+        return scale.getDivideByPoint(unityType.defaultScale)
     }
 
     open fun unityPosition(): Point3D {
@@ -67,8 +78,33 @@ abstract class Furniture(
             .getDivideByPoint(Point3D(100f, 100f, 100f)).apply { y = 0f }
     }
 
+    override fun equals(other: Any?): Boolean {
+        val o = other as Furniture
+        return (this.id == o.id) &&
+                (this.position == o.position) &&
+                (this.rotation == o.rotation) &&
+                (this.scale == o.scale) &&
+                (this.color == o.color) &&
+                (this.unityType.defaultScale == o.unityType.defaultScale) &&
+                (this.type == o.type) && (
+                this.roomId == o.roomId) &&
+                (this.unityType.defaultScale == o.unityType.defaultScale) &&
+                (this.freeScale == o.freeScale)
+    }
+
 
     abstract fun draw(sizeWidth: Float, sizeHeight: Float): Path
+    override fun hashCode(): Int {
+        var result = position.hashCode()
+        result = 31 * result + rotation.hashCode()
+        result = 31 * result + scale.hashCode()
+        result = 31 * result + color
+        result = 31 * result + id.hashCode()
+        result = 31 * result + type.hashCode()
+        result = 31 * result + roomId.hashCode()
+        result = 31 * result + freeScale.hashCode()
+        return result
+    }
 
 
 }

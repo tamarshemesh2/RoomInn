@@ -2,21 +2,38 @@ package postpc.finalproject.RoomInn.furnitureData
 
 import android.graphics.Color
 import android.graphics.Path
+import postpc.finalproject.RoomInn.R
 import java.util.*
 
 
 class Bed(
     position: Point3D = Point3D(),
     rotation: Point3D = Point3D(),
-    scale: Point3D = Point3D(150f, 40f, 200f),
+    scale: Point3D = Point3D(150f, 50f, 200f),
     color: Int = Color.GRAY,
     roomId: String = ""
 ) : Furniture(position, rotation, scale, color) {
+    //copy constructor
+    constructor(fur:Bed) : this(fur.position,fur.rotation,fur.scale,fur.color, fur.roomId){
+        id = fur.id
+        unityType = fur.unityType
+        type=fur.type
+        roomId=fur.roomId
+        freeScale=fur.freeScale
+    }
     init {
-        unityFuncName = "addNewBed"
         type = "Bed"
         this.roomId = roomId
-        defaultScale = Point3D(scale)
+        unityType = typeMap[1]!!    }
+
+
+    companion object {
+        val typeMap = mapOf<Int, FurnitureType>(
+            1 to FurnitureType("Standard", R.drawable.bed1, Point3D(   150f	,50f	,200f), "addNewBedTypeOne",1),
+            2 to FurnitureType("Fancy", R.drawable.bed2, Point3D(150f	,140f	,220f), "addNewBedTypeTwo",2),
+            3 to FurnitureType("Single" , R.drawable.bed3, Point3D(100f,	100f	,180f), "addNewBedTypeThree",3)
+        )
+
     }
 
     override fun draw(sizeWidth:Float, sizeHeight:Float): Path {

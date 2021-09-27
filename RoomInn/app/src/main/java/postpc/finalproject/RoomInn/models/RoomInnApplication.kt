@@ -1,6 +1,9 @@
 package postpc.finalproject.RoomInn.models
 
 import android.app.Application
+import android.os.FileObserver
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import postpc.finalproject.RoomInn.furnitureData.Point3D
@@ -9,8 +12,9 @@ import java.io.File
 
 
 class RoomInnApplication: Application() {
-    var pathToUnity = ""
+    val pathToUnity: MutableLiveData<String> = MutableLiveData("")
     val json = Gson()
+
 
     // provide instance of the class to other classes in the app
     companion object {
@@ -32,10 +36,11 @@ class RoomInnApplication: Application() {
         //initialize:
         instance = this
         roomsDB = RoomsDB(this)
+
     }
     fun readFromFileToPoints(f: String): MutableList<Point3D> {
         //Read the file
-        val bufferedReader: BufferedReader = File(pathToUnity+f).bufferedReader()
+        val bufferedReader: BufferedReader = File(pathToUnity.value+f).bufferedReader()
         // Read the text from bufferReader and store in String variable
         val inputString = bufferedReader.use { it.readText() }
         //Convert the Json File to Gson Object
@@ -44,7 +49,7 @@ class RoomInnApplication: Application() {
     }
     fun readFromFileToFloats(f: String): MutableList<Float> {
         //Read the file
-        val bufferedReader: BufferedReader = File(pathToUnity+f).bufferedReader()
+        val bufferedReader: BufferedReader = File(pathToUnity.value+f).bufferedReader()
         // Read the text from bufferReader and store in String variable
         val inputString = bufferedReader.use { it.readText() }
         //Convert the Json File to Gson Object

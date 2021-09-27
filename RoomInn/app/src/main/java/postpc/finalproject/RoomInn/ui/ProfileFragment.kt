@@ -40,37 +40,6 @@ class ProfileFragment : Fragment() {
         val adapter = projectViewModel.adapter
         adapter.setContext(requireContext())
 
-        // add a swipe gesture to delete item
-//        val swipeDeleteGesture = object : ProjectAdapterSwipeDeleteGesture() {
-//            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-//                val projectItemHolder = viewHolder as ProjectItemHolder
-//                val deleteBtn = projectItemHolder.delButton
-//                when (direction) {
-//                    ItemTouchHelper.RIGHT -> {
-//                        deleteBtn.animate().translationX(-50f)
-//                        deleteBtn.visibility = View.VISIBLE
-//                        deleteBtn.animate().translationX(0f).setDuration(100)
-//                            .alpha(1f).duration = 100
-//                        deleteBtn.isClickable = true
-//                        deleteBtn.setOnClickListener {
-//                            adapter.deleteProject(
-//                                viewHolder.adapterPosition
-//                            )
-//                        }
-//                    }
-//                    ItemTouchHelper.LEFT -> {
-//                        deleteBtn.animate().translationX(-50f).setDuration(100)
-//                            .alpha(0f).duration = 100
-//                        deleteBtn.visibility = View.GONE
-//                        deleteBtn.isClickable = false
-//                    }
-//                }
-//            }
-//        }
-//
-//        val itemTouchHelper = ItemTouchHelper(swipeDeleteGesture)
-//        itemTouchHelper.attachToRecyclerView(projectRecyclerView)
-
         // setup function to call from DB upon change the current rendered room
         RoomInnApplication.getInstance().getRoomsDB().loadRoomNavLambda = {
             Navigation.findNavController(view)
@@ -78,12 +47,12 @@ class ProfileFragment : Fragment() {
         }
         // needs to be changed to daniella's unity features
         addProjectFab.setOnClickListener {
-            val intent = Intent(requireContext(), UnityHandler::class.java)
-            intent.putExtra("Scene Index", ScanUnityPlayerActivity.sceneIndex)
-            startActivity(intent)
+//            val intent = Intent(requireContext(), ScanUnityHandler::class.java)
+//            intent.putExtra("Scene Index", ScanUnityPlayerActivity.sceneIndex)
+//            startActivity(intent)
             projectViewModel.doorsAndWindows.clear()
             Navigation.findNavController(view)
-                .navigate(R.id.action_profileFragment2_to_floorPlanPlacingFragment)
+                .navigate(R.id.action_profileFragment2_to_floorPlanRotateFragment)
         }
 
         // set the recycle view
