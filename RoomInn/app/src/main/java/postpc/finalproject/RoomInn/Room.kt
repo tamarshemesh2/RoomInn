@@ -28,6 +28,9 @@ data class Room(
 
 
     fun init() {
+        val fCorner =  Corners.first()
+        minX =fCorner.x
+        minZ =fCorner.z
         for (corner in Corners) {
             if (corner.x < minX) {
                 minX = corner.x
@@ -39,6 +42,13 @@ data class Room(
         val normalPoint = Point3D(-minX, 0f, -minZ)
         Corners.replaceAll { it.add(normalPoint) }
         isInit = true
+    }
+
+    fun rotateRoomCornersByAngle(center: Point3D, angle:Float){
+        for (corner in Corners){
+            corner.rotateAroundPointByAngle(center, angle)
+        }
+        init()
     }
 
     fun getRoomCenter(): Point3D {
@@ -85,7 +95,7 @@ data class Room(
         }
         val roomSize = getRoomSize()
         displayRatio = minOf(
-            (boardSize.width - 30) / roomSize.width.toFloat(),
+            (boardSize.width - 20) / roomSize.width.toFloat(),
             boardSize.height / roomSize.height.toFloat()
         )
     }

@@ -33,8 +33,8 @@ class ProjectViewModel : ViewModel() {
             field = newRoom
             memoryStack = RoomMemoryStack(newRoom)
         }
-    private val pointsPathName: String by lazy { "pointData.json" }
-    private val distancesPathName: String by lazy { "distances.json" }
+    val pointsPathName: String by lazy { "pointData.json" }
+    val distancesPathName: String by lazy { "distances.json" }
 
     var memoryStack: RoomMemoryStack = RoomMemoryStack(room)
     val redoUndoPresses = MutableLiveData(false)

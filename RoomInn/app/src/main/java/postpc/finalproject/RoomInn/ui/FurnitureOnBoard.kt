@@ -65,12 +65,13 @@ class FurnitureOnBoard(
             }
 
             // update the furniture in the DB
+            if (furniture.type !in listOf("Window","Door")){
             val DB: RoomsDB = RoomInnApplication.getInstance().getRoomsDB()
             furniture = projectViewModel.furniture!!
             DB.furnitureMap[furniture.id] = furniture
             if (furniture.id !in DB.roomToFurnitureMap[projectViewModel.room.id]!!) {
                 DB.roomToFurnitureMap[projectViewModel.room.id]!!.add(furniture.id)
-            }
+            }}
             // Return true to tell android OS this listener has consumed the event, do not need to pass the event to other listeners.
             true
         }

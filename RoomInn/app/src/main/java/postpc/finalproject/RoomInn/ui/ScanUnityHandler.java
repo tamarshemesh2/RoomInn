@@ -8,7 +8,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import postpc.finalproject.RoomInn.R;
 
-class ScanUnityHandler extends AppCompatActivity {
+public class ScanUnityHandler extends AppCompatActivity {
     public static Context ctx;
 
     @Override

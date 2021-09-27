@@ -43,7 +43,6 @@ class FloorPlanInnerFragment : Fragment() {
         val room = projectViewModel.room
 
 
-
         val vto = layout.viewTreeObserver
         vto.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
             override fun onGlobalLayout() {
@@ -104,10 +103,11 @@ class FloorPlanInnerFragment : Fragment() {
         furnitureOnBoardList: MutableList<FurnitureOnBoard>,
         layout: RelativeLayout
     ) {
-        val mutableList = RoomInnApplication.getInstance()
-            .getRoomsDB().roomToFurnitureMap[projectViewModel.room.id]!!
+        val roomsDB = RoomInnApplication.getInstance()
+            .getRoomsDB()
+        val mutableList = roomsDB.roomToFurnitureMap[projectViewModel.room.id]!!
         for (furId in mutableList) {
-            val fur = RoomInnApplication.getInstance().getRoomsDB().furnitureMap[furId]
+            val fur = roomsDB.furnitureMap[furId]
             if (fur != null) {
                 if (fur.type !in listOf("Window", "Door")) {
                     val relativeLocation =

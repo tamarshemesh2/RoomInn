@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="2dp"
-        android:autofillHints="Email"
+        android:inputType="textEmailAddress"
         android:cursorVisible="true"
         android:fontFamily="@font/dosis_medium"
         android:hint="Email"

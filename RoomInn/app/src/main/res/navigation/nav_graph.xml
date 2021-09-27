@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_profileFragment2_to_floorPlanPlacingFragment"
             app:destination="@id/floorPlanPlacingFragment" />
+        <action
+            android:id="@+id/action_profileFragment2_to_floorPlanRotateFragment"
+            app:destination="@id/floorPlanRotateFragment" />
     </fragment>
     <fragment
         android:id="@+id/floorPlanFragment"
@@ -87,5 +90,13 @@
         <action
             android:id="@+id/action_chooseFurnitureTypeFragment_to_editFurnitureFragment"
             app:destination="@id/editFurnitureFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/floorPlanRotateFragment"
+        android:name="postpc.finalproject.RoomInn.ui.FloorPlanRotateFragment"
+        android:label="FloorPlanRotateFragment" >
+        <action
+            android:id="@+id/action_floorPlanRotateFragment_to_floorPlanPlacingFragment"
+            app:destination="@id/floorPlanPlacingFragment" />
     </fragment>
 </navigation>

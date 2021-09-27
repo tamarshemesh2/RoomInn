@@ -74,7 +74,7 @@ class MainUnityPlayerActivity : UnityPlayerActivity() {
     private fun renderFurniture(furnitureList: MutableList<Furniture>) {
         for (furniture in furnitureList) {
             Log.e("funiture", furniture.toString())
-            UnityPlayer.UnitySendMessage("RigidBodyFPSController", furniture.unityFuncName,
+            UnityPlayer.UnitySendMessage("RigidBodyFPSController", furniture.unityType.unityFuncName,
                 furniture.toString()
             )
         }

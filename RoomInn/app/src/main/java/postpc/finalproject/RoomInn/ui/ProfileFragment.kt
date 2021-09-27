@@ -47,12 +47,12 @@ class ProfileFragment : Fragment() {
         }
         // needs to be changed to daniella's unity features
         addProjectFab.setOnClickListener {
-            val intent = Intent(requireContext(), ScanUnityHandler::class.java)
-            intent.putExtra("Scene Index", ScanUnityPlayerActivity.sceneIndex)
-            startActivity(intent)
+//            val intent = Intent(requireContext(), ScanUnityHandler::class.java)
+//            intent.putExtra("Scene Index", ScanUnityPlayerActivity.sceneIndex)
+//            startActivity(intent)
             projectViewModel.doorsAndWindows.clear()
             Navigation.findNavController(view)
-                .navigate(R.id.action_profileFragment2_to_floorPlanPlacingFragment)
+                .navigate(R.id.action_profileFragment2_to_floorPlanRotateFragment)
         }
 
         // set the recycle view
