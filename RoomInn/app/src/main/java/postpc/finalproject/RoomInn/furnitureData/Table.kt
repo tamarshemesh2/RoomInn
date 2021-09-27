@@ -27,9 +27,9 @@ class Table(
 
     companion object {
         val typeMap = mapOf<Int, FurnitureType>(
-            1 to FurnitureType("Desk", R.id.save_scale_type, Point3D(   150f	,75f,	60f), "addNewTableTypeOne",1),
-            2 to FurnitureType("Table", R.id.save_scale_type, Point3D(100f,	80f	,60f), "addNewTableTypeTwo",2),
-            3 to FurnitureType("Coffee Table" , R.id.save_scale_type, Point3D(100f,	30f	,60f), "addNewTableTypeThree",3)
+            1 to FurnitureType("Desk", R.drawable.table1, Point3D(   150f	,75f,	60f), "addNewTableTypeOne",1),
+            2 to FurnitureType("Table", R.drawable.table2, Point3D(100f,	80f	,60f), "addNewTableTypeTwo",2),
+            3 to FurnitureType("Coffee Table" , R.drawable.table3, Point3D(100f,	30f	,60f), "addNewTableTypeThree",3)
         )
 
     }

@@ -28,9 +28,9 @@ class Armchair(
 
     companion object {
         val typeMap = mapOf<Int, FurnitureType>(
-            1 to FurnitureType("Classy", R.id.save_scale_type, Point3D(70f,	100f,	80f), "addNewArmchairTypeOne",1),
-            2 to FurnitureType("Square", R.id.save_scale_type, Point3D(100f	,95f	,100f), "addNewArmchairTypeTwo",2),
-            3 to FurnitureType("IKEA" ,R.id.save_scale_type, Point3D(80f	,140f	,100f), "addNewArmchairTypeThree",3)
+            1 to FurnitureType("Classy", R.drawable.armchair1, Point3D(70f,	100f,	80f), "addNewArmchairTypeOne",1),
+            2 to FurnitureType("Square", R.drawable.armchair2, Point3D(100f	,95f	,100f), "addNewArmchairTypeTwo",2),
+            3 to FurnitureType("IKEA" ,R.drawable.armchair3, Point3D(80f	,140f	,100f), "addNewArmchairTypeThree",3)
         )
 
     }

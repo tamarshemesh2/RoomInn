@@ -29,9 +29,9 @@ class Bed(
 
     companion object {
         val typeMap = mapOf<Int, FurnitureType>(
-            1 to FurnitureType("Standard", R.id.save_scale_type, Point3D(   150f	,50f	,200f), "addNewBedTypeOne",1),
-            2 to FurnitureType("Fancy", R.id.save_scale_type, Point3D(180f	,93f	 ,200f), "addNewBedTypeTwo",2),
-            3 to FurnitureType("Single" , R.id.save_scale_type, Point3D(100f,	100f	,180f), "addNewBedTypeThree",3)
+            1 to FurnitureType("Standard", R.drawable.bed1, Point3D(   150f	,50f	,200f), "addNewBedTypeOne",1),
+            2 to FurnitureType("Fancy", R.drawable.bed2, Point3D(150f	,140f	,220f), "addNewBedTypeTwo",2),
+            3 to FurnitureType("Single" , R.drawable.bed3, Point3D(100f,	100f	,180f), "addNewBedTypeThree",3)
         )
 
     }

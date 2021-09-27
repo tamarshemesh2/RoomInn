@@ -26,9 +26,9 @@ class Dresser(
 
     companion object {
         val typeMap = mapOf<Int, FurnitureType>(
-            1 to FurnitureType("Fashion", R.id.save_scale_type, Point3D(120f,	90f	,50f), "addNewDresserTypeOne",1),
-            2 to FurnitureType("Practical", R.id.save_scale_type, Point3D(100f,	85f	,45f), "addNewDresserTypeTwo",2),
-            3 to FurnitureType("Night Stand" , R.id.save_scale_type, Point3D(40f	,50f	,45f), "addNewDresserTypeThree",3)
+            1 to FurnitureType("Fashion", R.drawable.dresser1, Point3D(120f,	90f	,50f), "addNewDresserTypeOne",1),
+            2 to FurnitureType("Practical", R.drawable.dresser2, Point3D(100f,	85f	,45f), "addNewDresserTypeTwo",2),
+            3 to FurnitureType("Night Stand" , R.drawable.dresser3, Point3D(40f	,50f	,45f), "addNewDresserTypeThree",3)
         )
 
     }
