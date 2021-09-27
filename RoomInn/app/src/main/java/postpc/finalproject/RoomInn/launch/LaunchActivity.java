@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
@@ -16,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.facebook.AccessToken;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,6 +39,7 @@ public class LaunchActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+
         setContentView(R.layout.activity_launch);
         FragmentContainerView fragment = findViewById(R.id.fragment_frame);
 
@@ -74,6 +77,7 @@ public class LaunchActivity extends AppCompatActivity {
                                     .show();
                         } else {
                             FirebaseAuth.getInstance().signOut();
+                            GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN).signOut();
                             progressDialog.dismiss();
                             Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT)
                                     .show();
@@ -81,6 +85,7 @@ public class LaunchActivity extends AppCompatActivity {
                     })
                     .addOnFailureListener(v -> {
                         FirebaseAuth.getInstance().signOut();
+                        GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN).signOut();
                         progressDialog.dismiss();
                         Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT)
                                 .show();
@@ -100,19 +105,11 @@ public class LaunchActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            // The Task returned from this call is always completed, no need to attach a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
-        }
 
-        // Result returned from launching the Intent from FacebookActivity;
-        else {
             viewModel.getCallbackManager().onActivityResult(requestCode, resultCode, data);
             super.onActivityResult(requestCode, resultCode, data);
-        }
     }
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {

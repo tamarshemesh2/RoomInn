@@ -17,6 +17,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <ImageButton
+        android:id="@+id/sing_out"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="10dp"
+        android:background="@drawable/round_button"
+        android:backgroundTint="@color/light_pink"
+        app:layout_constraintDimensionRatio="1:1"
+        android:src="@drawable/ic_baseline_exit_to_app_24"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="16dp"/>
+
     <TextView
         android:id="@+id/roomInn_title"
         android:layout_width="match_parent"

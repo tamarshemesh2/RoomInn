@@ -2,19 +2,26 @@ package postpc.finalproject.RoomInn.ui
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.facebook.AccessToken
+import com.facebook.FacebookSdk.getApplicationContext
+import com.facebook.login.LoginManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
+import postpc.finalproject.RoomInn.launch.LaunchActivity
 import postpc.finalproject.RoomInn.models.RoomInnApplication
-
 
 
 class ProfileFragment : Fragment() {
@@ -37,6 +44,7 @@ class ProfileFragment : Fragment() {
         // find all views
         val projectRecyclerView: RecyclerView = view.findViewById(R.id.projects_recycler)
         val addProjectFab: FloatingActionButton = view.findViewById(R.id.fab_add)
+        val singOut: ImageButton = view.findViewById(R.id.sing_out)
         val adapter = projectViewModel.adapter
         adapter.setContext(requireContext())
 
@@ -55,6 +63,13 @@ class ProfileFragment : Fragment() {
                 .navigate(R.id.action_profileFragment2_to_floorPlanRotateFragment)
         }
 
+        singOut.setOnClickListener {
+            singedOut()
+            var intent = Intent(requireActivity(), LaunchActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
+        }
+
         // set the recycle view
         projectRecyclerView.adapter = adapter
         projectRecyclerView.layoutManager =
@@ -64,11 +79,22 @@ class ProfileFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
+    fun singedOut() {
+        // if facebook
+        LoginManager.getInstance().logOut()
+        AccessToken.setCurrentAccessToken(null)
+
+        //if google
+        GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN).signOut()
+
+        // if firebase
+        FirebaseAuth.getInstance().signOut()
+    }
 }

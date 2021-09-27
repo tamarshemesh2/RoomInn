@@ -142,8 +142,9 @@ class RoomsDB(val context: Context) {
             } else {
                 user = User(id = id)
                 rooms = MutableLiveData(user.roomsList)
-                createNewUser(id)
                 isInitialized = true
+                createNewUser(id)
+                userLoadingStage.value = LoadingStage.SUCCESS
             }
         }
             .addOnFailureListener {

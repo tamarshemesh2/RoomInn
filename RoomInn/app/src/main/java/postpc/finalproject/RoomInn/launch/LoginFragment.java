@@ -92,6 +92,7 @@ public class LoginFragment extends Fragment {
 
         googleViewButton.setOnClickListener(v -> {
             googleLogInButton.callOnClick();
+            googleSignIn();
         });
 
 
@@ -194,6 +195,7 @@ public class LoginFragment extends Fragment {
 
     private void googleSignIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        signInIntent.putExtra("rc_code", RC_SIGN_IN);
         // TODO: deprecated: check what to do
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
