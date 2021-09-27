@@ -63,7 +63,7 @@ class FloorPlanFragment : Fragment() {
         val roomTitle: TextView = view.findViewById(R.id.titleTextView)
         val eraseImg: ImageView = view.findViewById(R.id.deleteImageView)
         val addFab: ImageButton = view.findViewById(R.id.addButton)
-        val playButton : FloatingActionButton = view.findViewById(R.id.playButton)
+        val playButton: FloatingActionButton = view.findViewById(R.id.playButton)
         var toAddFurniture = false
         //add all furniture to board
 
@@ -85,28 +85,28 @@ class FloorPlanFragment : Fragment() {
         vto.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 roomLayout.viewTreeObserver
-                    .removeOnGlobalLayoutListener(this)
+                        .removeOnGlobalLayoutListener(this)
 
                 val position =
 
 
-                    roomCanvas!!.setOnTouchListener { v, event ->
-                        if (toAddFurniture) {
-                            projectViewModel.currentPosition =
-                                Point3D(event.rawX, 0f, event.rawY).toAbsolutLocation(
-                                    projectViewModel.room.getRoomRatio(),
-                                    projectViewModel.layoutMeasures)
-                            projectViewModel.newFurniture = true
-                            Navigation.findNavController(v)
-                                .navigate(R.id.action_floorPlanFragment_to_addFurnitureFragment2)
+                        roomCanvas!!.setOnTouchListener { v, event ->
+                            if (toAddFurniture) {
+                                projectViewModel.currentPosition =
+                                        Point3D(event.rawX, 0f, event.rawY).toAbsolutLocation(
+                                                projectViewModel.room.getRoomRatio(),
+                                                projectViewModel.layoutMeasures)
+                                projectViewModel.newFurniture = true
+                                Navigation.findNavController(v)
+                                        .navigate(R.id.action_floorPlanFragment_to_addFurnitureFragment2)
+                            }
+                            toAddFurniture = false
+                            return@setOnTouchListener true
                         }
-                        toAddFurniture = false
-                        return@setOnTouchListener true
-                    }
                 addFab.setOnClickListener {
                     Toast.makeText(requireContext(),
-                        "Tap where you wish to place a new furniture",
-                        Toast.LENGTH_SHORT).show()
+                            "Tap where you wish to place a new furniture",
+                            Toast.LENGTH_SHORT).show()
                     toAddFurniture = true
                 }
             }
@@ -116,5 +116,51 @@ class FloorPlanFragment : Fragment() {
         }
     }
 
+//
+//    hamburger.setOnClickListener {
+//        if (! drawerLayout.isDrawerOpen(GravityCompat.START)) {
+//            drawerLayout.openDrawer(GravityCompat.START)
+//            navigationView.bringToFront()
+//            navigationView.setNavigationItemSelectedListener(this)
+//
+//        }
+//
+//    }
+//}
+
+//    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+//        if (item.itemId == R.id.share_floor_plan_img) {
+//            saveScreenshot(this.requireView())
+//        }
+//        return true;
+//    }
+//
+//
+//    @RequiresApi(Build.VERSION_CODES.O)
+//    fun saveScreenshot(view: View) {
+//        val window = (view.context as Activity).window
+//        if (window != null) {
+//            var bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+//            val locationOfViewInWindow = IntArray(2)
+//            view.getLocationInWindow(locationOfViewInWindow)
+//            try {
+//                PixelCopy.request(window, Rect(locationOfViewInWindow[0], locationOfViewInWindow[1], locationOfViewInWindow[0] + view.width, locationOfViewInWindow[1] + view.height), bitmap, { copyResult ->
+//                    if (copyResult == PixelCopy.SUCCESS) {
+//
+//                        //TODO: finish
+////                        val intent = Intent(Intent.ACTION_SEND)
+////                        intent.setType("image/png")
+////                        intent.putExtra(Intent.EXTRA_STREAM, bitmap)
+////                        startActivity(Intent.createChooser(intent, "Share"))
+//                    }
+//                    // possible to handle other result codes ...
+//                }, Handler())
+//            } catch (e: IllegalArgumentException) {
+//                // PixelCopy may throw IllegalArgumentException, make sure to handle it
+//            }
+//        }
+//    }
+//
+//}
 
 }

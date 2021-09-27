@@ -110,9 +110,32 @@ class FloorPlanInnerFragment : Fragment() {
 
     }
 
+//    @RequiresApi(Build.VERSION_CODES.O)
+//    fun saveScreenshot(view: View) {
+//        val window = (view.context as Activity).window
+//        if (window != null) {
+//            val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+//            val locationOfViewInWindow = IntArray(2)
+//            view.getLocationInWindow(locationOfViewInWindow)
+//            try {
+//                PixelCopy.request(window, Rect(locationOfViewInWindow[0], locationOfViewInWindow[1], locationOfViewInWindow[0] + view.width, locationOfViewInWindow[1] + view.height), bitmap, { copyResult ->
+//                    if (copyResult == PixelCopy.SUCCESS) {
+//
+//                        val intent = Intent(Intent.ACTION_SEND)
+//                        intent.setType("image/png")
+//                        intent.putExtra(Intent.EXTRA_STREAM, bitmap)
+//                        startActivity(Intent.createChooser(intent , "Share"))
+//                    }
+//                    // possible to handle other result codes ...
+//                }, Handler())
+//            } catch (e: IllegalArgumentException) {
+//                // PixelCopy may throw IllegalArgumentException, make sure to handle it
+//            }
+//        }
+    }
+
 
 //        val findViewById = findViewById<View>(R.id.canvas)
 //        findViewById.draw(room.drawFloorPlan())
 
-}
 //}
