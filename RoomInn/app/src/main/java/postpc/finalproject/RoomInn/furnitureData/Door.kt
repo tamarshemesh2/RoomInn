@@ -8,7 +8,7 @@ import java.util.*
 class Door(
     position: Point3D = Point3D(),
     rotation: Point3D = Point3D(),
-    scale: Point3D = Point3D(80f, 206f, 10f),
+    scale: Point3D = Point3D(Armchair.typeMap[1]!!.defaultScale),
     color: Int = Color.BLACK
 ) : Furniture(position, rotation, scale, Color.BLACK) {
     //copy constructor

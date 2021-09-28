@@ -9,12 +9,15 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.furnitureData.*
 import postpc.finalproject.RoomInn.ui.furnitureCategoryItem.FurnitureCategoryItemAdapter
 import postpc.finalproject.RoomInn.ui.furnitureTypeItem.FurnitureTypeItemAdapter
+import www.sanju.zoomrecyclerlayout.ZoomRecyclerLayout
 
 class ChooseFurnitureTypeFragment : Fragment() {
     companion object {
@@ -35,16 +38,13 @@ class ChooseFurnitureTypeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO: finish finding all the views
         // find all views
         val furnitureRecyclerView: RecyclerView = view.findViewById(R.id.furniture_type_recycler)
         val furnitureType = projectViewModel.furniture!!.type
-        //todo :
-        // string - type name to show,
-        // first int - R.id.img,
-        // second int- number to put in renderType in Furniture Object
+
         val typeMap: Map<Int,FurnitureType>? = (when (furnitureType) {
             ("Chair") -> Chair.typeMap
+            ("Armchair") -> Armchair.typeMap
             ("Bed") -> Bed.typeMap
             ("Closet") -> Closet.typeMap
             ("Couch") -> Couch.typeMap
@@ -57,15 +57,23 @@ class ChooseFurnitureTypeFragment : Fragment() {
                 .navigate(R.id.action_chooseFurnitureTypeFragment_to_editFurnitureFragment)
         } else {
 
-            adapter.setViewModel(projectViewModel) as Map<String, Pair<Int, Int>>
+            adapter.setViewModel(projectViewModel)
             adapter.setContext(requireContext())
             adapter.setItems(typeMap)
 
+            val linearLayoutManager = ZoomRecyclerLayout(requireContext())
+            linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+            linearLayoutManager.reverseLayout = true
+            linearLayoutManager.stackFromEnd = true
+            furnitureRecyclerView.layoutManager = linearLayoutManager
+
+            val snapHelper = LinearSnapHelper()
+            snapHelper.attachToRecyclerView(furnitureRecyclerView)
+            furnitureRecyclerView.isNestedScrollingEnabled = false
+
             // set the recycle view
             furnitureRecyclerView.adapter = adapter
-            furnitureRecyclerView.layoutManager =
-                GridLayoutManager(requireActivity(), 1, RecyclerView.HORIZONTAL, false)
-            furnitureRecyclerView.layoutManager
+
         }
     }
 

@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RoomInn">
-        <activity android:name=".ui.SceneLoaderUnityPlayerActivity"></activity>
+<!--        <activity android:name=".ui.SceneLoaderUnityPlayerActivity"></activity>-->
         <activity android:name=".ui.ScanUnityHandler" />
         <activity android:name=".launch.LaunchActivity">
             <intent-filter>

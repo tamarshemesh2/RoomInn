@@ -22,7 +22,7 @@ import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.launch.LaunchActivity
 import postpc.finalproject.RoomInn.models.RoomInnApplication
-
+import java.io.File
 
 class ProfileFragment : Fragment() {
     companion object {
@@ -39,6 +39,8 @@ class ProfileFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // check if returned from scan
+        lookForScan(view)
         super.onViewCreated(view, savedInstanceState)
 
         // find all views
@@ -55,12 +57,12 @@ class ProfileFragment : Fragment() {
         }
         // needs to be changed to daniella's unity features
         addProjectFab.setOnClickListener {
-//            val intent = Intent(requireContext(), ScanUnityHandler::class.java)
-//            intent.putExtra("Scene Index", ScanUnityPlayerActivity.sceneIndex)
-//            startActivity(intent)
+            val intent = Intent(requireContext(), ScanUnityHandler::class.java)
+            intent.putExtra("Scene Index", ScanUnityPlayerActivity.sceneIndex)
+            startActivity(intent)
             projectViewModel.doorsAndWindows.clear()
-            Navigation.findNavController(view)
-                .navigate(R.id.action_profileFragment2_to_floorPlanRotateFragment)
+//            Navigation.findNavController(view)
+//                .navigate(R.id.action_profileFragment2_to_floorPlanRotateFragment)
         }
 
         singOut.setOnClickListener {
@@ -97,4 +99,22 @@ class ProfileFragment : Fragment() {
         // if firebase
         FirebaseAuth.getInstance().signOut()
     }
+    private fun lookForScan(view: View) {
+        val value = RoomInnApplication.getInstance().pathToUnity.value
+        if (value != "") {
+            val cornersFileName = value + projectViewModel.pointsPathName
+            val distancesFileName = value + projectViewModel.distancesPathName
+            val cornersFile = File(cornersFileName)
+            val distFile = File(distancesFileName)
+            val nowMillis = System.currentTimeMillis()
+            val lastModifiedThreshold = 1000
+            if (cornersFile.exists() && distFile.exists() &&
+                ((cornersFile.lastModified() - nowMillis < lastModifiedThreshold) ||
+                 (distFile.lastModified() - nowMillis < lastModifiedThreshold))) {
+                Navigation.findNavController(view)
+                    .navigate(R.id.action_profileFragment2_to_floorPlanRotateFragment)
+            }
+        }
+    }
+
 }

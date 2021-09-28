@@ -39,7 +39,7 @@ class FurnitureTypeItemAdapter : RecyclerView.Adapter<FurnitureTypeItemHolder>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FurnitureTypeItemHolder {
         val context = parent.context
         val view = LayoutInflater.from(context)
-            .inflate(R.layout.item_category_furniture, parent, false)
+            .inflate(R.layout.item_type_furniture, parent, false)
         return FurnitureTypeItemHolder(view)
     }
 
@@ -51,6 +51,7 @@ class FurnitureTypeItemAdapter : RecyclerView.Adapter<FurnitureTypeItemHolder>()
 
         holder.bg.setOnClickListener {
             projectViewModel.furniture!!.unityType = furnitureType
+            projectViewModel.furniture!!.scale = furnitureType.defaultScale
             Navigation.findNavController(it)
                 .navigate(R.id.action_chooseFurnitureTypeFragment_to_editFurnitureFragment)
         }

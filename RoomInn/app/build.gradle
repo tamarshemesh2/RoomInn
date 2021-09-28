@@ -17,7 +17,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         // IMPORTANT: CHANGE TO YOUR FILE PATH TO UNITY NDK
         ndkPath = "C:\\Users\\tamar\\AndroidStudioProjects\\RoomInnFinal\\tools\\NDK" // Point to your own NDK
-
     }
 
     buildTypes {
@@ -62,6 +61,7 @@ dependencies {
     // P.S: For Android Studio versions below 3.0, use compile keyword
     implementation 'com.shobhitpuri.custombuttons:google-signin:1.0.0'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17'
+    implementation 'com.github.Spikeysanju:ZoomRecylerLayout:1.0'
 
     implementation project(':unityLibrary')
     implementation fileTree(dir: project(':unityLibrary').getProjectDir().toString() + ('\\libs'), include: ['*.jar'])

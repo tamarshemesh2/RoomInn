@@ -116,8 +116,8 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
         val roomTitle: TextView = view.findViewById(R.id.titleTextView)
         val addFab: ImageButton = view.findViewById(R.id.addButton)
         val playButton: FloatingActionButton = view.findViewById(R.id.playButton)
-        val redoButton: FloatingActionButton = view.findViewById(R.id.redoButton)
-        val undoButton: FloatingActionButton = view.findViewById(R.id.undoButton)
+//        val redoButton: FloatingActionButton = view.findViewById(R.id.redoButton)
+//        val undoButton: FloatingActionButton = view.findViewById(R.id.undoButton)
         var toAddFurniture = false
         //add all furniture to board
 
@@ -164,18 +164,18 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
                     ).show()
                     toAddFurniture = true
                 }
-                undoButton.setOnClickListener {
-                    if (!projectViewModel.memoryStack.undoStep()){
-                    Toast.makeText(requireContext(),"there is no step to undo",Toast.LENGTH_SHORT).show()}
-                    projectViewModel.redoUndoPresses.value=true
-                }
-                redoButton.setOnClickListener {
-                    if(!projectViewModel.memoryStack.redoStep()){
-                        Toast.makeText(requireContext(),"there is no step to redo",Toast.LENGTH_SHORT).show()}
-                    projectViewModel.redoUndoPresses.value=true
-
-
-                }
+//                undoButton.setOnClickListener {
+//                    if (!projectViewModel.memoryStack.undoStep()){
+//                    Toast.makeText(requireContext(),"there is no step to undo",Toast.LENGTH_SHORT).show()}
+//                    projectViewModel.redoUndoPresses.value=true
+//                }
+//                redoButton.setOnClickListener {
+//                    if(!projectViewModel.memoryStack.redoStep()){
+//                        Toast.makeText(requireContext(),"there is no step to redo",Toast.LENGTH_SHORT).show()}
+//                    projectViewModel.redoUndoPresses.value=true
+//
+//
+//                }
             }
         })
         hamburger.setOnClickListener {
