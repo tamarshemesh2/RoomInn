@@ -1,13 +1,27 @@
 package postpc.finalproject.RoomInn.ui
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.ContentResolver
+import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.icu.text.SimpleDateFormat
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewTreeObserver
+import android.os.Environment
+import android.provider.MediaStore
+import android.util.Log
+import android.view.*
 import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -18,15 +32,56 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
+import postpc.finalproject.RoomInn.furnitureData.Furniture
 import postpc.finalproject.RoomInn.furnitureData.Point3D
+import postpc.finalproject.RoomInn.models.RoomInnApplication
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 import java.util.*
 
 
-class FloorPlanFragment : Fragment() {
+class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener {
     var furnitureList: List<FurnitureOnBoard> = listOf()
     lateinit var drawerLayout: DrawerLayout
     lateinit var navigationView: NavigationView
-    lateinit var hamburger: ImageView;
+    lateinit var hamburger: ImageView
+    val requestStoragePermissionLauncher =
+            registerForActivityResult(
+                    ActivityResultContracts.RequestMultiplePermissions()
+            ) { permissions ->
+                var saveImageFlag = true
+                permissions.entries.forEach {
+                    saveImageFlag = it.value
+                }
+                if (saveImageFlag) {
+                    shareScreenShootResult()
+                } else {
+                    Toast.makeText(requireContext(), "can't share screenshot", Toast.LENGTH_LONG).show()
+                }
+            }
+
+    val permissionListener: () -> Boolean = {
+        if (ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            true
+        } else {
+            requestStoragePermissionLauncher.launch(
+                    arrayOf(
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    )
+            )
+            false
+        }
+    }
 
     companion object {
         fun newInstance() = FloorPlanFragment()
@@ -124,56 +179,179 @@ class FloorPlanFragment : Fragment() {
             }
         })
         hamburger.setOnClickListener {
+        if (! drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.openDrawer(GravityCompat.START)
+            navigationView.bringToFront()
+            navigationView.setNavigationItemSelectedListener(this)
         }
+        }
+
     }
+
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.share_floor_plan_img) {
+            shareScreenShootResult()
+        } else if (item.itemId == R.id.share_item_list) {
+            shareLIstOfFurniture()
+        }
+        return true
+    }
+
+    fun shareLIstOfFurniture() {
+        val roomName = projectViewModel.room.name
+        val furList = RoomInnApplication.getInstance().getRoomsDB().roomFurniture(roomName)
+        val message = getStringToShare(furList, roomName)
+        if (furList.isEmpty()) {
+            Toast.makeText(requireActivity(), message, Toast.LENGTH_LONG).show()
+        } else {
+            shareText(message)
+        }
+
+
+    }
+
+    fun shareText(text: String) {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, text)
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
+    }
+
+
+    fun getStringToShare(furList: MutableList<Furniture>, roomName: String): String {
+        var text = "Here are the items I chose for '$roomName' project:\n\n"
+        furList.forEach {
+            text += "${it.stringToShare()}\n"
+        }
+        if (furList.isEmpty()) {
+            text = "You did not place any furniture in room $roomName"
+        }
+        return text
+    }
+
+    private fun shareScreenShootResult() {
+        val dateFormatter by lazy {
+            SimpleDateFormat(
+                    "yyyy.MM.dd 'at' HH:mm:ss z", Locale.getDefault()
+            )
+        }
+        Log.d("app name:", requireContext().applicationInfo.name)
+        val filename = "${getString(R.string.my_ScreenShoot)}${dateFormatter.format(Date())}.png"
+        val ScreenShootFolderPath = File.separator + requireContext().getAppName()
+
+        val layout: View? = view?.findViewById(R.id.room_layout)
+        val uri = layout?.makeScreenShot()
+                ?.saveScreenShot(requireContext(), filename, ScreenShootFolderPath, permissionListener)
+                ?: return
+
+        dispatchShareImageIntent(uri)
+    }
+
+    private fun dispatchShareImageIntent(screenShotUri: Uri) {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "image/png"
+        intent.putExtra(Intent.EXTRA_STREAM, screenShotUri)
+        startActivity(Intent.createChooser(intent, "Share"))
+    }
+
+    private fun Context.getAppName(): String {
+        var appName: String = ""
+        val applicationInfo = applicationInfo
+        val stringId = applicationInfo.labelRes
+        appName = if (stringId == 0) {
+            applicationInfo.nonLocalizedLabel.toString()
+        } else {
+            getString(stringId)
+        }
+        return appName
+    }
+
+    private fun View.makeScreenShot(): Bitmap {
+        setBackgroundColor(Color.WHITE)
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        draw(canvas)
+        return bitmap
+    }
+
+    private fun Bitmap.saveScreenShot(
+            requireContext: Context,
+            filename: String,
+            ScreenShootFolderPath: String,
+            permissionListener: () -> Boolean,
+    ): Uri? {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+            saveImageInQ(this, filename, ScreenShootFolderPath, requireContext.contentResolver)
+        else
+            legacySave(this, filename, ScreenShootFolderPath, permissionListener)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun saveImageInQ(
+            bitmap: Bitmap,
+            filename: String,
+            parentFileName: String,
+            contentResolver: ContentResolver
+    ): Uri? {
+        val fos: OutputStream?
+        val uri: Uri?
+        val contentValues = ContentValues()
+        contentValues.apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
+            put(MediaStore.Files.FileColumns.MIME_TYPE, "image/png")
+            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + parentFileName)
+            put(MediaStore.MediaColumns.IS_PENDING, 1)
+        }
+
+        uri =
+                contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+        uri?.let { contentResolver.openOutputStream(it) }.also { fos = it }
+
+        fos?.use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) }
+        fos?.flush()
+        fos?.close()
+
+        contentValues.clear()
+        contentValues.put(MediaStore.MediaColumns.IS_PENDING, 0)
+        uri?.let {
+            contentResolver.update(it, contentValues, null, null)
+        }
+        return uri
+    }
+
+    private fun legacySave(
+            bitmap: Bitmap,
+            filename: String,
+            parentFileName: String,
+            permissionListener: () -> Boolean,
+    ): Uri? {
+        val fos: OutputStream?
+        if (!permissionListener()) {
+            return null
+        }
+
+        val path =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() +
+                        parentFileName + File.separator + filename
+        val imageFile = File(path)
+        if (imageFile.parentFile?.exists() == false) {
+            imageFile.parentFile?.mkdir()
+        }
+        imageFile.createNewFile()
+        fos = FileOutputStream(imageFile)
+        val uri: Uri = Uri.fromFile(imageFile)
+
+        fos.use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) }
+        fos.flush()
+        fos.close()
+
+        return uri
+    }
+
 }
-
-
-//
-//    hamburger.setOnClickListener {
-//        if (! drawerLayout.isDrawerOpen(GravityCompat.START)) {
-//            drawerLayout.openDrawer(GravityCompat.START)
-//            navigationView.bringToFront()
-//            navigationView.setNavigationItemSelectedListener(this)
-//
-//        }
-//
-//    }
-//}
-
-//    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-//        if (item.itemId == R.id.share_floor_plan_img) {
-//            saveScreenshot(this.requireView())
-//        }
-//        return true;
-//    }
-//
-//
-//    @RequiresApi(Build.VERSION_CODES.O)
-//    fun saveScreenshot(view: View) {
-//        val window = (view.context as Activity).window
-//        if (window != null) {
-//            var bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
-//            val locationOfViewInWindow = IntArray(2)
-//            view.getLocationInWindow(locationOfViewInWindow)
-//            try {
-//                PixelCopy.request(window, Rect(locationOfViewInWindow[0], locationOfViewInWindow[1], locationOfViewInWindow[0] + view.width, locationOfViewInWindow[1] + view.height), bitmap, { copyResult ->
-//                    if (copyResult == PixelCopy.SUCCESS) {
-//
-//                        //TODO: finish
-////                        val intent = Intent(Intent.ACTION_SEND)
-////                        intent.setType("image/png")
-////                        intent.putExtra(Intent.EXTRA_STREAM, bitmap)
-////                        startActivity(Intent.createChooser(intent, "Share"))
-//                    }
-//                    // possible to handle other result codes ...
-//                }, Handler())
-//            } catch (e: IllegalArgumentException) {
-//                // PixelCopy may throw IllegalArgumentException, make sure to handle it
-//            }
-//        }
-//    }
-//
-//}
 

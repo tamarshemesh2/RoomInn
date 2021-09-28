@@ -94,6 +94,11 @@ abstract class Furniture(
 
 
     abstract fun draw(sizeWidth: Float, sizeHeight: Float): Path
+
+    open fun stringToShare(): String {
+        return "$type:\n\theight:${scale.z.toInt()}, width:${scale.x.toInt()}, length:${scale.y.toInt()}"
+    }
+
     override fun hashCode(): Int {
         var result = position.hashCode()
         result = 31 * result + rotation.hashCode()
