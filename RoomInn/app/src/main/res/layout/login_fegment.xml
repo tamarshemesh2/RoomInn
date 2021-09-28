@@ -138,9 +138,9 @@
             android:layout_marginHorizontal="8dp"
             android:textAllCaps="false"
             android:background="@drawable/round_style"
-            app:backgroundTint="#EAC1B6"
+            app:backgroundTint="@color/light_pink"
             android:text="Register Here"
-            android:textColor="@color/dark_purple"
+            android:textColor="@color/black"
             android:foreground="?attr/selectableItemBackgroundBorderless"/>
 
     </LinearLayout>

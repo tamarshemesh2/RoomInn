@@ -2,8 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/cream">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_watercolor"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -21,7 +25,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/dosis_medium"
             android:gravity="center"
-            android:text="Settings"
+            android:text="Export"
             android:textColor="@color/dark_purple"
             android:textSize="48sp"
             android:textStyle="bold" />
@@ -39,7 +43,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/lobster"
             android:gravity="center"
-            android:text="to RoomInn"
+            android:text="from RoomInn"
             android:textColor="@color/dark_purple"
             android:textSize="32sp"
             android:textStyle="bold" />
