@@ -11,4 +11,6 @@ class LoginViewModel : ViewModel(){
     var callbackManager: CallbackManager = CallbackManager.Factory.create()
     val loginFragment: Fragment = LoginFragment()
     val registerFragment: Fragment = RegisterFragment()
+    lateinit var googleSingInCallable: () -> Unit
+    lateinit var changeTitle: (String) -> Unit
 }
