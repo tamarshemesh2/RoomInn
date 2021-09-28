@@ -38,13 +38,16 @@
             android:id="@+id/titleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/dosis_medium"
+            android:background="@color/white_overly"
+            android:paddingRight="32dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="16dp"
             android:gravity="center"
             android:text="Project Name \n place windows and doors"
-            android:textSize="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="24dp" />
+
 
         <ImageButton
             android:id="@+id/addWindowButton"
@@ -82,17 +85,6 @@
             app:layout_constraintEnd_toStartOf="@id/addWindowButton"
             app:layout_constraintStart_toEndOf="@id/addDoorButton" />
 
-        <ImageButton
-            android:id="@+id/hamburgerMenuButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="@android:color/transparent"
-            android:contentDescription="TODO"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_round_menu_24" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView

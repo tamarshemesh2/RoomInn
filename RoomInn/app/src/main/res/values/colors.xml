@@ -6,9 +6,11 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
+    <color name="white_overly">#CBFFFFFF</color>
     <color name="white">#FFFFFFFF</color>
     <color name="cream">#FEFEE3</color>
-    <color name="light_pink">#FFC9B9</color>
+    <color name="light_gray">#D8D8D8</color>
+    <color name="light_pink">#f2a3af</color>
     <color name="orange_brown">#D68C45</color>
     <color name="light_green">#4C956C</color>
     <color name="dark_green">#2C6E49</color>
