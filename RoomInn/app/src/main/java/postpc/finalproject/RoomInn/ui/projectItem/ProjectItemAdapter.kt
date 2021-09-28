@@ -92,16 +92,24 @@ class ProjectItemAdapter : RecyclerView.Adapter<ProjectItemHolder>() {
 
 
             holder.editFabButton.setOnClickListener {
-                RoomInnApplication.getInstance().getRoomsDB()
-                    .loadRoomByName(projectItem.roomName, viewModel)
+                val DB = RoomInnApplication.getInstance().getRoomsDB()
+                DB.loadRoomByName(roomName = projectItem.roomName, viewModel = viewModel)
                 viewModel!!.projectName = projectItem.roomName
             }
 
             holder.playButton.setOnClickListener {
-                val intent = Intent(context, ScanUnityHandler::class.java)
-                intent.putExtra("Scene Index", MainUnityPlayerActivity.sceneIndex)
-                intent.putExtra("Room ID", viewModel!!.room.id)
-                context.startActivity(intent)
+                val DB = RoomInnApplication.getInstance().getRoomsDB()
+                DB.loadRoomByName(
+                        roomName = projectItem.roomName,
+                        activeFunc = {
+                            viewModel!!.projectName = projectItem.roomName
+                            val intent = Intent(context, ScanUnityHandler::class.java)
+                            intent.putExtra("Scene Index", MainUnityPlayerActivity.sceneIndex)
+                            intent.putExtra("Room ID", viewModel!!.room.id)
+                            context.startActivity(intent)
+                        },
+                        viewModel = viewModel
+                )
 
             }
         }

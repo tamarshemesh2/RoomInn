@@ -182,7 +182,7 @@ class RoomsDB(val context: Context) {
     /**
      * This function loade the roon into the room map, and updates the view model to hold the current room.
      */
-    fun loadRoomByName(roomName: String, viewModel: ProjectViewModel? = null) {
+    fun loadRoomByName(roomName: String, activeFunc: () -> Unit = loadRoomNavLambda, viewModel: ProjectViewModel? = null) {
         isWaitingForName =  false
         userLoadingStage.value = LoadingStage.LOADING
 
@@ -198,7 +198,7 @@ class RoomsDB(val context: Context) {
             if (viewModel != null) {
                 viewModel.room = roomsMap[roomName]!!
             }
-            loadRoomNavLambda()
+            activeFunc()
             userLoadingStage.value = LoadingStage.SUCCESS
             return
 
@@ -214,7 +214,7 @@ class RoomsDB(val context: Context) {
                     room = doc.toObject(Room::class.java)
                     if (room != null) {
                         roomsMap[roomName] = room
-                        addFurnitureToMap(room)
+                        addFurnitureToMap(room, activeFunc)
                     }
                 }
                 if (viewModel != null && room != null) {
@@ -225,7 +225,7 @@ class RoomsDB(val context: Context) {
                 if (userLoadingStage.value == LoadingStage.LOADING) {
                     isRoomLoaded = true
                     if (areFurnitureLoaded) {
-                        loadRoomNavLambda()
+                        activeFunc()
                         userLoadingStage.value = LoadingStage.SUCCESS
                         areFurnitureLoaded = false
                         isRoomLoaded = false
@@ -237,7 +237,7 @@ class RoomsDB(val context: Context) {
             }
     }
 
-    private fun addFurnitureToMap(room: Room, viewModel: ProjectViewModel? = null) {
+    private fun addFurnitureToMap(room: Room, activeFunc: () -> Unit, viewModel: ProjectViewModel? = null) {
         // this function assumes that there are no furniture in loaded for this room yet in the DB
         roomToFurnitureMap[room.id] = mutableListOf()
         firebase.collection("furniture").whereEqualTo("roomId", room.id).get()
@@ -255,7 +255,7 @@ class RoomsDB(val context: Context) {
                 if (userLoadingStage.value == LoadingStage.LOADING) {
                     areFurnitureLoaded = true
                     if (isRoomLoaded) {
-                        loadRoomNavLambda()
+                        activeFunc()
                         userLoadingStage.value = LoadingStage.SUCCESS
                         areFurnitureLoaded = false
                         isRoomLoaded = false
@@ -384,7 +384,7 @@ class RoomsDB(val context: Context) {
                                     .addOnSuccessListener {
                                         roomNameIsLoading = false
                                         if (isWaitingForName) {
-                                            loadRoomByName(newRoomName)
+                                            loadRoomByName(roomName = newRoomName, activeFunc = loadRoomNavLambda)
                                         }
                                     }
                                     .addOnFailureListener {
@@ -435,6 +435,33 @@ class RoomsDB(val context: Context) {
                         }
                     }
         }
+    }
+
+    fun initializeAfterUnity(userID: String, roomName: String, viewModel: ProjectViewModel?= null) {
+        userLoadingStage.value = LoadingStage.LOADING
+        val document = firebase.collection("users")
+                .document(userID)
+        document.get()
+                .addOnSuccessListener { d: DocumentSnapshot ->
+                    if (d.exists()) {
+                        user = d.toObject(User::class.java)!!
+                        rooms = MutableLiveData(user.roomsList)
+                        isInitialized = true
+                        if (roomName == "") {
+                            loadRoomByName(roomName = roomName, activeFunc = loadRoomNavLambda, viewModel = viewModel)
+                        }
+                        roomListChanged()
+                    }
+                }
+                .addOnFailureListener {
+                    userLoadingStage.value = LoadingStage.FAILURE
+                    Log.d("Firebase", "loading user data failed")
+                }
+                .addOnCanceledListener {
+                    userLoadingStage.value = LoadingStage.SUCCESS
+                    Log.d("Firebase", "loading user data failed")
+                }
+
     }
 
 }
