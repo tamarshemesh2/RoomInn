@@ -8,6 +8,7 @@ import postpc.finalproject.RoomInn.models.RoomInnApplication
 
 import java.util.*
 import kotlin.math.min
+import kotlin.math.roundToInt
 
 abstract class Furniture(
     var position: Point3D,
@@ -72,7 +73,7 @@ abstract class Furniture(
             unityType.typeName + "-" + type
         }
         val hexColor = String.format("#%06X", 0xFFFFFF and this.color)
-        return "*"+furName + "* >>> width: ${scale.x}cm, length: ${scale.z}cm, height: ${scale.y}cm," +
+        return "*"+furName + "* >>> width: ${scale.x.roundToInt()}cm, length: ${scale.z.roundToInt()}cm, height: ${scale.y.roundToInt()}cm," +
                 "\n Color: https://www.color-hex.com/color/$hexColor"
     }
 
