@@ -72,9 +72,12 @@ abstract class Furniture(
         } else {
             unityType.typeName + "-" + type
         }
-        val hexColor = String.format("#%06X", 0xFFFFFF and this.color)
-        return "*"+furName + "* >>> width: ${scale.x.roundToInt()}cm, length: ${scale.z.roundToInt()}cm, height: ${scale.y.roundToInt()}cm," +
-                "\n Color: https://www.color-hex.com/color/$hexColor"
+        val hexColor = String.format("%06X", 0xFFFFFF and this.color)
+        return "*"+furName + ":*" +
+                "\n\t width: ${scale.x.roundToInt()}cm" +
+                "\n\t length: ${scale.z.roundToInt()}cm" +
+                "\n\t height: ${scale.y.roundToInt()}cm" +
+                "\n\t Color: https://www.color-hex.com/color/$hexColor\n"
     }
 
     open fun unityPosition(): Point3D {
@@ -105,10 +108,6 @@ abstract class Furniture(
 
 
     abstract fun draw(sizeWidth: Float, sizeHeight: Float): Path
-
-    open fun stringToShare(): String {
-        return "$type:\n\theight:${scale.z.toInt()}, width:${scale.x.toInt()}, length:${scale.y.toInt()}"
-    }
 
     override fun hashCode(): Int {
         var result = position.hashCode()

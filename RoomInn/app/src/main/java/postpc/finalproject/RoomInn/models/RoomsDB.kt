@@ -138,6 +138,7 @@ class RoomsDB(val context: Context) {
                 user = d.toObject(User::class.java)!!
                 rooms = MutableLiveData(user.roomsList)
                 isInitialized = true
+                roomListChanged()
                 userLoadingStage.value = LoadingStage.SUCCESS
             } else {
                 user = User(id = id)

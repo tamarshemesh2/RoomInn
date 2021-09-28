@@ -226,7 +226,7 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
     fun getStringToShare(furList: MutableList<Furniture>, roomName: String): String {
         var text = "Here are the items I chose for '$roomName' project:\n\n"
         furList.forEach {
-            text += "${it.stringToShare()}\n"
+            text += "${it.toExportString()}\n"
         }
         if (furList.isEmpty()) {
             text = "You did not place any furniture in room $roomName"

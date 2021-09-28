@@ -27,6 +27,8 @@
     <string name="location">location:</string>
     <string name="rotation_angel">Rotation angel:</string>
 
+    <string name="my_ScreenShoot">FlorePlane</string>
+
     <string name="game_view_content_description" translatable="false">Game view</string>
 
 </resources>
