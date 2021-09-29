@@ -81,22 +81,63 @@ class FloorPlanInnerFragment : Fragment() {
                     )
                 }
                 loadAllFurnitureToBoard(roomRatio, furnitureOnBoardList, layout)
-                projectViewModel.memoryStack.saveRoomChange()
-                projectViewModel.redoUndoPresses.observeForever {
-                    if (it) {
-                        layout.removeViews(
-                            1 + room.windows.size + room.doors.size,
-                            furnitureOnBoardList.size
-                        )
-                        furnitureOnBoardList.clear()
-                        loadAllFurnitureToBoard(room.getRoomRatio(), furnitureOnBoardList, layout)
-                        projectViewModel.memoryStack.saveRoomChange()
-                        projectViewModel.redoUndoPresses.value = false
-                    }
-                }
             }
         })
     }
+
+    private fun loadAllFurnitureToBoard(
+        roomRatio: Float,
+        furnitureOnBoardList: MutableList<FurnitureOnBoard>,
+        layout: RelativeLayout
+    ) {
+        val roomsDB = RoomInnApplication.getInstance()
+            .getRoomsDB()
+        val mutableList = roomsDB.roomToFurnitureMap[projectViewModel.room.id]
+
+        if (mutableList != null) {
+            for (furId in mutableList) {
+                val fur = roomsDB.furnitureMap[furId]
+                if (fur != null) {
+                    if (fur.type !in listOf("Window", "Door")) {
+                        val relativeLocation =
+                            fur.position.getRelativeLocation(roomRatio, intArrayOf(0, 0))
+                            furnitureOnBoardList += FurnitureOnBoard(
+                                projectViewModel,
+                                requireParentFragment().requireContext(),
+                                fur,
+                                layout,
+                                relativeLocation.x,
+                                relativeLocation.z
+                            )
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+// val minXZ = intArrayOf(0, 0)
+//        layout.getLocationOnScreen(minXZ)
+//        val maxXZ = intArrayOf(minXZ[0] + layout.measuredWidth, minXZ[1] + layout.measuredHeight)
+// if (relativeLocation.x >= minXZ[0] && relativeLocation.x < maxXZ[0] &&
+//                            relativeLocation.z >= minXZ[1] && relativeLocation.z < maxXZ[1]
+//                        ) {
+
+//                projectViewModel.memoryStack.saveRoomChange()
+//                projectViewModel.redoUndoPresses.observeForever {
+//                    if (it) {
+//                        layout.removeViews(
+//                            1 + room.windows.size + room.doors.size,
+//                            furnitureOnBoardList.size
+//                        )
+//                        furnitureOnBoardList.clear()
+//                        loadAllFurnitureToBoard(room.getRoomRatio(), furnitureOnBoardList, layout)
+//                        projectViewModel.memoryStack.saveRoomChange()
+//                        projectViewModel.redoUndoPresses.value = false
+//                    }
+//                }
+
 
 //    @RequiresApi(Build.VERSION_CODES.O)
 //    fun saveScreenshot(view: View) {
@@ -126,32 +167,3 @@ class FloorPlanInnerFragment : Fragment() {
 //        findViewById.draw(room.drawFloorPlan())
 
 //}
-    private fun loadAllFurnitureToBoard(
-        roomRatio: Float,
-        furnitureOnBoardList: MutableList<FurnitureOnBoard>,
-        layout: RelativeLayout
-    ) {
-        val roomsDB = RoomInnApplication.getInstance()
-            .getRoomsDB()
-        val mutableList = roomsDB.roomToFurnitureMap[projectViewModel.room.id]
-        if (mutableList != null) {
-            for (furId in mutableList) {
-                val fur = roomsDB.furnitureMap[furId]
-                if (fur != null) {
-                    if (fur.type !in listOf("Window", "Door")) {
-                        val relativeLocation =
-                            fur.position.getRelativeLocation(roomRatio, intArrayOf(0, 0))
-                        furnitureOnBoardList += FurnitureOnBoard(
-                            projectViewModel,
-                            requireParentFragment().requireContext(),
-                            fur,
-                            layout,
-                            relativeLocation.x,
-                            relativeLocation.z
-                        )
-                    }
-                }
-            }
-        }
-    }
-}

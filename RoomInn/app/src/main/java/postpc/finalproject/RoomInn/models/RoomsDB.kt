@@ -7,6 +7,8 @@ import androidx.lifecycle.*
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import postpc.finalproject.RoomInn.furnitureData.Wall
 import postpc.finalproject.RoomInn.Room
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
@@ -33,7 +35,42 @@ class RoomsDB(val context: Context) {
 
     init {
         FirebaseApp.initializeApp(context)
+        // todo- uncomment after the LoadFromSP will work properly
+//        loadFromSP()
     }
+
+    private fun loadFromSP(): Boolean {
+
+        val json = RoomInnApplication.getInstance().json
+        val userStr = RoomInnApplication.sp.getString("user", null) ?: return false
+        val roomsMapStr = RoomInnApplication.sp.getString("roomsMap", null) ?: return false
+        val furnitureMapStr = RoomInnApplication.sp.getString("furnitureMap", null) ?: return false
+        Log.d("furnitureSP", furnitureMapStr)
+
+        val roomToFurnitureMapStr =
+            RoomInnApplication.sp.getString("roomToFurnitureMap", null) ?: return false
+
+        val roomsMapType = object : TypeToken<MutableMap<String, Room>>() {}.type
+        val roomToFurnitureMapType =
+            object : TypeToken<MutableMap<String, MutableList<String>>>() {}.type
+
+        // todo - use the factory method to re-Object the furniture as a specific type
+        val furnitureMapType = object : TypeToken<MutableMap<String, Any>>() {}.type
+
+
+//        }
+
+        user = json.fromJson(userStr, User::class.java)
+        roomsMap = json.fromJson(roomsMapStr, roomsMapType)
+        roomToFurnitureMap = json.fromJson(roomToFurnitureMapStr, roomToFurnitureMapType)
+        furnitureMap = json.fromJson(furnitureMapStr, furnitureMapType)
+
+        // reset the SP
+        RoomInnApplication.sp.edit().clear().apply()
+
+        return true
+    }
+
 
     fun isInitialized(): Boolean {
         return isInitialized
@@ -91,9 +128,18 @@ class RoomsDB(val context: Context) {
 //        // addNewDresser("(0,0,1.5)\n(0,180,0)\n(1,1,1)\n-16711681");
 //        // addNewWindow("(2.5,-0.3,0)\n(0,0,0)\n(0.01,1,2)\n-16711681");
 
-        var door: Door = Door(Point3D(2f,0f,-3f).multiply(100f).add(room1.getRoomCenter()),Point3D(0f,0f,0f),Point3D(1f,1f,1f),0)
+        var door: Door = Door(
+            Point3D(2f, 0f, -3f).multiply(100f).add(room1.getRoomCenter()),
+            Point3D(0f, 0f, 0f),
+            Point3D(1f, 1f, 1f),
+            0
+        )
         var wall: Wall = Wall()
-        var window: Window = Window(Point3D(2.5f,-0.3f,0f).multiply(100f).add(room1.getRoomCenter()),Point3D(0f,0f,0f),Point3D(0.01f,1f,2f))
+        var window: Window = Window(
+            Point3D(2.5f, -0.3f, 0f).multiply(100f).add(room1.getRoomCenter()),
+            Point3D(0f, 0f, 0f),
+            Point3D(0.01f, 1f, 2f)
+        )
 
         door.roomId = room1.id
         window.roomId = room1.id
@@ -182,8 +228,12 @@ class RoomsDB(val context: Context) {
     /**
      * This function loade the roon into the room map, and updates the view model to hold the current room.
      */
-    fun loadRoomByName(roomName: String, activeFunc: () -> Unit = loadRoomNavLambda, viewModel: ProjectViewModel? = null) {
-        isWaitingForName =  false
+    fun loadRoomByName(
+        roomName: String,
+        activeFunc: () -> Unit = loadRoomNavLambda,
+        viewModel: ProjectViewModel? = null
+    ) {
+        isWaitingForName = false
         userLoadingStage.value = LoadingStage.LOADING
 
         // Busy wait, waiting for the name of the room in the collection to change
@@ -191,7 +241,9 @@ class RoomsDB(val context: Context) {
             isWaitingForName = true
             return
         }
-        if (userLoadingStage.value == LoadingStage.FAILURE) { return}   // loading of the name failed
+        if (userLoadingStage.value == LoadingStage.FAILURE) {
+            return
+        }   // loading of the name failed
 
         //room already loaded
         if (roomName in roomsMap) {
@@ -237,7 +289,11 @@ class RoomsDB(val context: Context) {
             }
     }
 
-    private fun addFurnitureToMap(room: Room, activeFunc: () -> Unit, viewModel: ProjectViewModel? = null) {
+    private fun addFurnitureToMap(
+        room: Room,
+        activeFunc: () -> Unit,
+        viewModel: ProjectViewModel? = null
+    ) {
         // this function assumes that there are no furniture in loaded for this room yet in the DB
         roomToFurnitureMap[room.id] = mutableListOf()
         firebase.collection("furniture").whereEqualTo("roomId", room.id).get()
@@ -290,6 +346,7 @@ class RoomsDB(val context: Context) {
         for ((furnitureId, furniture) in furnitureMap) {
             firebase.collection("furniture").document(furnitureId).set(furniture)
         }
+        RoomInnApplication.getInstance().saveToSP()
     }
 
     fun saveFurniture(furniture: Furniture) {
@@ -345,7 +402,7 @@ class RoomsDB(val context: Context) {
         return room.windows
     }
 
-    fun deleteFurniture(furniture: Furniture, ) {
+    fun deleteFurniture(furniture: Furniture) {
         furnitureMap.remove(furniture.id)
         if (furniture.id in roomToFurnitureMap[furniture.roomId]!!) {
             roomToFurnitureMap[furniture.roomId]!!.remove(furniture.id)
@@ -375,26 +432,30 @@ class RoomsDB(val context: Context) {
         //if room was never loaded, change rooms name in DB
         else {
             roomNameIsLoading = true
-            firebase.collection("rooms").whereEqualTo("userId", user.id).whereEqualTo("name", oldRoomName).get()
-                    .addOnSuccessListener {
-                        val documents = it.documents
-                        for (doc in documents) {
-                            val roomId = doc["id"] as String
-                            firebase.collection("rooms").document(roomId).update("name", newRoomName)
-                                    .addOnSuccessListener {
-                                        roomNameIsLoading = false
-                                        if (isWaitingForName) {
-                                            loadRoomByName(roomName = newRoomName, activeFunc = loadRoomNavLambda)
-                                        }
-                                    }
-                                    .addOnFailureListener {
-                                        userLoadingStage.value = LoadingStage.FAILURE
-                                    }
-                        }
+            firebase.collection("rooms").whereEqualTo("userId", user.id)
+                .whereEqualTo("name", oldRoomName).get()
+                .addOnSuccessListener {
+                    val documents = it.documents
+                    for (doc in documents) {
+                        val roomId = doc["id"] as String
+                        firebase.collection("rooms").document(roomId).update("name", newRoomName)
+                            .addOnSuccessListener {
+                                roomNameIsLoading = false
+                                if (isWaitingForName) {
+                                    loadRoomByName(
+                                        roomName = newRoomName,
+                                        activeFunc = loadRoomNavLambda
+                                    )
+                                }
+                            }
+                            .addOnFailureListener {
+                                userLoadingStage.value = LoadingStage.FAILURE
+                            }
                     }
-                    .addOnFailureListener {
-                        userLoadingStage.value = LoadingStage.FAILURE
-                    }
+                }
+                .addOnFailureListener {
+                    userLoadingStage.value = LoadingStage.FAILURE
+                }
         }
     }
 
@@ -419,50 +480,77 @@ class RoomsDB(val context: Context) {
         // else, delete only from remote DB
         else {
             val batch = firebase.batch()
-            firebase.collection("rooms").whereEqualTo("userId", user.id).whereEqualTo("name", roomName).get()
-                    .addOnSuccessListener {
-                        val documents = it.documents
-                        for (doc in documents) {
-                            val roomId = doc["id"] as String
-                            firebase.collection("rooms").document(roomId).delete()
-                            firebase.collection("furniture").whereEqualTo("roomId", roomId).get()
-                                    .addOnSuccessListener {
-                                        val documentsFur = it.documents
-                                        for (docFur in documentsFur) {
-                                            batch.delete(docFur.reference)
-                                        }
-                                    }
-                        }
+            firebase.collection("rooms").whereEqualTo("userId", user.id)
+                .whereEqualTo("name", roomName).get()
+                .addOnSuccessListener {
+                    val documents = it.documents
+                    for (doc in documents) {
+                        val roomId = doc["id"] as String
+                        firebase.collection("rooms").document(roomId).delete()
+                        firebase.collection("furniture").whereEqualTo("roomId", roomId).get()
+                            .addOnSuccessListener {
+                                val documentsFur = it.documents
+                                for (docFur in documentsFur) {
+                                    batch.delete(docFur.reference)
+                                }
+                            }
                     }
+                }
         }
     }
 
-    fun initializeAfterUnity(userID: String, roomName: String, viewModel: ProjectViewModel?= null) {
+    fun initializeAfterUnity(
+        userID: String,
+        roomName: String,
+        viewModel: ProjectViewModel? = null
+    ) {
+        // todo- uncomment after the LoadFromSP will work properly
+//        if (loadFromSP()) return
         userLoadingStage.value = LoadingStage.LOADING
         val document = firebase.collection("users")
-                .document(userID)
+            .document(userID)
         document.get()
-                .addOnSuccessListener { d: DocumentSnapshot ->
-                    if (d.exists()) {
-                        user = d.toObject(User::class.java)!!
-                        rooms = MutableLiveData(user.roomsList)
-                        isInitialized = true
-                        if (roomName == "") {
+            .addOnSuccessListener { d: DocumentSnapshot ->
+                if (d.exists()) {
+                    user = d.toObject(User::class.java)!!
+                    rooms = MutableLiveData(user.roomsList)
+                    isInitialized = true
+                    if (roomName == "") {
 //                            loadRoomByName(roomName = roomName, activeFunc = loadRoomNavLambda, viewModel = viewModel)
-                        }
-                        roomListChanged()
-                        userLoadingStage.value = LoadingStage.SUCCESS
                     }
-                }
-                .addOnFailureListener {
-                    userLoadingStage.value = LoadingStage.FAILURE
-                    Log.d("Firebase", "loading user data failed")
-                }
-                .addOnCanceledListener {
+                    roomListChanged()
                     userLoadingStage.value = LoadingStage.SUCCESS
-                    Log.d("Firebase", "loading user data failed")
                 }
+            }
+            .addOnFailureListener {
+                userLoadingStage.value = LoadingStage.FAILURE
+                Log.d("Firebase", "loading user data failed")
+            }
+            .addOnCanceledListener {
+                userLoadingStage.value = LoadingStage.SUCCESS
+                Log.d("Firebase", "loading user data failed")
+            }
 
     }
+
+    fun serializeState(): Map<String, String> {
+        val serializeStateMap = mutableMapOf<String, String>()
+        val gson = Gson()
+
+        // user as string
+        serializeStateMap["user"] = gson.toJson(user)
+
+        //roomsMap as string
+        serializeStateMap["roomsMap"] = gson.toJson(roomsMap)
+
+        //furnitureMap as string
+        serializeStateMap["furnitureMap"] = gson.toJson(furnitureMap)
+
+        //roomsToFurnitureMap as string
+        serializeStateMap["roomToFurnitureMap"] = gson.toJson(roomToFurnitureMap)
+
+        return serializeStateMap
+    }
+
 
 }

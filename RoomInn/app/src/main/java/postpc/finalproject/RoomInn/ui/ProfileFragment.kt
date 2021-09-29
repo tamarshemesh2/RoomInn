@@ -59,8 +59,8 @@ class ProfileFragment : Fragment() {
         addProjectFab.setOnClickListener {
             val intent = Intent(requireContext(), ScanUnityHandler::class.java)
             intent.putExtra("User ID", RoomInnApplication.getInstance().getRoomsDB().user.id)
-            startActivity(intent)
             projectViewModel.doorsAndWindows.clear()
+            startActivity(intent)
 //            Navigation.findNavController(view)
 //                .navigate(R.id.action_profileFragment2_to_floorPlanRotateFragment)
         }

@@ -34,5 +34,14 @@
         android:foregroundGravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/choose_type_title" />
+    <ImageView
+        android:id="@+id/swipe_img"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/cursor_horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/furniture_type_recycler"
+        app:layout_constraintEnd_toEndOf="@id/furniture_type_recycler"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -40,47 +40,6 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
                 "SceneLoader",
                 "loadScene",
                 RoomUnityPlayerActivity.sceneIndex)
-
-//        getInstance().pathToUnity.value =
-//            UnityPlayer.currentActivity.getExternalFilesDir("")!!.absolutePath + "/"
-//        val sceneIndex = intent.getStringExtra("Scene Index")
-//        if (sceneIndex == ScanUnityPlayerActivity.sceneIndex) {
-//            UnityPlayer.UnitySendMessage(
-//                "SceneLoader",
-//                "loadScene",
-//                ScanUnityPlayerActivity.sceneIndex
-//            )
-//        } else {
-//            val roomName = intent.getStringExtra("Room Name")
-//            val roomDB = RoomInnApplication.getInstance().getRoomsDB()
-//            UnityPlayer.UnitySendMessage(
-//                "SceneLoader",
-//                "loadScene",
-//                MainUnityPlayerActivity.sceneIndex)
-//
-//        // render the walls.
-//        renderWalls(roomDB.wallsByRoomName(roomName!!))
-//
-//        // render the furniture.
-//        renderFurniture(roomDB.roomFurniture(roomName))
-//
-//        // render the doors.
-//        renderDoors(roomDB.doorsByRoomName(roomName))
-//
-//        // render the windows.
-//        renderWindows(roomDB.windowsByRoomName(roomName))
-    //}
-
-
-//        val wallList: MutableList<Wall> = mutableListOf()
-//        wallList.add(Wall(Point3D(2.5f, 0f, 0f), Point3D(0f, 90f, 0f), Point3D(6f, 10f, 0.0001f)))
-//        wallList.add(Wall(Point3D(0f, 0f, 3f), Point3D(0f, 0f, 0f), Point3D(5f, 10f, 0.0001f)))
-//        wallList.add(Wall(Point3D(-2.5f, 0f, 0f), Point3D(0f, 90f, 0f), Point3D(6f, 10f, 0.0001f)))
-//        wallList.add(Wall(Point3D(0f, 0f, -3f), Point3D(0f, 0f, 0f), Point3D(5f, 10f, 0.0001f)))
-
-//        val room = Room(mutableListOf<Point3D>(), wallList)
-//        renderRoom(room)
-
     }
 
     fun existUnityActivity() {

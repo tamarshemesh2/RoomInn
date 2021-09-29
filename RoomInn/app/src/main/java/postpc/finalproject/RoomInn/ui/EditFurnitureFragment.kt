@@ -176,7 +176,6 @@ class EditFurnitureFragment : Fragment() {
 
         delFab.setOnClickListener {
             DB.deleteFurniture(projectViewModel.furniture!!)
-            projectViewModel.memoryStack.saveRoomChange()
 
             if (furniture.type in listOf("Door", "Window") || !projectViewModel.newFurniture) {
                 Navigation.findNavController(it).popBackStack()
@@ -208,13 +207,10 @@ class EditFurnitureFragment : Fragment() {
             projectViewModel.furniture = furniture
 
             // update the furniture in the DB
-            Log.e("dbBBBBB", DB.toString())
-            Log.e("ViewModelLLLLL", projectViewModel.toString())
             DB.furnitureMap[projectViewModel.furniture!!.id] = projectViewModel.furniture!!
             if (projectViewModel.furniture!!.id !in DB.roomToFurnitureMap[projectViewModel.room.id]!!) {
                 DB.roomToFurnitureMap[projectViewModel.room.id]!!.add(projectViewModel.furniture!!.id)
             }
-            projectViewModel.memoryStack.saveRoomChange()
             if (furniture.type in listOf("Door", "Window") || !projectViewModel.newFurniture) {
                 Navigation.findNavController(it).popBackStack()
             } else {

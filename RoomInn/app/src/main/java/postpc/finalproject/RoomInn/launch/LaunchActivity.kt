@@ -97,6 +97,8 @@ class LaunchActivity : AppCompatActivity() {
                                 .show()
                     }
         } else {
+            if (progressDialog!=null){
+            progressDialog!!.dismiss()}
             FirebaseAuth.getInstance().signOut()
         }
     }
@@ -105,6 +107,7 @@ class LaunchActivity : AppCompatActivity() {
         getInstance().getRoomsDB().initialize(userId)
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        progressDialog!!.dismiss()
         startActivity(intent)
     }
 

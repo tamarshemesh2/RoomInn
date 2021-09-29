@@ -116,8 +116,7 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
         val roomTitle: TextView = view.findViewById(R.id.titleTextView)
         val addFab: ImageButton = view.findViewById(R.id.addButton)
         val playButton: FloatingActionButton = view.findViewById(R.id.playButton)
-//        val redoButton: FloatingActionButton = view.findViewById(R.id.redoButton)
-//        val undoButton: FloatingActionButton = view.findViewById(R.id.undoButton)
+
         var toAddFurniture = false
         //add all furniture to board
 
@@ -153,8 +152,9 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
                         projectViewModel.newFurniture = true
                         Navigation.findNavController(v)
                             .navigate(R.id.action_floorPlanFragment_to_addFurnitureFragment2)
+                        toAddFurniture = false
                     }
-                    toAddFurniture = false
+
                     return@setOnTouchListener true
                 }
                 addFab.setOnClickListener {
@@ -165,18 +165,6 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
                     ).show()
                     toAddFurniture = true
                 }
-//                undoButton.setOnClickListener {
-//                    if (!projectViewModel.memoryStack.undoStep()){
-//                    Toast.makeText(requireContext(),"there is no step to undo",Toast.LENGTH_SHORT).show()}
-//                    projectViewModel.redoUndoPresses.value=true
-//                }
-//                redoButton.setOnClickListener {
-//                    if(!projectViewModel.memoryStack.redoStep()){
-//                        Toast.makeText(requireContext(),"there is no step to redo",Toast.LENGTH_SHORT).show()}
-//                    projectViewModel.redoUndoPresses.value=true
-//
-//
-//                }
             }
         })
         hamburger.setOnClickListener {
@@ -356,3 +344,16 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
 
 }
 
+
+//                undoButton.setOnClickListener {
+//                    if (!projectViewModel.memoryStack.undoStep()){
+//                    Toast.makeText(requireContext(),"there is no step to undo",Toast.LENGTH_SHORT).show()}
+//                    projectViewModel.redoUndoPresses.value=true
+//                }
+//                redoButton.setOnClickListener {
+//                    if(!projectViewModel.memoryStack.redoStep()){
+//                        Toast.makeText(requireContext(),"there is no step to redo",Toast.LENGTH_SHORT).show()}
+//                    projectViewModel.redoUndoPresses.value=true
+//
+//
+//                }

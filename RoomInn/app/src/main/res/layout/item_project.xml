@@ -10,7 +10,7 @@
         android:id="@+id/border_line"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/orange_brown"
+        android:background="@color/light_orange"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 
@@ -56,7 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="#D2D8D8D8"
+        android:backgroundTint="@color/light_orange"
         app:borderWidth="0dp"
         android:outlineProvider="none"
         android:src="@drawable/ic_baseline_edit_24"

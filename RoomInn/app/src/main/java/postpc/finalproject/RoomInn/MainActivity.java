@@ -25,6 +25,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         progressDialog =  new ProgressDialog(this);
+
+        if (savedInstanceState != null) {
+            String userId = savedInstanceState.getString("userId", null);
+            if (userId != null) {
+                RoomInnApplication.getInstance().getRoomsDB().initialize(userId);
+            }
+        }
+
         ProjectViewModel viewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
         viewModel.setActivityContext(this);
         listenToLoadingStage();

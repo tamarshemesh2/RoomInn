@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.Navigation
 import postpc.finalproject.RoomInn.furnitureData.Wall
 import postpc.finalproject.RoomInn.Room
-import postpc.finalproject.RoomInn.RoomMemoryStack
 import postpc.finalproject.RoomInn.furnitureData.Furniture
 import postpc.finalproject.RoomInn.furnitureData.Point3D
 import postpc.finalproject.RoomInn.models.LoadingStage
@@ -31,12 +30,12 @@ class ProjectViewModel : ViewModel() {
                 getInstance().getRoomsDB().saveRoom(field)
             }
             field = newRoom
-            memoryStack = RoomMemoryStack(newRoom)
+//            memoryStack = RoomMemoryStack(newRoom)
         }
     val pointsPathName: String by lazy { "pointData.json" }
     val distancesPathName: String by lazy { "distances.json" }
 
-    var memoryStack: RoomMemoryStack = RoomMemoryStack(room)
+//    var memoryStack: RoomMemoryStack = RoomMemoryStack(room)
     val redoUndoPresses = MutableLiveData(false)
 
     var projectName: String = ""
