@@ -89,7 +89,7 @@ abstract class Furniture(
                 .getRoomCenter()
         )
         return screenPosition.add(roomCenter.multiply(-1f))
-            .getDivideByPoint(Point3D(100f, 100f, 100f)).apply { y = 0f }
+            .getDivideByPoint(Point3D(100f, 100f, -100f)).apply { y = 0f }
     }
 
     override fun equals(other: Any?): Boolean {
