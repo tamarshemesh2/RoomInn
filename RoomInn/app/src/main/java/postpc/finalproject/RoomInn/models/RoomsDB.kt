@@ -448,9 +448,10 @@ class RoomsDB(val context: Context) {
                         rooms = MutableLiveData(user.roomsList)
                         isInitialized = true
                         if (roomName == "") {
-                            loadRoomByName(roomName = roomName, activeFunc = loadRoomNavLambda, viewModel = viewModel)
+//                            loadRoomByName(roomName = roomName, activeFunc = loadRoomNavLambda, viewModel = viewModel)
                         }
                         roomListChanged()
+                        userLoadingStage.value = LoadingStage.SUCCESS
                     }
                 }
                 .addOnFailureListener {

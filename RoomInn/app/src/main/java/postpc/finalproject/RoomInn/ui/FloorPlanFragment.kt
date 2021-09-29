@@ -129,8 +129,9 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
         roomTitle.text = "${projectViewModel.projectName} \n- Floor Plan"
 
         playButton.setOnClickListener {
-                var intent = Intent(context, MainUnityPlayerActivity::class.java)
-                intent.putExtra("Scene Index", MainUnityPlayerActivity.sceneIndex)
+                var intent = Intent(context, RoomUnityPlayerActivity::class.java)
+                intent.putExtra("Scene Index", RoomUnityPlayerActivity.sceneIndex)
+                intent.putExtra("User ID", projectViewModel.room.userId)
                 intent.putExtra("Room Name", projectViewModel.room.name)
                 startActivity(intent)
 

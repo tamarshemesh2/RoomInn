@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -22,10 +23,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         progressDialog =  new ProgressDialog(this);
         ProjectViewModel viewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
         viewModel.setActivityContext(this);
         listenToLoadingStage();
+
+        // todo - add the function of tamar, initialize by user id and room name
+        Intent intent = getIntent();
+        if (intent.getExtras() != null) {
+            String userId = intent.getStringExtra("User ID");
+            String roomName = intent.getStringExtra("Room Name");
+            RoomInnApplication.getInstance().getRoomsDB().initializeAfterUnity(userId,roomName, viewModel);
+        }
+
     }
 
     private void listenToLoadingStage() {

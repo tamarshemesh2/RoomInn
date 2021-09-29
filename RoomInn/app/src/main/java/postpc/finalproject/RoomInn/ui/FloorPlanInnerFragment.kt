@@ -133,21 +133,23 @@ class FloorPlanInnerFragment : Fragment() {
     ) {
         val roomsDB = RoomInnApplication.getInstance()
             .getRoomsDB()
-        val mutableList = roomsDB.roomToFurnitureMap[projectViewModel.room.id]!!
-        for (furId in mutableList) {
-            val fur = roomsDB.furnitureMap[furId]
-            if (fur != null) {
-                if (fur.type !in listOf("Window", "Door")) {
-                    val relativeLocation =
-                        fur.position.getRelativeLocation(roomRatio, intArrayOf(0, 0))
-                    furnitureOnBoardList += FurnitureOnBoard(
-                        projectViewModel,
-                        requireParentFragment().requireContext(),
-                        fur,
-                        layout,
-                        relativeLocation.x,
-                        relativeLocation.z
-                    )
+        val mutableList = roomsDB.roomToFurnitureMap[projectViewModel.room.id]
+        if (mutableList != null) {
+            for (furId in mutableList) {
+                val fur = roomsDB.furnitureMap[furId]
+                if (fur != null) {
+                    if (fur.type !in listOf("Window", "Door")) {
+                        val relativeLocation =
+                            fur.position.getRelativeLocation(roomRatio, intArrayOf(0, 0))
+                        furnitureOnBoardList += FurnitureOnBoard(
+                            projectViewModel,
+                            requireParentFragment().requireContext(),
+                            fur,
+                            layout,
+                            relativeLocation.x,
+                            relativeLocation.z
+                        )
+                    }
                 }
             }
         }

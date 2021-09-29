@@ -9,13 +9,15 @@ import postpc.finalproject.RoomInn.models.RoomInnApplication
 class ScanUnityPlayerActivity : UnityPlayerActivity() {
 
     companion object{
-        val sceneIndex = "1"
+        val sceneIndex = "2"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        RoomInnApplication.getInstance().pathToUnity.value =
-//            UnityPlayer.currentActivity.getExternalFilesDir("")!!.absolutePath
+
+        RoomInnApplication.getInstance().pathToUnity.value =
+            UnityPlayer.currentActivity.getExternalFilesDir("")!!.absolutePath + "/"
+
         UnityPlayer.UnitySendMessage("GameObject", "loadScene", sceneIndex)
 
     }

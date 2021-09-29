@@ -28,6 +28,8 @@ data class Room(
 
 
     fun init() {
+        if (Corners.size == 0)
+            return
         val fCorner =  Corners.first()
         minX =fCorner.x
         minZ =fCorner.z
@@ -66,6 +68,8 @@ data class Room(
         if (!isInit) {
             init()
         }
+        if (Corners.size == 0)
+            return Size(0,0)
         var maxX = Corners.first().x
         var maxZ = Corners.first().z
         for (corner in Corners) {

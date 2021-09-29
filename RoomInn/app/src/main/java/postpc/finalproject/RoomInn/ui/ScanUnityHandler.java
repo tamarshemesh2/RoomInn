@@ -10,7 +10,11 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.unity3d.player.UnityPlayer;
+
+import postpc.finalproject.RoomInn.MainActivity;
 import postpc.finalproject.RoomInn.R;
+import postpc.finalproject.RoomInn.models.RoomInnApplication;
 
 public class ScanUnityHandler extends AppCompatActivity {
     public static Context ctx;
@@ -24,7 +28,7 @@ public class ScanUnityHandler extends AppCompatActivity {
         unityButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent thisIntent = getIntent();
-                Intent intent = new Intent(ScanUnityHandler.this, MainUnityPlayerActivity.class);
+                Intent intent = new Intent(ScanUnityHandler.this, ScanUnityPlayerActivity.class);
                 intent.putExtra("Scene Index", thisIntent.getStringExtra("Scene Index"));
                 startActivity(intent);
             }
@@ -39,6 +43,22 @@ public class ScanUnityHandler extends AppCompatActivity {
 
     public void toCallFromUnity(){
         // navigate to windows/ doors fragment
+
+        runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                Intent intent = new Intent(ScanUnityHandler.this, MainActivity.class);
+                String userId = getIntent().getStringExtra("User ID");
+                String roomName =  getIntent().getStringExtra("Room Name");
+                intent.putExtra("User ID", userId);
+                intent.putExtra("Room Name",roomName);
+                startActivity(intent);
+//                this.mUnityPlayer.quit();
+
+            }
+        });
+
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         if (navHostFragment != null){
             NavController navController = navHostFragment.getNavController();

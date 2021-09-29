@@ -3,6 +3,7 @@ package postpc.finalproject.RoomInn.ui
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Size
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,7 @@ import postpc.finalproject.RoomInn.furnitureData.*
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 import postpc.finalproject.RoomInn.models.RoomsDB
 import top.defaults.colorpicker.ColorPickerPopup
+
 
 import top.defaults.colorpicker.ColorPickerPopup.ColorPickerObserver
 
@@ -206,6 +208,8 @@ class EditFurnitureFragment : Fragment() {
             projectViewModel.furniture = furniture
 
             // update the furniture in the DB
+            Log.e("dbBBBBB", DB.toString())
+            Log.e("ViewModelLLLLL", projectViewModel.toString())
             DB.furnitureMap[projectViewModel.furniture!!.id] = projectViewModel.furniture!!
             if (projectViewModel.furniture!!.id !in DB.roomToFurnitureMap[projectViewModel.room.id]!!) {
                 DB.roomToFurnitureMap[projectViewModel.room.id]!!.add(projectViewModel.furniture!!.id)
