@@ -83,20 +83,17 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
 
     }
 
+    fun existUnityActivity() {
+        runOnUiThread {
+            val intent = Intent(this@RoomUnityPlayerActivity, MainActivity::class.java)
+            intent.putExtra("User ID", userId)
+            intent.putExtra("Room Name", roomName)
+            startActivity(intent)
+            mUnityPlayer.quit()
+        }
+    }
+
     fun renderRoom() {
-//        val mBackgroundThread = HandlerThread("FrameRateFix")
-//        mBackgroundThread.start()
-//        val mBackgroundHandler = Handler(mBackgroundThread.looper)
-//        mBackgroundHandler.postDelayed({mUnityPlayer.quit()
-//            mBackgroundThread.quit()}, 5000)
-//        runOnUiThread {
-//            val intent = Intent(this@RoomUnityPlayerActivity, MainActivity::class.java)
-//            intent.putExtra("User ID", userId)
-//            intent.putExtra("Room Name",roomName)
-//            startActivity(intent)
-//            mUnityPlayer.quit()
-//        }
-//        mUnityPlayer.quit()
          //render the walls.
         renderWalls(roomDB.wallsByRoomName(roomName!!))
 
@@ -129,7 +126,6 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
             )
         }
     }
-
 
     private fun renderDoors(doorList: MutableList<Door>) {
         for (door in doorList) {

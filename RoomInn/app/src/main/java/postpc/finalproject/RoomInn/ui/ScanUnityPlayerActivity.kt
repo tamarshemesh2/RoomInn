@@ -1,5 +1,6 @@
 package postpc.finalproject.RoomInn.ui
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.unity3d.player.UnityPlayer
@@ -13,11 +14,14 @@ class ScanUnityPlayerActivity : UnityPlayerActivity() {
 
     companion object{
         val sceneIndex = "2"
+        lateinit var ctx: Context
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        userId = intent.getStringExtra("userId")!!
+        userId = intent.getStringExtra("User ID")!!
+
+        ctx = this
 
         RoomInnApplication.getInstance().pathToUnity.value =
             UnityPlayer.currentActivity.getExternalFilesDir("")!!.absolutePath + "/"
@@ -29,8 +33,8 @@ class ScanUnityPlayerActivity : UnityPlayerActivity() {
         // navigate to windows/ doors fragment
         runOnUiThread {
             val intent = Intent(this@ScanUnityPlayerActivity, MainActivity::class.java)
-            intent.putExtra("userId", userId)
-            intent.putExtra("roomName", "")
+            intent.putExtra("User ID", userId)
+            intent.putExtra("Room Name", "")
             startActivity(intent)
             mUnityPlayer.quit()
         }

@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import postpc.finalproject.RoomInn.MainActivity
 import postpc.finalproject.RoomInn.R
-import postpc.finalproject.RoomInn.ui.MainUnityPlayerActivity
 import postpc.finalproject.RoomInn.ui.ScanUnityHandler
 
 class ScanUnityHandler : AppCompatActivity() {
@@ -22,19 +21,11 @@ class ScanUnityHandler : AppCompatActivity() {
         unityButton.setOnClickListener {
             thisIntent = intent
             // Todo: userid
-            userId = thisIntent.getStringExtra("userId")!!
-            val intent = Intent(this@ScanUnityHandler, MainUnityPlayerActivity::class.java)
+            userId = thisIntent.getStringExtra("User ID")!!
+            val intent = Intent(this@ScanUnityHandler, ScanUnityPlayerActivity::class.java)
             intent.putExtra("Scene Index", thisIntent.getStringExtra("Scene Index"))
-            intent.putExtra("userId", userId)
+            intent.putExtra("User ID", userId)
             startActivity(intent)
         }
     }
-
-    fun backPressedFromRoomScan() {
-        // navigate to project page
-        super.onBackPressed()
-    }
-
-
-
 }
