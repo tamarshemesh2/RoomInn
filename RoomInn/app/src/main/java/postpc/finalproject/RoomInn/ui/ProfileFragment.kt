@@ -58,7 +58,7 @@ class ProfileFragment : Fragment() {
         // needs to be changed to daniella's unity features
         addProjectFab.setOnClickListener {
             val intent = Intent(requireContext(), ScanUnityHandler::class.java)
-            intent.putExtra("Scene Index", ScanUnityPlayerActivity.sceneIndex)
+            intent.putExtra("User ID", RoomInnApplication.getInstance().getRoomsDB().user.id)
             startActivity(intent)
             projectViewModel.doorsAndWindows.clear()
 //            Navigation.findNavController(view)

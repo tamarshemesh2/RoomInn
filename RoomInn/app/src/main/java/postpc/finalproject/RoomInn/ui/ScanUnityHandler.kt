@@ -20,10 +20,8 @@ class ScanUnityHandler : AppCompatActivity() {
         val unityButton = findViewById<Button>(R.id.startUnityButton)
         unityButton.setOnClickListener {
             thisIntent = intent
-            // Todo: userid
             userId = thisIntent.getStringExtra("User ID")!!
             val intent = Intent(this@ScanUnityHandler, ScanUnityPlayerActivity::class.java)
-            intent.putExtra("Scene Index", thisIntent.getStringExtra("Scene Index"))
             intent.putExtra("User ID", userId)
             startActivity(intent)
         }
