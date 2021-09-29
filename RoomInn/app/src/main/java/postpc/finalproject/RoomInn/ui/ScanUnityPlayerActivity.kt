@@ -26,7 +26,7 @@ class ScanUnityPlayerActivity : UnityPlayerActivity() {
         RoomInnApplication.getInstance().pathToUnity.value =
             UnityPlayer.currentActivity.getExternalFilesDir("")!!.absolutePath + "/"
 
-        UnityPlayer.UnitySendMessage("GameObject", "loadScene", sceneIndex)
+        UnityPlayer.UnitySendMessage("SceneLoader", "loadScene", sceneIndex)
     }
 
     fun toCallFromUnity() {

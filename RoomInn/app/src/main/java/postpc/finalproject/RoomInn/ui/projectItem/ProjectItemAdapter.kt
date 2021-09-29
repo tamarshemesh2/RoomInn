@@ -98,9 +98,9 @@ class ProjectItemAdapter : RecyclerView.Adapter<ProjectItemHolder>() {
             }
 
             holder.playButton.setOnClickListener {
-                val intent = Intent(context, ScanUnityHandler::class.java)
-                intent.putExtra("Scene Index", RoomUnityPlayerActivity.sceneIndex)
-                intent.putExtra("Room ID", viewModel!!.room.id)
+                val intent = Intent(context, RoomUnityPlayerActivity::class.java)
+                intent.putExtra("Room Name", projectItem.roomName)
+                intent.putExtra("User ID", viewModel!!.room.userId)
                 context.startActivity(intent)
 
             }
