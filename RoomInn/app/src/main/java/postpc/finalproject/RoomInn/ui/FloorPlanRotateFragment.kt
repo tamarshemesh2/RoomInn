@@ -87,36 +87,7 @@ class FloorPlanRotateFragment : Fragment() {
                 roomCanvas.viewTreeObserver
                     .removeOnGlobalLayoutListener(this)
                 if (corners.size <2){
-                    //TODO: comment the next lines
-                    corners = mutableListOf(
-                        Point3D(
-                            -0.015324175357818604f,
-                            -0.8654714822769165f,
-                            1.9097247123718262f
-                        ).multiply(100f),
-                        Point3D(
-                            0.8313037157058716f,
-                            -1.3702747821807862f,
-                            -0.5127741098403931f
-                        ).multiply(100f),
-                        Point3D(
-                            -2.139707326889038f,
-                            -0.8447096347808838f,
-                            -1.2366341352462769f
-                        ).multiply(100f),
-                        Point3D(
-                            -2.084784984588623f,
-                            -0.5958563089370728f,
-                            1.5056521892547608f
-                        ).multiply(100f)
-
-                    )
-//                    val listPointsType = object : TypeToken<MutableMap<String, MutableList<Point3D>>>() {}.type
-                    val done  = app.json.toJson(corners)
-                    Log.e("fileProblem!-needed Input", done)
-                    //todo -- stop comment here and uncomment the next
-
-//                    Navigation.findNavController(view).navigate(R.id.action_floorPlanRotateFragment_to_profileFragment2)
+                    Navigation.findNavController(view).navigate(R.id.action_floorPlanRotateFragment_to_profileFragment2)
                 }
                 val room = Room(Corners = corners, userId = roomsDB.user.id)
 
@@ -166,8 +137,6 @@ class FloorPlanRotateFragment : Fragment() {
                         rotateEditText.setText(roomCanvas.rotation.toString())
                     }
                 }
-
-
 
 
                 rotateRightBtn.setOnClickListener {

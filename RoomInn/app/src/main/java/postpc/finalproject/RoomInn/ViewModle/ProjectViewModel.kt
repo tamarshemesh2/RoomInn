@@ -22,7 +22,6 @@ import kotlin.math.asin
 
 class ProjectViewModel : ViewModel() {
     var helpMenuQueue: FancyShowCaseQueue? = null
-    var roomEnableFurnitureOnBoard: Boolean = false
 
     @RequiresApi(Build.VERSION_CODES.N)
 
@@ -32,13 +31,10 @@ class ProjectViewModel : ViewModel() {
                 getInstance().getRoomsDB().saveRoom(field)
             }
             field = newRoom
-//            memoryStack = RoomMemoryStack(newRoom)
         }
     val pointsPathName: String by lazy { "pointData.json" }
     val distancesPathName: String by lazy { "distances.json" }
 
-//    var memoryStack: RoomMemoryStack = RoomMemoryStack(room)
-    val redoUndoPresses = MutableLiveData(false)
     var goTo: Int = 0
 
     var projectName: String = ""
