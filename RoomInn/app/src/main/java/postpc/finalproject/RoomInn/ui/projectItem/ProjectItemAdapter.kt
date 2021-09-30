@@ -101,6 +101,7 @@ class ProjectItemAdapter : RecyclerView.Adapter<ProjectItemHolder>() {
                 val intent = Intent(context, RoomUnityPlayerActivity::class.java)
                 intent.putExtra("Room Name", projectItem.roomName)
                 intent.putExtra("User ID", viewModel!!.room.userId)
+                intent.putExtra("Return To", "0")
                 context.startActivity(intent)
 
             }

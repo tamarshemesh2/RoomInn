@@ -3,12 +3,16 @@ package postpc.finalproject.RoomInn.models
 import android.app.Activity
 import android.content.Context
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.*
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.furnitureData.Wall
 import postpc.finalproject.RoomInn.Room
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
@@ -502,6 +506,7 @@ class RoomsDB(val context: Context) {
     fun initializeAfterUnity(
         userID: String,
         roomName: String,
+        navController:NavController,
         viewModel: ProjectViewModel? = null
     ) {
         // todo- uncomment after the LoadFromSP will work properly
@@ -519,6 +524,11 @@ class RoomsDB(val context: Context) {
 //                            loadRoomByName(roomName = roomName, activeFunc = loadRoomNavLambda, viewModel = viewModel)
                     }
                     roomListChanged()
+                    when (viewModel?.goTo ?: 0){
+                        (2)-> navController.navigate(R.id.action_profileFragment2_to_floorPlanRotateFragment)
+                        (1)-> navController.navigate(R.id.action_profileFragment2_to_floorPlanFragment)
+                        (0)-> null
+                    }
                     userLoadingStage.value = LoadingStage.SUCCESS
                 }
             }

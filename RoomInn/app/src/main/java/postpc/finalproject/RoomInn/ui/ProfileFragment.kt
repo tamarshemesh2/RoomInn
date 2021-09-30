@@ -1,7 +1,10 @@
 package postpc.finalproject.RoomInn.ui
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +26,11 @@ import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.launch.LaunchActivity
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 import java.io.File
+import android.util.Log
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 
 class ProfileFragment : Fragment() {
     companion object {
@@ -33,14 +41,38 @@ class ProfileFragment : Fragment() {
         ViewModelProvider(requireActivity()).get(ProjectViewModel::class.java)
     }
 
+    @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Log.e("createdProfile", "==================================================")
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+//
+//        val findNavController = Navigation.findNavController(requireView())
+//        when (projectViewModel.goTo){
+//            (2)-> findNavController.navigate(R.id.action_profileFragment2_to_floorPlanRotateFragment)
+//            (1)-> findNavController.navigate(R.id.action_profileFragment2_to_floorPlanFragment)
+//            (0)-> null
+//        }
+
+    }
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // check if returned from scan
-        lookForScan(view)
+//        lookForScan(view)
         super.onViewCreated(view, savedInstanceState)
 
         // find all views
@@ -59,6 +91,7 @@ class ProfileFragment : Fragment() {
         addProjectFab.setOnClickListener {
             val intent = Intent(requireContext(), ScanUnityHandler::class.java)
             intent.putExtra("User ID", RoomInnApplication.getInstance().getRoomsDB().user.id)
+            intent.putExtra("Return To", 2)
             projectViewModel.doorsAndWindows.clear()
             startActivity(intent)
 //            Navigation.findNavController(view)
