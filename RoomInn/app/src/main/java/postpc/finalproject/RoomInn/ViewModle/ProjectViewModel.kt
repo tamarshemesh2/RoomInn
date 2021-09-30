@@ -8,6 +8,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.Navigation
+import me.toptas.fancyshowcase.FancyShowCaseQueue
 import postpc.finalproject.RoomInn.furnitureData.Wall
 import postpc.finalproject.RoomInn.Room
 import postpc.finalproject.RoomInn.furnitureData.Furniture
@@ -20,6 +21,7 @@ import kotlin.math.PI
 import kotlin.math.asin
 
 class ProjectViewModel : ViewModel() {
+    var helpMenuQueue: FancyShowCaseQueue? = null
     var roomEnableFurnitureOnBoard: Boolean = false
 
     @RequiresApi(Build.VERSION_CODES.N)
