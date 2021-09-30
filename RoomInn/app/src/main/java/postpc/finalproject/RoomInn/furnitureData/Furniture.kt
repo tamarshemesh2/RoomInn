@@ -83,7 +83,7 @@ abstract class Furniture(
 
     open fun unityPosition(): Point3D {
         val screenPosition = Point3D(position)
-        screenPosition.add(scale.getDivideByPoint(Point3D(2f, 2f, -2f)))
+        screenPosition.add(scale.getDivideByPoint(Point3D(2f, 2f, 2f)))
         val roomCenter = Point3D(
             RoomInnApplication.getInstance()
                 .getRoomsDB().roomByRoomID(roomId)

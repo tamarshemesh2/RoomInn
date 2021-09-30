@@ -1,18 +1,22 @@
 package postpc.finalproject.RoomInn.ui
 
+
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Size
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.widget.*
+import android.widget.CheckBox
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import com.azeesoft.lib.colorpicker.ColorPickerDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import postpc.finalproject.RoomInn.FurnitureCanvas
 import postpc.finalproject.RoomInn.R
@@ -20,10 +24,6 @@ import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.furnitureData.*
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 import postpc.finalproject.RoomInn.models.RoomsDB
-import top.defaults.colorpicker.ColorPickerPopup
-
-
-import top.defaults.colorpicker.ColorPickerPopup.ColorPickerObserver
 
 
 class EditFurnitureFragment : Fragment() {
@@ -134,19 +134,31 @@ class EditFurnitureFragment : Fragment() {
         freeRatioCheckBox.isChecked = furniture.freeScale
 
         colorBtn.setOnClickListener { v ->
-            ColorPickerPopup.Builder(context).initialColor(furniture.color)
-                .enableBrightness(true) // enable color brightness
-                .enableAlpha(false) // enable color alpha
-                .okTitle("Choose") // this is top right
-                .cancelTitle("Cancel") // this is top left
-                .showIndicator(true) // this is the small box
-                .showValue(true).build().show(v,
-                    object : ColorPickerObserver() {
-                        override fun onColorPicked(color: Int) {
-                            colorBtn.setColorFilter(color)
-                            furniture.color = color
-                        }
-                    })
+
+            val colorPickerDialog: ColorPickerDialog =
+                ColorPickerDialog.createColorPickerDialog(requireContext(), ColorPickerDialog.LIGHT_THEME)
+            colorPickerDialog.setOnColorPickedListener { color, _ ->
+                //Your code here
+                colorBtn.setColorFilter(color)
+                furniture.color = color
+            }
+            colorPickerDialog.hideOpacityBar()
+            colorPickerDialog.show();
+//            ColorPickerPopup.Builder(context).initialColor(furniture.color)
+//                .enableBrightness(true) // enable color brightness
+//                .enableAlpha(false) // enable color alpha
+//                .okTitle("Choose") // this is top right
+//                .cancelTitle("Cancel") // this is top left
+//                .showIndicator(true) // this is the small box
+//                .showValue(true).build().show(v,
+//                    object : ColorPickerObserver() {
+//                        override fun onColorPicked(color: Int) {
+//                            colorBtn.setColorFilter(color)
+//                            furniture.color = color
+//                        }
+//
+//
+//                    })
         }
 
         freeRatioCheckBox.setOnClickListener {
