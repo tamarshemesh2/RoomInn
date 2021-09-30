@@ -69,7 +69,6 @@ class DragAndScaleListener(
         when (event.action and MotionEvent.ACTION_MASK) {
             MotionEvent.ACTION_DOWN -> {
                 if (mode==NONE){
-                    projectViewModel.memoryStack.saveRoomChange()
                 }
                 params = view.layoutParams as RelativeLayout.LayoutParams
                 startWidth = params.width
@@ -82,16 +81,10 @@ class DragAndScaleListener(
 
                 oldDist = spacing(event)
                 if (oldDist > 10f) {
-                    projectViewModel.memoryStack.saveRoomChange()
-
                     mode = ZOOM
                 }
             }
-            MotionEvent.ACTION_UP, MotionEvent.ACTION_POINTER_UP -> {
-                mode = NONE
-                projectViewModel.memoryStack.saveRoomChange()
-
-            }
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_POINTER_UP -> mode = NONE
 
             MotionEvent.ACTION_MOVE -> if (mode == DRAG) {
                 x = event.rawX

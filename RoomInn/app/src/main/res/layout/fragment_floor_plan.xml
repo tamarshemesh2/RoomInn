@@ -78,7 +78,7 @@
             android:layout_height="100dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/round_button"
-            android:backgroundTint="@color/orange_brown"
+            android:backgroundTint="@color/light_orange"
             android:foregroundTint="@color/black"
             app:layout_constraintBottom_toTopOf="@id/playButton"
             app:layout_constraintEnd_toEndOf="parent"

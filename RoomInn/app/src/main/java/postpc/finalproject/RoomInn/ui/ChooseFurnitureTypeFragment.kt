@@ -6,6 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.CycleInterpolator
+import android.view.animation.TranslateAnimation
+import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
@@ -18,6 +22,7 @@ import postpc.finalproject.RoomInn.furnitureData.*
 import postpc.finalproject.RoomInn.ui.furnitureCategoryItem.FurnitureCategoryItemAdapter
 import postpc.finalproject.RoomInn.ui.furnitureTypeItem.FurnitureTypeItemAdapter
 import www.sanju.zoomrecyclerlayout.ZoomRecyclerLayout
+import java.lang.Math.abs
 
 class ChooseFurnitureTypeFragment : Fragment() {
     companion object {
@@ -34,15 +39,17 @@ class ChooseFurnitureTypeFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+    @SuppressLint("UseCompatLoadingForDrawables", "ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         // find all views
         val furnitureRecyclerView: RecyclerView = view.findViewById(R.id.furniture_type_recycler)
+        val swipeGif: ImageView = view.findViewById(R.id.swipe_img)
+
         val furnitureType = projectViewModel.furniture!!.type
 
-        val typeMap: Map<Int,FurnitureType>? = (when (furnitureType) {
+        val typeMap: Map<Int, FurnitureType>? = (when (furnitureType) {
             ("Chair") -> Chair.typeMap
             ("Armchair") -> Armchair.typeMap
             ("Bed") -> Bed.typeMap
@@ -61,6 +68,10 @@ class ChooseFurnitureTypeFragment : Fragment() {
             adapter.setContext(requireContext())
             adapter.setItems(typeMap)
 
+            swipeHorizontal(swipeGif)
+
+
+
             val linearLayoutManager = ZoomRecyclerLayout(requireContext())
             linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
             linearLayoutManager.reverseLayout = true
@@ -73,8 +84,17 @@ class ChooseFurnitureTypeFragment : Fragment() {
 
             // set the recycle view
             furnitureRecyclerView.adapter = adapter
-
         }
+    }
+
+    private fun swipeHorizontal(view: View, moveX: Float = 150F, moveY: Float = 0F) {
+        view.animate().alpha(1f).start()
+        val translate = TranslateAnimation(0F, moveX, 0F, moveY)
+        translate.duration = 2400
+        translate.startOffset = 0
+        translate.repeatMode = Animation.REVERSE
+        translate.interpolator = CycleInterpolator(2F)
+        view.startAnimation(translate).also { view.animate().alpha(0f).setDuration(1200).setStartDelay(500).start() }
     }
 
 

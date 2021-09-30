@@ -24,7 +24,6 @@ class GeneralGestureListener(
         furniture.rotation.y += 45
         furniture.rotation.y %= 360
         imageView.rotation = furniture.rotation.y
-        projectViewModel.memoryStack.saveRoomChange()
         return super.onSingleTapConfirmed(e)
     }
 

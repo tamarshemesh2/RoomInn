@@ -11,9 +11,9 @@ import kotlin.math.min
 import kotlin.math.roundToInt
 
 abstract class Furniture(
-    var position: Point3D,
-    var rotation: Point3D,
-    var scale: Point3D,
+    var position: Point3D = Point3D(),
+    var rotation: Point3D = Point3D(),
+    var scale: Point3D = Point3D(),
     var color: Int = Color.GRAY,
     var id: String = UUID.randomUUID().toString(),
 ) {
@@ -21,6 +21,7 @@ abstract class Furniture(
     var type: String = "unknown"
     var roomId: String = "unknown"
     var freeScale: Boolean = false
+    constructor() : this(Point3D(),Point3D(),Point3D())
 
     //copy constructor
     constructor(fur: Furniture) : this(fur.position, fur.rotation, fur.scale, fur.color, fur.id) {
@@ -43,7 +44,7 @@ abstract class Furniture(
             .add(distance.multiply(-1f)).multiply(-1f).apply { this.y = 0f }
     }
 
-    open fun getSizeToDraw(size: Size): Pair<Float, Float> {
+    fun getSizeToDraw(size: Size): Pair<Float, Float> {
         val ratioSize = min(size.height / (scale.z), size.width / scale.x)
         return Pair(ratioSize, ratioSize)
     }
@@ -82,7 +83,7 @@ abstract class Furniture(
 
     open fun unityPosition(): Point3D {
         val screenPosition = Point3D(position)
-        screenPosition.add(scale.getDivideByPoint(Point3D(2f, 2f, 2f)))
+        screenPosition.add(scale.getDivideByPoint(Point3D(2f, 2f, -2f)))
         val roomCenter = Point3D(
             RoomInnApplication.getInstance()
                 .getRoomsDB().roomByRoomID(roomId)

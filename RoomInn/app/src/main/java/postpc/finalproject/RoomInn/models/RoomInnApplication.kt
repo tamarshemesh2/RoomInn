@@ -1,11 +1,13 @@
 package postpc.finalproject.RoomInn.models
 
 import android.app.Application
-import android.os.FileObserver
+import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import postpc.finalproject.RoomInn.Room
 import postpc.finalproject.RoomInn.furnitureData.Point3D
 import postpc.finalproject.RoomInn.furnitureData.Wall
 import java.io.BufferedReader
@@ -21,6 +23,7 @@ class RoomInnApplication: Application() {
 
     // provide instance of the class to other classes in the app
     companion object {
+        lateinit var sp:SharedPreferences
         private lateinit var instance: RoomInnApplication
         @JvmStatic
         fun getInstance(): RoomInnApplication {
@@ -38,9 +41,24 @@ class RoomInnApplication: Application() {
 
         //initialize:
         instance = this
+        sp = this.getSharedPreferences("local_DB", Context.MODE_PRIVATE)
         roomsDB = RoomsDB(this)
 
     }
+
+    fun saveToSP(){
+        val editor = sp.edit()
+        editor.clear()
+        val serializedState: Map<String,String> = roomsDB.serializeState()
+        for ((key,value) in serializedState){
+            Log.d("furnitureSP", value)
+
+            editor.putString(key, value)
+        }
+        editor.apply()
+    }
+
+
     fun readFromFileToPoints(f: String): MutableList<Point3D> {
         //Read the file
         val bufferedReader: BufferedReader = File(pathToUnity.value+f).bufferedReader()
