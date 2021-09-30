@@ -20,6 +20,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/instructions" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineRight"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.90"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLeft"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.10"/>
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -48,23 +61,21 @@
         app:layout_constraintTop_toBottomOf="@id/textView"
         />
 
+
     <TextView
         android:id="@+id/instructions"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="
-        1. move phone around the room\n
-           to detect floor plane\n\n
-        2. tap to place markers\n\n
-        3. tap a marker and drag to move\n\n
-        4. tap undo to erase most recent marker\n\n
-        5. tap done when done measuring room"
+        android:text="walk around the room and move phone around to detect floor plane\n\ntap to place markers in corners of walls\n\ntap a marker and drag to move it\n\ntap undo to erase most recent marker\n\ntap done when done measuring room"
         android:fontFamily="@font/dosis_medium"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@id/gif"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
         app:layout_constraintTop_toBottomOf="@id/gif"
-        app:layout_constraintEnd_toEndOf="@id/gif"
+        app:layout_constraintEnd_toEndOf="@id/guidelineRight"
         app:layout_constraintBottom_toTopOf="@id/startUnityButton"
         android:textColor="@color/black"
+        android:textAlignment="center"
         android:textSize="16sp"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

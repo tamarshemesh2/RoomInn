@@ -22,8 +22,17 @@
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/middle_line_border"
-        android:background="@drawable/background_watercolor" />
+        android:background="@drawable/background_watercolor" >
+    </RelativeLayout>
 
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:srcCompat="@drawable/logo_icon_transparent"
+        app:layout_constraintBottom_toTopOf="@id/border"
+        app:layout_constraintStart_toStartOf="@id/MyProjects_title"
+        app:layout_constraintEnd_toEndOf="@id/MyProjects_title"/>
 
     <TextView
         android:id="@+id/MyProjects_title"
@@ -37,7 +46,8 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/border"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/backgroundImg"
         />
 
     <TextView
@@ -45,8 +55,7 @@
         android:layout_width="0dp"
         android:layout_height="4dp"
         android:layout_marginTop="4dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/backgroundImg"
+        app:layout_constraintTop_toBottomOf="@id/MyProjects_title"
         app:layout_constraintStart_toStartOf="@id/MyProjects_title"
         app:layout_constraintEnd_toEndOf="@id/MyProjects_title"
         android:background="@color/light_pink" />
