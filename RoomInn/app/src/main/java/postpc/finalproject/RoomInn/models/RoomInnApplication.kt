@@ -5,9 +5,11 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import postpc.finalproject.RoomInn.Room
+import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.furnitureData.Point3D
 import postpc.finalproject.RoomInn.furnitureData.Wall
 import java.io.BufferedReader
@@ -115,17 +117,19 @@ class RoomInnApplication: Application() {
     }
     fun createWalls(
         corners: MutableList<Point3D>,
-        distances: MutableList<Float>
+        distances: MutableList<Float>,
+         projectViewModel : ProjectViewModel
     ): MutableList<Wall> {
         val walls = mutableListOf<Wall>()
         for (i in 1..distances.size) {
             var wall = Wall()
             wall.position =
                 Point3D(corners[i - 1].add(corners[i]).multiply(0.5f)).apply { this.y = 0f }
-            wall.scale = Point3D(distances[i - 1], 270f, 25f)
+            wall.scale = Point3D(distances[i - 1], 10f, 0.001f)
             val sinY =
                 Point3D(corners[i - 1]).add(Point3D(corners[i]).multiply(-1f)).x / distances[i - 1]
             wall.rotation = Point3D(0f, asin(sinY) * (180 / PI).toFloat(), 0f)
+            wall.roomCenter = Point3D(projectViewModel.room.getRoomCenter())
             walls.add(wall)
         }
         return walls

@@ -73,7 +73,7 @@ class FloorPlanPlacingFragment : Fragment() {
 //                projectViewModel.room = Room(corners,walls)
 
                 roomCanvas.setPath(
-                    projectViewModel.room.drawFloorPlan(layout.measuredWidth,layout.measuredHeight))
+                    projectViewModel.room.drawFloorPlan(layout.measuredWidth-10,layout.measuredHeight-10))
 
                 layout.getLocationOnScreen(projectViewModel.layoutMeasures)
 

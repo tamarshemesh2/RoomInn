@@ -129,6 +129,9 @@ class FloorPlanRotateFragment : Fragment() {
                         minSize
                     )
                 )
+                projectNameEditText.setOnFocusChangeListener { v, hasFocus ->
+                    v.dispatchDisplayHint(View.GONE)
+                }
                 projectNameEditText.doOnTextChanged { text, start, before, count ->
                     val projectName = text.toString()
                     if (projectName in roomsDB.rooms.value!!
@@ -169,10 +172,13 @@ class FloorPlanRotateFragment : Fragment() {
 
                 rotateRightBtn.setOnClickListener {
                     roomCanvas.rotation += 10
+                    roomCanvas.rotation%=360
+
                     rotateEditText.setText(roomCanvas.rotation.toString())
                 }
                 rotateLeftBtn.setOnClickListener {
                     roomCanvas.rotation -= 10
+                    roomCanvas.rotation%=360
                     rotateEditText.setText(roomCanvas.rotation.toString())
 
                 }
@@ -191,8 +197,7 @@ class FloorPlanRotateFragment : Fragment() {
                         projectViewModel.room.name = projectNameEditText.text.toString()
                         val distancesFromFile =
                             app.readFromFileToFloats(projectViewModel.distancesPathName)
-                        Log.d("fileProblem!", "done ")
-                        projectViewModel.room.Walls = app.createWalls(corners,distancesFromFile)
+                        projectViewModel.room.Walls = app.createWalls(corners,distancesFromFile, projectViewModel)
                         roomsDB.createNewRoom(projectViewModel.room)
 
                         Navigation.findNavController(view)
