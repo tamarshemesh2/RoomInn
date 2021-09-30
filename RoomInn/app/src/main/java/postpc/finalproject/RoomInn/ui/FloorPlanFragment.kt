@@ -128,12 +128,12 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
         roomTitle.text = "${projectViewModel.projectName} \n- Floor Plan"
 
         playButton.setOnClickListener {
-                var intent = Intent(context, RoomUnityPlayerActivity::class.java)
-                intent.putExtra("Scene Index", RoomUnityPlayerActivity.sceneIndex)
-                intent.putExtra("User ID", projectViewModel.room.userId)
-                intent.putExtra("Room Name", projectViewModel.room.name)
+            var intent = Intent(context, RoomUnityPlayerActivity::class.java)
+            intent.putExtra("Scene Index", RoomUnityPlayerActivity.sceneIndex)
+            intent.putExtra("User ID", projectViewModel.room.userId)
+            intent.putExtra("Room Name", projectViewModel.room.name)
+            intent.putExtra("Return To", 1)
                 startActivity(intent)
-
             }
 
         val vto = roomLayout.viewTreeObserver
@@ -141,7 +141,6 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
             override fun onGlobalLayout() {
                 roomLayout.viewTreeObserver
                         .removeOnGlobalLayoutListener(this)
-
                 roomCanvas.setOnTouchListener { v, event ->
                     if (toAddFurniture) {
                         projectViewModel.currentPosition =
@@ -154,7 +153,6 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
                             .navigate(R.id.action_floorPlanFragment_to_addFurnitureFragment2)
                         toAddFurniture = false
                     }
-
                     return@setOnTouchListener true
                 }
                 addFab.setOnClickListener {

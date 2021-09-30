@@ -62,7 +62,7 @@ class FloorPlanRotateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val app = RoomInnApplication.getInstance()
 
-        var corners = app.readFromFileToPoints(projectViewModel.pointsPathName)
+        var corners = mutableListOf<Point3D>()//app.readFromFileToPoints(projectViewModel.pointsPathName)
 
         super.onViewCreated(view, savedInstanceState)
         this.activity?.window?.decorView?.layoutDirection = View.LAYOUT_DIRECTION_LTR;
