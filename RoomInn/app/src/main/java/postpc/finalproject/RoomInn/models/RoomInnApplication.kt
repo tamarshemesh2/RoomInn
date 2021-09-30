@@ -107,9 +107,9 @@ class RoomInnApplication: Application() {
         fromJson.forEach {
             val split = it.split(deli)
             if (split[1]=="cm"){
-                result.add(split[0].toFloat())
+                result.add(split[0].toFloat() / 100f)
             }else{
-                result.add(100f*split[0].toFloat())
+                result.add(split[0].toFloat() )
             }}
         Log.e("fileProblem!-inputString", result.toString())
 
@@ -125,9 +125,10 @@ class RoomInnApplication: Application() {
             var wall = Wall()
             wall.position =
                 Point3D(corners[i - 1].add(corners[i]).multiply(0.5f)).apply { this.y = 0f }
-            wall.scale = Point3D(distances[i - 1], 10f, 0.001f)
+            wall.scale = Point3D(distances[i - 1] , 10f, 0.001f)
             val sinY =
-                Point3D(corners[i - 1]).add(Point3D(corners[i]).multiply(-1f)).x / distances[i - 1]
+                Point3D(corners[i - 1]).add(Point3D(corners[i]).multiply(-1f)).x / (distances[i - 1] * 100)
+            Log.e("sinY", sinY.toString())
             wall.rotation = Point3D(0f, asin(sinY) * (180 / PI).toFloat(), 0f)
             wall.roomCenter = Point3D(projectViewModel.room.getRoomCenter())
             walls.add(wall)
