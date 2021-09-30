@@ -37,6 +37,7 @@ class ProjectViewModel : ViewModel() {
 
 //    var memoryStack: RoomMemoryStack = RoomMemoryStack(room)
     val redoUndoPresses = MutableLiveData(false)
+    var goTo: Int = 0
 
     var projectName: String = ""
     val layoutMeasures = intArrayOf(0, 0)
@@ -56,7 +57,7 @@ class ProjectViewModel : ViewModel() {
         adapter.setViewModel(this)
         getInstance().getRoomsDB().roomsListenerLambda = {
             adapter.setItems()
-            Log.e("dooe-window", room.windows.toString()) // todo - delete
+            Log.e("door-window", room.windows.toString()) // todo - delete
             getInstance().pathToUnity.observeForever {
                 if (it != "") {
                     Log.e("work it", it)
