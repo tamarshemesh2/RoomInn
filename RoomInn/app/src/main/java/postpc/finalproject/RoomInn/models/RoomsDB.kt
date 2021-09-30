@@ -562,5 +562,8 @@ class RoomsDB(val context: Context) {
         return serializeStateMap
     }
 
+    fun updateFirebase(){
+        firebase.collection("users").document(user.id).set(user)
+    }
 
 }

@@ -7,6 +7,7 @@ import android.view.View
 import postpc.finalproject.RoomInn.models.RoomInnApplication.Companion.getInstance
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentContainerView
+import androidx.lifecycle.ViewModel
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -18,6 +19,7 @@ import postpc.finalproject.RoomInn.models.RoomsDB
 
 class MainActivity : AppCompatActivity() {
     var progressDialog: ProgressDialog? = null
+    var viewModel: ProjectViewModel? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -30,10 +32,10 @@ class MainActivity : AppCompatActivity() {
                 getInstance().getRoomsDB().initialize(userId)
             }
         }
-        val viewModel = ViewModelProvider(this).get(
+        viewModel = ViewModelProvider(this).get(
             ProjectViewModel::class.java
         )
-        viewModel.activityContext = this
+        viewModel!!.activityContext = this
         listenToLoadingStage()
 
         // todo - add the function of tamar, initialize by user id and room name
@@ -41,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         if (intent.extras != null) {
             val userId = intent.getStringExtra("User ID")
             val roomName = intent.getStringExtra("Room Name")
-            viewModel.goTo = intent.getIntExtra("Return To",0)
+            viewModel!!.goTo = intent.getIntExtra("Return To",0)
             // 0 = profileFragment ,
             // 1 = floorPlanFragment ,
             // 2 = rotateFloorPlanFragment
@@ -92,5 +94,12 @@ class MainActivity : AppCompatActivity() {
         val DB = getInstance().getRoomsDB()
         DB.saveOnExit()
         super.onPause()
+    }
+
+    override fun onBackPressed() {
+        if (viewModel != null && viewModel!!.helpMenuQueue != null){
+            viewModel!!.helpMenuQueue?.cancel(true)
+        }
+        super.onBackPressed()
     }
 }

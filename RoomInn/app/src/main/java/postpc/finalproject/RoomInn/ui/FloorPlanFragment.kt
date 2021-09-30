@@ -120,6 +120,7 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
         val roomTitle: TextView = view.findViewById(R.id.titleTextView)
         val addFab: ImageButton = view.findViewById(R.id.addButton)
         val playButton: FloatingActionButton = view.findViewById(R.id.playButton)
+        var mQueue: FancyShowCaseQueue? = null
 
         var toAddFurniture = false
         //add all furniture to board
@@ -135,6 +136,7 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
 
         if (RoomInnApplication.getInstance().getRoomsDB().user.firstRun){
             RoomInnApplication.getInstance().getRoomsDB().user.firstRun = false
+            RoomInnApplication.getInstance().getRoomsDB().updateFirebase()
             val fancyShowCaseViewAdd = FancyShowCaseView.Builder(requireActivity())
                 .focusOn(addFab)
                 .title("tap to add furniture")
@@ -191,17 +193,18 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
                 .backgroundColor(0)
                 .focusCircleRadiusFactor(.75)
                 .build()
-            val mQueue = FancyShowCaseQueue()
+            mQueue = FancyShowCaseQueue()
                 .add(fancyShowCaseViewAdd)
                 .add(fancyShowCaseViewPlay)
                 .add(fancyShowCaseViewMenu)
                 .add(fancyShowCaseViewHelp)
                 .add(fancyShowCaseViewRoom)
                 .add(fancyShowCaseViewRoom2)
+            projectViewModel.helpMenuQueue = mQueue
             mQueue.show()
             mQueue.completeListener = object : OnCompleteListener {
                 override fun onComplete() {
-                    mQueue.cancel(true)
+                    mQueue!!.cancel(true)
                 }
             }
         }
@@ -274,7 +277,7 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
                 .backgroundColor(0)
                 .focusCircleRadiusFactor(.75)
                 .build()
-            val mQueue = FancyShowCaseQueue()
+            mQueue = FancyShowCaseQueue()
                 .add(fancyShowCaseViewAdd)
                 .add(fancyShowCaseViewPlay)
                 .add(fancyShowCaseViewMenu)
@@ -282,10 +285,10 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
                 .add(fancyShowCaseViewRoom)
                 .add(fancyShowCaseViewRoom2)
             projectViewModel.helpMenuQueue = mQueue
-            mQueue.show()
-            mQueue.completeListener = object : OnCompleteListener {
+            mQueue!!.show()
+            mQueue!!.completeListener = object : OnCompleteListener {
                 override fun onComplete() {
-                    mQueue.cancel(true)
+                    mQueue!!.cancel(true)
                 }
             }
         }
