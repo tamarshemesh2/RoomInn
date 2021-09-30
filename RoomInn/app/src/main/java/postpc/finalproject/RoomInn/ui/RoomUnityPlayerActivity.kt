@@ -14,6 +14,7 @@ import postpc.finalproject.RoomInn.furnitureData.Wall
 import postpc.finalproject.RoomInn.furnitureData.Window
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 import postpc.finalproject.RoomInn.models.RoomsDB
+import kotlin.properties.Delegates
 
 
 class RoomUnityPlayerActivity : UnityPlayerActivity() {
@@ -26,6 +27,7 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
     lateinit var roomName : String
     lateinit var userId : String
     lateinit var roomDB : RoomsDB
+    var returnTo by Delegates.notNull<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +35,7 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
         roomName = intent.getStringExtra("Room Name")!!
         roomDB = RoomInnApplication.getInstance().getRoomsDB()
         userId =  intent.getStringExtra("User ID")!!
-
+        returnTo = intent.getIntExtra("Return To",0)
         ctx = this
 
         UnityPlayer.UnitySendMessage(
@@ -47,6 +49,7 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
             val intent = Intent(this@RoomUnityPlayerActivity, MainActivity::class.java)
             intent.putExtra("User ID", userId)
             intent.putExtra("Room Name", roomName)
+            intent.putExtra("Return To", returnTo)
             startActivity(intent)
             mUnityPlayer.quit()
         }

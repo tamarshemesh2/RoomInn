@@ -7,10 +7,12 @@ import com.unity3d.player.UnityPlayer
 import com.unity3d.player.UnityPlayerActivity
 import postpc.finalproject.RoomInn.MainActivity
 import postpc.finalproject.RoomInn.models.RoomInnApplication
+import kotlin.properties.Delegates
 
 
 class ScanUnityPlayerActivity : UnityPlayerActivity() {
     private lateinit var userId: String
+    private var returnTo by Delegates.notNull<Int>()
 
     companion object{
         val sceneIndex = "2"
@@ -20,6 +22,7 @@ class ScanUnityPlayerActivity : UnityPlayerActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         userId = intent.getStringExtra("User ID")!!
+        returnTo = intent.getIntExtra("Return To",0)
 
         ctx = this
 
@@ -35,6 +38,7 @@ class ScanUnityPlayerActivity : UnityPlayerActivity() {
             val intent = Intent(this@ScanUnityPlayerActivity, MainActivity::class.java)
             intent.putExtra("User ID", userId)
             intent.putExtra("Room Name", "")
+            intent.putExtra("Return To", returnTo)
             startActivity(intent)
             mUnityPlayer.quit()
         }

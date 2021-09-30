@@ -94,7 +94,7 @@ class ChooseFurnitureTypeFragment : Fragment() {
         translate.startOffset = 0
         translate.repeatMode = Animation.REVERSE
         translate.interpolator = CycleInterpolator(2F)
-        view.startAnimation(translate).also { view.animate().alpha(0f).setDuration(1200).setStartDelay(500).start() }
+        view.startAnimation(translate).also { view.animate().alpha(0f).setDuration(1200).setStartDelay(900).start() }
     }
 
 
