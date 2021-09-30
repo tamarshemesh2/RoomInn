@@ -60,12 +60,6 @@ class ProjectViewModel : ViewModel() {
         getInstance().getRoomsDB().roomsListenerLambda = {
             adapter.setItems()
             Log.e("door-window", room.windows.toString()) // todo - delete
-            getInstance().pathToUnity.observeForever {
-                if (it != "") {
-                    Log.e("work it", it)
-
-                }
-            }
         }
     }
 

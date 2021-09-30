@@ -133,7 +133,7 @@ class ProfileFragment : Fragment() {
         FirebaseAuth.getInstance().signOut()
     }
     private fun lookForScan(view: View) {
-        val value = RoomInnApplication.getInstance().pathToUnity.value
+        val value = RoomInnApplication.getInstance().pathToUnity
         if (value != "") {
             val cornersFileName = value + projectViewModel.pointsPathName
             val distancesFileName = value + projectViewModel.distancesPathName

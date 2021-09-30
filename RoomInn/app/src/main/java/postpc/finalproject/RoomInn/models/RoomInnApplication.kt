@@ -17,7 +17,7 @@ import kotlin.math.asin
 
 
 class RoomInnApplication: Application() {
-    val pathToUnity: MutableLiveData<String> = MutableLiveData("")
+    var pathToUnity: String = ""
     val json = Gson()
 
 
@@ -60,22 +60,58 @@ class RoomInnApplication: Application() {
 
 
     fun readFromFileToPoints(f: String): MutableList<Point3D> {
+        val file = File("$pathToUnity/$f")
+        Log.e("fileProblem!", file.exists().toString())
+        if (!file.exists()) {
+            Log.e("fileProblem!", file.absolutePath)
+            return mutableListOf()
+        }
         //Read the file
-        val bufferedReader: BufferedReader = File(pathToUnity.value+f).bufferedReader()
+        Log.e("fileProblem!", file.absolutePath)
+        val bufferedReader: BufferedReader = file.bufferedReader()
         // Read the text from bufferReader and store in String variable
         val inputString = bufferedReader.use { it.readText() }
+        val inputCleanString = inputString.substring(9,inputString.length-1)
+        Log.e("fileProblem!-inputString", inputCleanString)
+
         //Convert the Json File to Gson Object
         val listPointsType = object : TypeToken<MutableList<Point3D>>() {}.type
-        return json.fromJson(inputString, listPointsType)
+        val done : MutableList<Point3D> = json.fromJson(inputCleanString, listPointsType)
+        done.forEach { it.multiply(100f).apply { y=0f } }
+        return done
     }
     fun readFromFileToFloats(f: String): MutableList<Float> {
+        val file = File("$pathToUnity/$f")
+        Log.e("fileProblem!", file.exists().toString())
+        if (!file.exists()){
+            Log.e("fileProblem!", file.absolutePath)
+            return mutableListOf()
+        }
         //Read the file
-        val bufferedReader: BufferedReader = File(pathToUnity.value+f).bufferedReader()
+        Log.e("fileProblem!", file.absolutePath)
+        //Read the file
+        val bufferedReader: BufferedReader = file.bufferedReader()
         // Read the text from bufferReader and store in String variable
         val inputString = bufferedReader.use { it.readText() }
+        val inputCleanString = inputString.substring(9,inputString.length-1)
+        Log.e("fileProblem!-inputString", inputString)
+        Log.e("fileProblem!-inputString", inputCleanString)
+
         //Convert the Json File to Gson Object
-        val listFloatsType = object : TypeToken<MutableList<Float>>() {}.type
-        return json.fromJson(inputString, listFloatsType)
+        val listFloatsType = object : TypeToken<MutableList<String>>() {}.type
+        val fromJson: MutableList<String> = json.fromJson(inputCleanString, listFloatsType)
+        val result = mutableListOf<Float>()
+        val deli = " <size=2>"
+        fromJson.forEach {
+            val split = it.split(deli)
+            if (split[1]=="cm"){
+                result.add(split[0].toFloat())
+            }else{
+                result.add(100f*split[0].toFloat())
+            }}
+        Log.e("fileProblem!-inputString", result.toString())
+
+        return result
     }
     fun createWalls(
         corners: MutableList<Point3D>,

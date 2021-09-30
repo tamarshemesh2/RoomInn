@@ -28,6 +28,8 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
     lateinit var userId : String
     lateinit var roomDB : RoomsDB
     var returnTo by Delegates.notNull<Int>()
+    private lateinit var unityPath: String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +38,12 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
         roomDB = RoomInnApplication.getInstance().getRoomsDB()
         userId =  intent.getStringExtra("User ID")!!
         returnTo = intent.getIntExtra("Return To",0)
+
         ctx = this
+        unityPath =
+            UnityPlayer.currentActivity.getExternalFilesDir("")!!.absolutePath
+        Log.e("unityPathIs", unityPath)
+
 
         UnityPlayer.UnitySendMessage(
                 "SceneLoader",
@@ -50,6 +57,8 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
             intent.putExtra("User ID", userId)
             intent.putExtra("Room Name", roomName)
             intent.putExtra("Return To", returnTo)
+            intent.putExtra("Path To Unity",unityPath)
+
             startActivity(intent)
             mUnityPlayer.quit()
         }

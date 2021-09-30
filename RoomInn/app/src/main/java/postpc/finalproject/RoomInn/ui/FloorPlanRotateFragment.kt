@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -20,6 +21,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doOnTextChanged
 import androidx.navigation.Navigation
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.gson.reflect.TypeToken
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.Room
 import postpc.finalproject.RoomInn.RoomCanvas
@@ -62,7 +64,7 @@ class FloorPlanRotateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val app = RoomInnApplication.getInstance()
 
-        var corners = mutableListOf<Point3D>()//app.readFromFileToPoints(projectViewModel.pointsPathName)
+        var corners =app.readFromFileToPoints(projectViewModel.pointsPathName)
 
         super.onViewCreated(view, savedInstanceState)
         this.activity?.window?.decorView?.layoutDirection = View.LAYOUT_DIRECTION_LTR;
@@ -107,7 +109,11 @@ class FloorPlanRotateFragment : Fragment() {
                             -0.5958563089370728f,
                             1.5056521892547608f
                         ).multiply(100f)
+
                     )
+//                    val listPointsType = object : TypeToken<MutableMap<String, MutableList<Point3D>>>() {}.type
+                    val done  = app.json.toJson(corners)
+                    Log.e("fileProblem!-needed Input", done)
                     //todo -- stop comment here and uncomment the next
 
 //                    Navigation.findNavController(view).navigate(R.id.action_floorPlanRotateFragment_to_profileFragment2)
@@ -183,16 +189,16 @@ class FloorPlanRotateFragment : Fragment() {
                             ((roomCanvas.rotation * PI) / 180).toFloat()
                         )
                         projectViewModel.room.name = projectNameEditText.text.toString()
+                        val distancesFromFile =
+                            app.readFromFileToFloats(projectViewModel.distancesPathName)
+                        Log.d("fileProblem!", "done ")
+                        projectViewModel.room.Walls = app.createWalls(corners,distancesFromFile)
                         roomsDB.createNewRoom(projectViewModel.room)
 
-
-                        //todo  convert all dots to the position after Rotation
                         Navigation.findNavController(view)
                             .navigate(R.id.action_floorPlanRotateFragment_to_floorPlanPlacingFragment)
                     }
                 }
-
-
             }
         })
 
