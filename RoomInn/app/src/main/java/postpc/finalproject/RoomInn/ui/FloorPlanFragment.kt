@@ -22,7 +22,6 @@ import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.*
@@ -30,6 +29,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import me.toptas.fancyshowcase.FancyShowCaseQueue
+import me.toptas.fancyshowcase.FancyShowCaseView
+import me.toptas.fancyshowcase.listener.OnCompleteListener
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.furnitureData.Furniture
@@ -46,6 +48,8 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
     lateinit var drawerLayout: DrawerLayout
     lateinit var navigationView: NavigationView
     lateinit var hamburger: ImageView
+    lateinit var help: ImageButton
+
     val requestStoragePermissionLauncher =
             registerForActivityResult(
                     ActivityResultContracts.RequestMultiplePermissions()
@@ -116,6 +120,7 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
         val roomTitle: TextView = view.findViewById(R.id.titleTextView)
         val addFab: ImageButton = view.findViewById(R.id.addButton)
         val playButton: FloatingActionButton = view.findViewById(R.id.playButton)
+        var mQueue: FancyShowCaseQueue? = null
 
         var toAddFurniture = false
         //add all furniture to board
@@ -124,6 +129,85 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
         drawerLayout = view.findViewById(R.id.draw_layout)
         navigationView = view.findViewById(R.id.hamburger_settings_navigation_layout)
         hamburger = view.findViewById(R.id.hamburgerMenuButton)
+
+        help = view.findViewById(R.id.helpButton)
+
+
+
+        if (RoomInnApplication.getInstance().getRoomsDB().user.firstRun){
+            RoomInnApplication.getInstance().getRoomsDB().user.firstRun = false
+            RoomInnApplication.getInstance().getRoomsDB().updateFirebase()
+            val fancyShowCaseViewAdd = FancyShowCaseView.Builder(requireActivity())
+                .focusOn(addFab)
+                .title("tap to add furniture")
+                .focusBorderColor(Color.GRAY)
+                .focusBorderSize(10)
+                .titleStyle((R.style.MyTitleStyle), Gravity.CENTER)
+                .enableAutoTextPosition()
+                .backgroundColor(0)
+                .build()
+            val fancyShowCaseViewPlay = FancyShowCaseView.Builder(requireActivity())
+                .focusOn(playButton)
+                .title("tap to view room in 3D")
+                .focusBorderColor(Color.GRAY)
+                .titleStyle((R.style.MyTitleStyle), Gravity.CENTER)
+                .enableAutoTextPosition()
+                .focusBorderSize(10)
+                .backgroundColor(0)
+                .build()
+            val fancyShowCaseViewHelp = FancyShowCaseView.Builder(requireActivity())
+                .focusOn(help)
+                .title("tap to get help")
+                .focusBorderColor(Color.GRAY)
+                .titleStyle((R.style.MyTitleStyle), Gravity.CENTER)
+                .enableAutoTextPosition()
+                .focusBorderSize(10)
+                .backgroundColor(0)
+                .build()
+            val fancyShowCaseViewMenu = FancyShowCaseView.Builder(requireActivity())
+                .focusOn(hamburger)
+                .title("tap to export your design")
+                .focusBorderColor(Color.GRAY)
+                .titleStyle((R.style.MyTitleStyle), Gravity.CENTER)
+                .enableAutoTextPosition()
+                .focusBorderSize(10)
+                .backgroundColor(0)
+                .build()
+            val fancyShowCaseViewRoom = FancyShowCaseView.Builder(requireActivity())
+                .focusOn(roomLayout)
+                .title("tap furniture:\n1. once to rotate\n2. twice to edit\n")
+                .focusBorderColor(Color.GRAY)
+                .titleStyle((R.style.MyTitleStyle), Gravity.CENTER)
+                .enableAutoTextPosition()
+                .focusBorderSize(10)
+                .backgroundColor(0)
+                .focusCircleRadiusFactor(.75)
+                .build()
+            val fancyShowCaseViewRoom2 = FancyShowCaseView.Builder(requireActivity())
+                .focusOn(roomLayout)
+                .title("pinch furniture to change size")
+                .focusBorderColor(Color.GRAY)
+                .titleStyle((R.style.MyTitleStyle), Gravity.CENTER)
+                .enableAutoTextPosition()
+                .focusBorderSize(10)
+                .backgroundColor(0)
+                .focusCircleRadiusFactor(.75)
+                .build()
+            mQueue = FancyShowCaseQueue()
+                .add(fancyShowCaseViewAdd)
+                .add(fancyShowCaseViewPlay)
+                .add(fancyShowCaseViewMenu)
+                .add(fancyShowCaseViewHelp)
+                .add(fancyShowCaseViewRoom)
+                .add(fancyShowCaseViewRoom2)
+            projectViewModel.helpMenuQueue = mQueue
+            mQueue.show()
+            mQueue.completeListener = object : OnCompleteListener {
+                override fun onComplete() {
+                    mQueue!!.cancel(true)
+                }
+            }
+        }
 
         roomTitle.text = "${projectViewModel.projectName} \n- Floor Plan"
 
@@ -136,11 +220,86 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
                 startActivity(intent)
             }
 
+        help.setOnClickListener {
+            val fancyShowCaseViewAdd = FancyShowCaseView.Builder(requireActivity())
+                .focusOn(addFab)
+                .title("tap to add furniture")
+                .focusBorderColor(Color.GRAY)
+                .focusBorderSize(10)
+                .titleStyle((R.style.MyTitleStyle), Gravity.CENTER)
+                .enableAutoTextPosition()
+                .backgroundColor(0)
+                .build()
+            val fancyShowCaseViewPlay = FancyShowCaseView.Builder(requireActivity())
+                .focusOn(playButton)
+                .title("tap to view room in 3D")
+                .focusBorderColor(Color.GRAY)
+                .titleStyle((R.style.MyTitleStyle), Gravity.CENTER)
+                .enableAutoTextPosition()
+                .focusBorderSize(10)
+                .backgroundColor(0)
+                .build()
+            val fancyShowCaseViewHelp = FancyShowCaseView.Builder(requireActivity())
+                .focusOn(help)
+                .title("tap to get help")
+                .focusBorderColor(Color.GRAY)
+                .titleStyle((R.style.MyTitleStyle), Gravity.CENTER)
+                .enableAutoTextPosition()
+                .focusBorderSize(10)
+                .backgroundColor(0)
+                .build()
+            val fancyShowCaseViewMenu = FancyShowCaseView.Builder(requireActivity())
+                .focusOn(hamburger)
+                .title("tap to export your design")
+                .focusBorderColor(Color.GRAY)
+                .titleStyle((R.style.MyTitleStyle), Gravity.CENTER)
+                .enableAutoTextPosition()
+                .focusBorderSize(10)
+                .backgroundColor(0)
+                .build()
+            val fancyShowCaseViewRoom = FancyShowCaseView.Builder(requireActivity())
+                .focusOn(roomLayout)
+                .title("tap furniture:\n1. once to rotate\n2. twice to edit\n")
+                .focusBorderColor(Color.GRAY)
+                .titleStyle((R.style.MyTitleStyle), Gravity.CENTER)
+                .enableAutoTextPosition()
+                .focusBorderSize(10)
+                .backgroundColor(0)
+                .focusCircleRadiusFactor(.75)
+                .build()
+            val fancyShowCaseViewRoom2 = FancyShowCaseView.Builder(requireActivity())
+                .focusOn(roomLayout)
+                .title("pinch furniture to change size")
+                .focusBorderColor(Color.GRAY)
+                .titleStyle((R.style.MyTitleStyle), Gravity.CENTER)
+                .enableAutoTextPosition()
+                .focusBorderSize(10)
+                .backgroundColor(0)
+                .focusCircleRadiusFactor(.75)
+                .build()
+            mQueue = FancyShowCaseQueue()
+                .add(fancyShowCaseViewAdd)
+                .add(fancyShowCaseViewPlay)
+                .add(fancyShowCaseViewMenu)
+                .add(fancyShowCaseViewHelp)
+                .add(fancyShowCaseViewRoom)
+                .add(fancyShowCaseViewRoom2)
+            projectViewModel.helpMenuQueue = mQueue
+            mQueue!!.show()
+            mQueue!!.completeListener = object : OnCompleteListener {
+                override fun onComplete() {
+                    mQueue!!.cancel(true)
+                }
+            }
+        }
+
+
         val vto = roomLayout.viewTreeObserver
         vto.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 roomLayout.viewTreeObserver
                         .removeOnGlobalLayoutListener(this)
+
                 roomCanvas.setOnTouchListener { v, event ->
                     if (toAddFurniture) {
                         projectViewModel.currentPosition =
