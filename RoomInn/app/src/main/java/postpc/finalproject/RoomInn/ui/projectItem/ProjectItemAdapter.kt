@@ -108,8 +108,9 @@ class ProjectItemAdapter : RecyclerView.Adapter<ProjectItemHolder>() {
             }
 
             holder.playButton.setOnClickListener {
-                RoomInnApplication.getInstance().getRoomsDB()
-                    .loadRoomByName(
+                var DB = RoomInnApplication.getInstance().getRoomsDB()
+                DB.saveRoom(viewModel!!.room)
+                DB.loadRoomByName(
                             roomName=projectItem.roomName,
                             activeFunc = {
                                 val intent = Intent(context, RoomUnityPlayerActivity::class.java)
