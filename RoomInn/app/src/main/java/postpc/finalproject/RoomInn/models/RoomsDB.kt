@@ -44,12 +44,15 @@ class RoomsDB(val context: Context) {
 
         val json = RoomInnApplication.getInstance().json
         val userStr = RoomInnApplication.sp.getString("user", null) ?: return false
+        Log.d("Loading", "userStrSP $userStr")
         val roomsMapStr = RoomInnApplication.sp.getString("roomsMap", null) ?: return false
+        Log.d("Loading", "roomsMapStrSP $roomsMapStr")
         val furnitureMapStr = RoomInnApplication.sp.getString("furnitureMap", null) ?: return false
-        Log.d("furnitureSP", furnitureMapStr)
+        Log.d("Loading", "furnitureSP $furnitureMapStr")
 
         val roomToFurnitureMapStr =
             RoomInnApplication.sp.getString("roomToFurnitureMap", null) ?: return false
+        Log.d("Loading", "roomToFurnitureMapStrSP $roomToFurnitureMapStr")
 
         val roomsMapType = object : TypeToken<MutableMap<String, Room>>() {}.type
         val roomToFurnitureMapType =
@@ -62,9 +65,13 @@ class RoomsDB(val context: Context) {
 //        }
 
         user = json.fromJson(userStr, User::class.java)
+        Log.d("Loading", "user: ${user}")
         roomsMap = json.fromJson(roomsMapStr, roomsMapType)
+        Log.d("Loading", "roomsMap: ${roomsMap}")
         roomToFurnitureMap = json.fromJson(roomToFurnitureMapStr, roomToFurnitureMapType)
+        Log.d("Loading", "roomToFurnitureMap: ${roomToFurnitureMap}")
         furnitureMap = json.fromJson(furnitureMapStr, furnitureMapType)
+        Log.d("Loading", "furnitureMap: ${furnitureMap}")
 
         // reset the SP
         RoomInnApplication.sp.edit().clear().apply()
@@ -75,6 +82,10 @@ class RoomsDB(val context: Context) {
 
     fun isInitialized(): Boolean {
         return isInitialized
+    }
+
+    fun isLoading(): Boolean {
+        return userLoadingStage.value == LoadingStage.LOADING
     }
 
     fun createNewUser(id: String) {
@@ -296,10 +307,12 @@ class RoomsDB(val context: Context) {
         activeFunc: () -> Unit,
         viewModel: ProjectViewModel? = null
     ) {
+
         // this function assumes that there are no furniture in loaded for this room yet in the DB
         roomToFurnitureMap[room.id] = mutableListOf()
         firebase.collection("furniture").whereEqualTo("roomId", room.id).get()
             .addOnSuccessListener {
+                Log.d("Loading: ", "addFurnitureToMap SUCCESS")
                 val documents = it.documents
                 for (doc in documents) {
                     val furniture = furniturFactory(doc)
@@ -321,6 +334,7 @@ class RoomsDB(val context: Context) {
                 }
             }
             .addOnFailureListener {
+                Log.d("Loading: ", "addFurnitureToMap FAIL")
                 // TODO: is this right?
                 userLoadingStage.value = LoadingStage.FAILURE
             }
@@ -518,16 +532,23 @@ class RoomsDB(val context: Context) {
                     user = d.toObject(User::class.java)!!
                     rooms = MutableLiveData(user.roomsList)
                     isInitialized = true
-                    if (roomName == "") {
-//                            loadRoomByName(roomName = roomName, activeFunc = loadRoomNavLambda, viewModel = viewModel)
-                    }
-                    roomListChanged()
                     when (viewModel?.goTo ?: 0){
-                        (2)-> navController.navigate(R.id.action_profileFragment2_to_floorPlanRotateFragment)
-                        (1)-> navController.navigate(R.id.action_profileFragment2_to_floorPlanFragment)
-                        (0)-> null
+                        (2)-> {
+                            navController.navigate(R.id.action_profileFragment2_to_floorPlanRotateFragment)
+                            userLoadingStage.value = LoadingStage.SUCCESS
+                            roomListChanged()
+                        }
+                        (1)-> {
+                            loadRoomByName(roomName = roomName, activeFunc = {
+                                navController.navigate(R.id.action_profileFragment2_to_floorPlanFragment)
+                                roomListChanged()
+                            }, viewModel = viewModel)
+                        }
+                        (0)-> {
+                            roomListChanged()
+                            userLoadingStage.value = LoadingStage.SUCCESS
+                        }
                     }
-                    userLoadingStage.value = LoadingStage.SUCCESS
                 }
             }
             .addOnFailureListener {

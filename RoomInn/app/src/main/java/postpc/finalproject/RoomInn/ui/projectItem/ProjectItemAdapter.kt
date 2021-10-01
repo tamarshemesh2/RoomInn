@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
+import postpc.finalproject.RoomInn.models.LoadingStage
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 import postpc.finalproject.RoomInn.ui.RoomUnityPlayerActivity
 import postpc.finalproject.RoomInn.ui.ScanUnityHandler
@@ -66,12 +67,21 @@ class ProjectItemAdapter : RecyclerView.Adapter<ProjectItemHolder>() {
     override fun onBindViewHolder(holder: ProjectItemHolder, position: Int) {
         holder.delButton.visibility = View.GONE
         if (_projects.size == 0) {
-            holder.playButton.visibility = View.GONE
-            holder.editFabButton.visibility = View.GONE
-            holder.projectName.gravity = Gravity.CENTER
-            holder.projectName.text =
-                "\n\nYou don't have any projects yet \n\n \uD83D\uDE31 \n\nPress on the add button below to get started!"
-            holder.border.visibility = View.GONE
+            if (RoomInnApplication.getInstance().getRoomsDB().isLoading()) {
+                holder.playButton.visibility = View.GONE
+                holder.editFabButton.visibility = View.GONE
+                holder.projectName.gravity = Gravity.CENTER
+                holder.projectName.text = ""
+                holder.border.visibility = View.GONE
+            }
+            else {
+                holder.playButton.visibility = View.GONE
+                holder.editFabButton.visibility = View.GONE
+                holder.projectName.gravity = Gravity.CENTER
+                holder.projectName.text =
+                        "\n\nYou don't have any projects yet \n\n \uD83D\uDE31 \n\nPress on the add button below to get started!"
+                holder.border.visibility = View.GONE
+            }
 
         } else {
             val projectItem = _projects[position]
@@ -99,13 +109,17 @@ class ProjectItemAdapter : RecyclerView.Adapter<ProjectItemHolder>() {
 
             holder.playButton.setOnClickListener {
                 RoomInnApplication.getInstance().getRoomsDB()
-                    .loadRoomByName(roomName=projectItem.roomName, viewModel = viewModel)
-                val intent = Intent(context, RoomUnityPlayerActivity::class.java)
-                intent.putExtra("Room Name", projectItem.roomName)
-                intent.putExtra("User ID", viewModel!!.room.userId)
-                intent.putExtra("Return To", "0")
-                context.startActivity(intent)
+                    .loadRoomByName(
+                            roomName=projectItem.roomName,
+                            activeFunc = {
+                                val intent = Intent(context, RoomUnityPlayerActivity::class.java)
+                                intent.putExtra("Room Name", projectItem.roomName)
+                                intent.putExtra("User ID", viewModel!!.room.userId)
+                                intent.putExtra("Return To", "0")
+                                context.startActivity(intent)
 
+                            },
+                            viewModel = viewModel)
             }
         }
 

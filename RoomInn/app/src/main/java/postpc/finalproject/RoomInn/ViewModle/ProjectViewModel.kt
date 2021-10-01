@@ -55,7 +55,7 @@ class ProjectViewModel : ViewModel() {
         adapter.setViewModel(this)
         getInstance().getRoomsDB().roomsListenerLambda = {
             adapter.setItems()
-            Log.e("door-window", room.windows.toString()) // todo - delete
+//            Log.e("door-window", room.windows.toString()) // todo - delete
         }
     }
 
