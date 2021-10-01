@@ -76,7 +76,8 @@ class RoomInnApplication: Application() {
         //Convert the Json File to Gson Object
         val listPointsType = object : TypeToken<MutableList<Point3D>>() {}.type
         val done : MutableList<Point3D> = json.fromJson(inputCleanString, listPointsType)
-        done.forEach { it.multiply(100f).apply { y=0f } }
+        done.forEach { it.multiply(100f).apply { y=0f
+        x*=-1} }
         return done
     }
     fun readFromFileToFloats(f: String): MutableList<Float> {
@@ -121,7 +122,7 @@ class RoomInnApplication: Application() {
         for (i in 1..distances.size) {
             var wall = Wall()
             wall.position =
-                Point3D(Point3D(corners[i - 1]).add(Point3D(corners[i])).multiply(0.5f)).apply { this.y = 0f }
+                Point3D(Point3D(corners[i - 1]).add(Point3D(corners[i])).multiply(0.5f)).apply { this.multiply(100f).y = 0f }
             wall.scale = Point3D(distances[i - 1] , 10f, 0.001f)
             val sinY =
                 Point3D(corners[i - 1]).add(Point3D(corners[i]).multiply(-1f)).x / (distances[i - 1] * 100)

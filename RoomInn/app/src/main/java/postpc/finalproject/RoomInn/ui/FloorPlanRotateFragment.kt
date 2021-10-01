@@ -165,6 +165,7 @@ class FloorPlanRotateFragment : Fragment() {
                         projectViewModel.room.name = projectNameEditText.text.toString()
                         val distancesFromFile =
                             app.readFromFileToFloats(projectViewModel.distancesPathName)
+
                         projectViewModel.room.Walls = app.createWalls(corners,distancesFromFile, projectViewModel)
                         Navigation.findNavController(view)
                             .navigate(R.id.action_floorPlanRotateFragment_to_floorPlanPlacingFragment)

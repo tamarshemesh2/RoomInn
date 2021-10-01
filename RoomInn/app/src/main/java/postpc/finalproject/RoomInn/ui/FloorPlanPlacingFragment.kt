@@ -120,9 +120,9 @@ class FloorPlanPlacingFragment : Fragment() {
                 doneFab.setOnClickListener {
                     for (item in projectViewModel.doorsAndWindows) {
                         if (item.furniture.type == "Door") {
-                            projectViewModel.room.doors += item.furniture as Door
+                            projectViewModel.room.doors.add(item.furniture as Door)
                         } else {
-                            projectViewModel.room.windows += item.furniture as Window
+                            projectViewModel.room.windows.add(item.furniture as Window)
                         }
                     }
                     roomsDB.createNewRoom(projectViewModel.room)
