@@ -2,7 +2,6 @@ package postpc.finalproject.RoomInn.furnitureData
 
 import android.graphics.Color
 import android.graphics.Path
-import android.util.Log
 import android.util.Size
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 
@@ -87,7 +86,7 @@ abstract class Furniture(
         val roomCenter = Point3D(
             RoomInnApplication.getInstance()
                 .getRoomsDB().roomByRoomID(roomId)
-                .getRoomCenter()
+                .roomCenterGetter()
         )
         return screenPosition.add(roomCenter.multiply(-1f))
             .getDivideByPoint(Point3D(100f, 100f, -100f)).apply { y = 0f }

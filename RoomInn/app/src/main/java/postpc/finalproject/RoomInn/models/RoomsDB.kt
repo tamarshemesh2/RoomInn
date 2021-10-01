@@ -1,12 +1,9 @@
 package postpc.finalproject.RoomInn.models
 
-import android.app.Activity
 import android.content.Context
 import android.util.Log
-import android.view.View
 import androidx.lifecycle.*
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -133,14 +130,14 @@ class RoomsDB(val context: Context) {
 //        // addNewWindow("(2.5,-0.3,0)\n(0,0,0)\n(0.01,1,2)\n-16711681");
 
         var door: Door = Door(
-            Point3D(2f, 0f, -3f).multiply(100f).add(room1.getRoomCenter()),
+            Point3D(2f, 0f, -3f).multiply(100f).add(room1.roomCenterGetter()),
             Point3D(0f, 0f, 0f),
             Point3D(1f, 1f, 1f),
             0
         )
         var wall: Wall = Wall()
         var window: Window = Window(
-            Point3D(2.5f, -0.3f, 0f).multiply(100f).add(room1.getRoomCenter()),
+            Point3D(2.5f, -0.3f, 0f).multiply(100f).add(room1.roomCenterGetter()),
             Point3D(0f, 0f, 0f),
             Point3D(0.01f, 1f, 2f)
         )
@@ -215,6 +212,7 @@ class RoomsDB(val context: Context) {
     }
 
     fun createNewRoom(room: Room) {
+        room.init()
         updateRoom(room)
         roomToFurnitureMap[room.id] = mutableListOf()
         rooms.value!!.add(room.name)

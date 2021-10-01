@@ -114,9 +114,9 @@ class FloorPlanRotateFragment : Fragment() {
                 roomCanvas.getLocationOnScreen(projectViewModel.layoutMeasures)
 
                 val roomCenterPoint = Point3D(
-                    projectViewModel.layoutMeasures[0] + 0.5f * (roomCanvas.measuredWidth),
+                    projectViewModel.layoutMeasures[0] + (0.5f * (roomCanvas.measuredWidth)),
                     0f,
-                    projectViewModel.layoutMeasures[1] + 0.5f * (roomCanvas.measuredHeight)
+                    projectViewModel.layoutMeasures[1] + (0.5f * (roomCanvas.measuredHeight))
                 ).toAbsolutLocation(
                     projectViewModel.room.getRoomRatio(),
                     projectViewModel.layoutMeasures
@@ -160,15 +160,12 @@ class FloorPlanRotateFragment : Fragment() {
                     }
                     if (projectNameEditText.error == null) {
                         projectViewModel.room.rotateRoomCornersByAngle(
-                            roomCenterPoint,
-                            ((roomCanvas.rotation * PI) / 180).toFloat()
+                            ((roomCanvas.rotation * PI.toFloat()) / 180f),roomCenterPoint
                         )
                         projectViewModel.room.name = projectNameEditText.text.toString()
                         val distancesFromFile =
                             app.readFromFileToFloats(projectViewModel.distancesPathName)
                         projectViewModel.room.Walls = app.createWalls(corners,distancesFromFile, projectViewModel)
-                        roomsDB.createNewRoom(projectViewModel.room)
-
                         Navigation.findNavController(view)
                             .navigate(R.id.action_floorPlanRotateFragment_to_floorPlanPlacingFragment)
                     }

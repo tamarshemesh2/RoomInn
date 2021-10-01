@@ -14,7 +14,6 @@ import androidx.annotation.RequiresApi
 import androidx.navigation.Navigation
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import postpc.finalproject.RoomInn.R
-import postpc.finalproject.RoomInn.Room
 import postpc.finalproject.RoomInn.RoomCanvas
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.furnitureData.Door
@@ -78,6 +77,7 @@ class FloorPlanPlacingFragment : Fragment() {
                 layout.getLocationOnScreen(projectViewModel.layoutMeasures)
 
                 val roomRatio =  projectViewModel.room.getRoomRatio()
+                val roomId = projectViewModel.room.id
 
                 for (door in projectViewModel.doorsAndWindows) {
                     val relativeLocation =
@@ -92,7 +92,7 @@ class FloorPlanPlacingFragment : Fragment() {
                     )
                 }
 
-                val roomCenter = Point3D(projectViewModel.room.getRoomCenter())
+                val roomCenter = Point3D(projectViewModel.room.roomCenterGetter())
                 val windLocation = Point3D(roomCenter).apply { this.y = 120f }
                 val roomCenterRelative = roomCenter.getRelativeLocation(roomRatio,  intArrayOf(0,0))
 
@@ -100,7 +100,7 @@ class FloorPlanPlacingFragment : Fragment() {
                     projectViewModel.doorsAndWindows += FurnitureOnBoard(
                         projectViewModel,
                         requireContext(),
-                        Door(position = roomCenter),
+                        Door(position = roomCenter).apply { this.roomId=roomId },
                         layout,
                         roomCenterRelative.x,
                         roomCenterRelative.z
@@ -110,12 +110,13 @@ class FloorPlanPlacingFragment : Fragment() {
                     projectViewModel.doorsAndWindows += FurnitureOnBoard(
                         projectViewModel,
                         requireContext(),
-                        Window(position = windLocation),
+                        Window(position = windLocation).apply { this.roomId=roomId },
                         layout,
                         roomCenterRelative.x,
                         roomCenterRelative.z
                     )
                 }
+                val roomsDB = RoomInnApplication.getInstance().getRoomsDB()
                 doneFab.setOnClickListener {
                     for (item in projectViewModel.doorsAndWindows) {
                         if (item.furniture.type == "Door") {
@@ -124,7 +125,7 @@ class FloorPlanPlacingFragment : Fragment() {
                             projectViewModel.room.windows += item.furniture as Window
                         }
                     }
-                    RoomInnApplication.getInstance().getRoomsDB().updateRoom(projectViewModel.room)
+                    roomsDB.createNewRoom(projectViewModel.room)
                     Navigation.findNavController(view)
                         .navigate(R.id.action_floorPlanPlacingFragment_to_floorPlanFragment)
                 }

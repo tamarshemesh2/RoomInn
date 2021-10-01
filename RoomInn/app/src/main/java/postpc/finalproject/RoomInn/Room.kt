@@ -23,6 +23,7 @@ data class Room(
 ) {
     private var minX = 0f
     private var minZ = 0f
+    private var roomCenter:Point3D? = null
     var isInit = false
     val id = UUID.randomUUID().toString()
 
@@ -30,38 +31,42 @@ data class Room(
     fun init() {
         if (Corners.size == 0)
             return
-        val fCorner =  Corners.first()
-        minX =fCorner.x
-        minZ =fCorner.z
+        val fCorner = Corners.first()
+        minX = fCorner.x
+        minZ = fCorner.z
+        var maxX = fCorner.x
+        var maxZ = fCorner.z
         for (corner in Corners) {
-            if (corner.x < minX) {
+            if (corner.x > maxX) {
+                maxX = corner.x
+            } else if (corner.x < minX) {
                 minX = corner.x
             }
             if (corner.z < minZ) {
                 minZ = corner.z
+            } else if (corner.z > maxZ) {
+                maxZ = corner.z
             }
         }
         val normalPoint = Point3D(-minX, 0f, -minZ)
+        roomCenter = Point3D((maxX+minX)/2f,0f,(maxZ+minZ)/2f)
         Corners.replaceAll { it.add(normalPoint) }
+        roomCenter!!.add(normalPoint)
         isInit = true
     }
 
-    fun rotateRoomCornersByAngle(center: Point3D, angle:Float){
-        for (corner in Corners){
+    fun rotateRoomCornersByAngle(angle: Float,center: Point3D = roomCenterGetter()) {
+        for (corner in Corners) {
             corner.rotateAroundPointByAngle(center, angle)
         }
         init()
     }
 
-    fun getRoomCenter(): Point3D {
+    fun roomCenterGetter(): Point3D {
         if (!isInit) {
             init()
         }
-        val center = Point3D()
-        for (corner in Corners) {
-            center.add(corner)
-        }
-        return center.multiply(1f / Corners.size)
+        return roomCenter!!
     }
 
     private fun getRoomSize(): Size {
@@ -69,7 +74,7 @@ data class Room(
             init()
         }
         if (Corners.size == 0)
-            return Size(0,0)
+            return Size(0, 0)
         var maxX = Corners.first().x
         var maxZ = Corners.first().z
         for (corner in Corners) {

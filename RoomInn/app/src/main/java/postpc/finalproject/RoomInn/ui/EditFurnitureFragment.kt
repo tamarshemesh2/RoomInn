@@ -84,7 +84,6 @@ class EditFurnitureFragment : Fragment() {
         val furnitureImageView = view.findViewById<ImageView>(R.id.furniture_render_img)
 
 
-
         //TODO: support the delete button
 
         val furniture = projectViewModel.furniture!!
@@ -101,7 +100,7 @@ class EditFurnitureFragment : Fragment() {
         })
         furnitureCanvas.rotation = furniture.rotation.y
 //        todo: make the map or something better and undo comment
-        val typeMap: Map<Int,FurnitureType>? = (when (furniture.type) {
+        val typeMap: Map<Int, FurnitureType>? = (when (furniture.type) {
             ("Chair") -> Chair.typeMap
             ("Armchair") -> Armchair.typeMap
             ("Bed") -> Bed.typeMap
@@ -111,12 +110,13 @@ class EditFurnitureFragment : Fragment() {
             ("Dresser") -> Dresser.typeMap
             else -> null
         })
-        if (typeMap!=null){
-        furnitureImageView.setImageResource(typeMap[furniture.unityType.key]!!.typeRecID)
-        furnitureImageView.setOnClickListener {
-            Navigation.findNavController(it)
-                .navigate(R.id.action_editFurnitureFragment_to_chooseFurnitureTypeFragment)
-        }}
+        if (typeMap != null) {
+            furnitureImageView.setImageResource(typeMap[furniture.unityType.key]!!.typeRecID)
+            furnitureImageView.setOnClickListener {
+                Navigation.findNavController(it)
+                    .navigate(R.id.action_editFurnitureFragment_to_chooseFurnitureTypeFragment)
+            }
+        }
 
         colorBtn.setColorFilter(furniture.color)
         widthEditText.setText(furniture.scale.x.toString())
@@ -136,7 +136,10 @@ class EditFurnitureFragment : Fragment() {
         colorBtn.setOnClickListener { v ->
 
             val colorPickerDialog: ColorPickerDialog =
-                ColorPickerDialog.createColorPickerDialog(requireContext(), ColorPickerDialog.LIGHT_THEME)
+                ColorPickerDialog.createColorPickerDialog(
+                    requireContext(),
+                    ColorPickerDialog.LIGHT_THEME
+                )
             colorPickerDialog.setOnColorPickedListener { color, _ ->
                 //Your code here
                 colorBtn.setColorFilter(color)
@@ -179,8 +182,8 @@ class EditFurnitureFragment : Fragment() {
 
         rotateEditText.doOnTextChanged { txt, _, _, _ ->
             var num = txt.toString()
-            if (num==""){
-                num="0"
+            if (num == "") {
+                num = "0"
             }
             furniture.rotation.y = num.toFloat() % 360
             furnitureCanvas.rotation = furniture.rotation.y
@@ -199,13 +202,13 @@ class EditFurnitureFragment : Fragment() {
         }
 
         saveFab.setOnClickListener {
-            if (lengthEditText.text.isEmpty()){
+            if (lengthEditText.text.isEmpty()) {
                 lengthEditText.setText("0")
             }
-            if (heightEditText.text.isEmpty()){
+            if (heightEditText.text.isEmpty()) {
                 heightEditText.setText("0")
             }
-            if (widthEditText.text.isEmpty()){
+            if (widthEditText.text.isEmpty()) {
                 widthEditText.setText("0")
             }
 
@@ -218,13 +221,16 @@ class EditFurnitureFragment : Fragment() {
             furniture.scale.x = widthEditText.text.toString().toFloat()
             projectViewModel.furniture = furniture
 
-            // update the furniture in the DB
-            DB.furnitureMap[projectViewModel.furniture!!.id] = projectViewModel.furniture!!
-            if (projectViewModel.furniture!!.id !in DB.roomToFurnitureMap[projectViewModel.room.id]!!) {
-                DB.roomToFurnitureMap[projectViewModel.room.id]!!.add(projectViewModel.furniture!!.id)
+            if (furniture.type !in listOf("Door", "Window")) {
+                // update the furniture in the DB only if it is a furniture
+                DB.furnitureMap[projectViewModel.furniture!!.id] = projectViewModel.furniture!!
+                if (projectViewModel.furniture!!.id !in DB.roomToFurnitureMap[projectViewModel.room.id]!!) {
+                    DB.roomToFurnitureMap[projectViewModel.room.id]!!.add(projectViewModel.furniture!!.id)
+                }
             }
             if (furniture.type in listOf("Door", "Window") || !projectViewModel.newFurniture) {
-                Navigation.findNavController(it).popBackStack()
+                Navigation.findNavController(it)
+                    .navigate(R.id.action_editFurnitureFragment_to_floorPlanPlacingFragment)
             } else {
                 Navigation.findNavController(it)
                     .navigate(R.id.action_editFurnitureFragment_to_floorPlanFragment)
