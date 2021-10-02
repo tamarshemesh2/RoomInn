@@ -49,4 +49,10 @@ class Window(
         return path
     }
 
+    override fun unityScale(): Point3D {
+        return scale.getDivideByPoint(unityType.defaultScale).apply {
+            y = 1f
+        }
+    }
+
 }

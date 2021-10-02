@@ -70,6 +70,9 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
     }
 
     fun renderRoom() {
+
+        Log.e("roomCenter", roomDB.roomByRoomName(roomName).roomCenterGetter().toString())
+
          //render the walls.
         renderWalls(roomDB.wallsByRoomName(roomName!!))
 
@@ -84,9 +87,12 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
     }
 
     private fun renderWalls(wallList: MutableList<Wall>) {
+
+        var bool = true
         for (wall in wallList) {
-            Log.e("RENDER TO UNITY", wall.toString())
+            Log.e("Wall", wall.toString())
             UnityPlayer.UnitySendMessage("RigidBodyFPSController", "addNewWall", wall.toString())
+
         }
     }
 

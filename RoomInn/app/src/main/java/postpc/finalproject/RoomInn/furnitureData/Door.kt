@@ -26,14 +26,14 @@ class Door(
             1 to FurnitureType(
                 "Right",
                 R.drawable.armchair1,
-                Point3D(70f, 100f, 80f),
+                Point3D(90f, 100f, 210f),
                 "addNewArmchairTypeOne",
                 1
             ),
             2 to FurnitureType(
                 "Left",
                 R.drawable.armchair2,
-                Point3D(100f, 95f, 100f),
+                Point3D(90f, 100f, 210f),
                 "addNewArmchairTypeTwo",
                 2
             ),
@@ -129,5 +129,18 @@ class Door(
         }
     return path
 }
+
+    override fun unityScale(): Point3D {
+        return scale.getDivideByPoint(unityType.defaultScale).apply {
+            z = 1f
+        }
+    }
+
+    override fun toString() : String {
+        return  unityPosition().toString() + "\n" + // TODO - Change back to unityPosition
+                Point3D(rotation).add(Point3D(0f,-90f,0f)).toString() + "\n" +
+                scale.toString() + "\n" +
+                color.toString()
+    }
 
 }

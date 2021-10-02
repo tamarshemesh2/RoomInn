@@ -53,4 +53,17 @@ class ScanUnityPlayerActivity : UnityPlayerActivity() {
         }
     }
 
+    fun onBackPressedUnity() {
+        // navigate to windows/ doors fragment
+        runOnUiThread {
+            val intent = Intent(this@ScanUnityPlayerActivity, MainActivity::class.java)
+            intent.putExtra("User ID", userId)
+            intent.putExtra("Room Name", "")
+            intent.putExtra("Return To", 0)
+            intent.putExtra("Path To Unity",unityPath)
+            startActivity(intent)
+            mUnityPlayer.quit()
+        }
+    }
+
 }
