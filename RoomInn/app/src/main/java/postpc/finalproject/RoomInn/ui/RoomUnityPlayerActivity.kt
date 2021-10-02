@@ -44,6 +44,7 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
             UnityPlayer.currentActivity.getExternalFilesDir("")!!.absolutePath
         Log.e("unityPathIs", unityPath)
 
+        Log.d("updateRoom", "in unity player activity, roomsMap is ${RoomInnApplication.getInstance().getRoomsDB().roomsMap}")
 
         UnityPlayer.UnitySendMessage(
                 "SceneLoader",

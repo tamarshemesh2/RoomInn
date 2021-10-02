@@ -40,44 +40,44 @@ class RoomsDB(val context: Context) {
 //        loadFromSP()
     }
 
-    private fun loadFromSP(): Boolean {
-
-        val json = RoomInnApplication.getInstance().json
-        val userStr = RoomInnApplication.sp.getString("user", null) ?: return false
-        Log.d("Loading", "userStrSP $userStr")
-        val roomsMapStr = RoomInnApplication.sp.getString("roomsMap", null) ?: return false
-        Log.d("Loading", "roomsMapStrSP $roomsMapStr")
-        val furnitureMapStr = RoomInnApplication.sp.getString("furnitureMap", null) ?: return false
-        Log.d("Loading", "furnitureSP $furnitureMapStr")
-
-        val roomToFurnitureMapStr =
-            RoomInnApplication.sp.getString("roomToFurnitureMap", null) ?: return false
-        Log.d("Loading", "roomToFurnitureMapStrSP $roomToFurnitureMapStr")
-
-        val roomsMapType = object : TypeToken<MutableMap<String, Room>>() {}.type
-        val roomToFurnitureMapType =
-            object : TypeToken<MutableMap<String, MutableList<String>>>() {}.type
-
-        // todo - use the factory method to re-Object the furniture as a specific type
-        val furnitureMapType = object : TypeToken<MutableMap<String, Any>>() {}.type
-
-
-//        }
-
-        user = json.fromJson(userStr, User::class.java)
-        Log.d("Loading", "user: ${user}")
-        roomsMap = json.fromJson(roomsMapStr, roomsMapType)
-        Log.d("Loading", "roomsMap: ${roomsMap}")
-        roomToFurnitureMap = json.fromJson(roomToFurnitureMapStr, roomToFurnitureMapType)
-        Log.d("Loading", "roomToFurnitureMap: ${roomToFurnitureMap}")
-        furnitureMap = json.fromJson(furnitureMapStr, furnitureMapType)
-        Log.d("Loading", "furnitureMap: ${furnitureMap}")
-
-        // reset the SP
-        RoomInnApplication.sp.edit().clear().apply()
-
-        return true
-    }
+//    private fun loadFromSP(): Boolean {
+//
+//        val json = RoomInnApplication.getInstance().json
+//        val userStr = RoomInnApplication.sp.getString("user", null) ?: return false
+//        Log.d("Loading", "userStrSP $userStr")
+//        val roomsMapStr = RoomInnApplication.sp.getString("roomsMap", null) ?: return false
+//        Log.d("Loading", "roomsMapStrSP $roomsMapStr")
+//        val furnitureMapStr = RoomInnApplication.sp.getString("furnitureMap", null) ?: return false
+//        Log.d("Loading", "furnitureSP $furnitureMapStr")
+//
+//        val roomToFurnitureMapStr =
+//            RoomInnApplication.sp.getString("roomToFurnitureMap", null) ?: return false
+//        Log.d("Loading", "roomToFurnitureMapStrSP $roomToFurnitureMapStr")
+//
+//        val roomsMapType = object : TypeToken<MutableMap<String, Room>>() {}.type
+//        val roomToFurnitureMapType =
+//            object : TypeToken<MutableMap<String, MutableList<String>>>() {}.type
+//
+//        // todo - use the factory method to re-Object the furniture as a specific type
+//        val furnitureMapType = object : TypeToken<MutableMap<String, Any>>() {}.type
+//
+//
+////        }
+//
+//        user = json.fromJson(userStr, User::class.java)
+//        Log.d("Loading", "user: ${user}")
+//        roomsMap = json.fromJson(roomsMapStr, roomsMapType)
+//        Log.d("Loading", "roomsMap: ${roomsMap}")
+//        roomToFurnitureMap = json.fromJson(roomToFurnitureMapStr, roomToFurnitureMapType)
+//        Log.d("Loading", "roomToFurnitureMap: ${roomToFurnitureMap}")
+//        furnitureMap = json.fromJson(furnitureMapStr, furnitureMapType)
+//        Log.d("Loading", "furnitureMap: ${furnitureMap}")
+//
+//        // reset the SP
+//        RoomInnApplication.sp.edit().clear().apply()
+//
+//        return true
+//    }
 
 
     fun isInitialized(): Boolean {
@@ -228,7 +228,9 @@ class RoomsDB(val context: Context) {
         roomToFurnitureMap[room.id] = mutableListOf()
         rooms.value!!.add(room.name)
         roomListChanged()
-        Log.d("Rooms List: ", "list form createRoom is ${rooms.value}.")
+        Log.d("updateRoom: ", "list form createRoom is ${rooms.value}.")
+        Log.d("updateRoom", "rooms map $roomsMap")
+        Log.d("updateRoom", "room name ${room.name}")
     }
 
     fun roomListChanged() {
@@ -262,6 +264,7 @@ class RoomsDB(val context: Context) {
         if (roomName in roomsMap) {
             if (viewModel != null) {
                 viewModel.room = roomsMap[roomName]!!
+                viewModel.projectName = roomsMap[roomName]!!.name
             }
             activeFunc()
             userLoadingStage.value = LoadingStage.SUCCESS
@@ -284,6 +287,7 @@ class RoomsDB(val context: Context) {
                 }
                 if (viewModel != null && room != null) {
                     viewModel.room = roomsMap[roomName]!!
+                    viewModel.projectName = roomsMap[roomName]!!.name
                 }
 
                 // change to success only if both room and it's furniture are loaded
@@ -362,7 +366,7 @@ class RoomsDB(val context: Context) {
         for ((furnitureId, furniture) in furnitureMap) {
             firebase.collection("furniture").document(furnitureId).set(furniture)
         }
-        RoomInnApplication.getInstance().saveToSP()
+//        RoomInnApplication.getInstance().saveToSP()
     }
 
     fun saveFurniture(furniture: Furniture) {
@@ -391,6 +395,8 @@ class RoomsDB(val context: Context) {
     }
 
     fun roomByRoomName(roomName: String): Room {
+        Log.d("updateRoom", "rooms map $roomsMap")
+        Log.d("updateRoom", "room name $roomName")
         return roomsMap[roomName]!!
     }
 
@@ -562,24 +568,24 @@ class RoomsDB(val context: Context) {
 
     }
 
-    fun serializeState(): Map<String, String> {
-        val serializeStateMap = mutableMapOf<String, String>()
-        val gson = Gson()
-
-        // user as string
-        serializeStateMap["user"] = gson.toJson(user)
-
-        //roomsMap as string
-        serializeStateMap["roomsMap"] = gson.toJson(roomsMap)
-
-        //furnitureMap as string
-        serializeStateMap["furnitureMap"] = gson.toJson(furnitureMap)
-
-        //roomsToFurnitureMap as string
-        serializeStateMap["roomToFurnitureMap"] = gson.toJson(roomToFurnitureMap)
-
-        return serializeStateMap
-    }
+//    fun serializeState(): Map<String, String> {
+//        val serializeStateMap = mutableMapOf<String, String>()
+//        val gson = Gson()
+//
+//        // user as string
+//        serializeStateMap["user"] = gson.toJson(user)
+//
+//        //roomsMap as string
+//        serializeStateMap["roomsMap"] = gson.toJson(roomsMap)
+//
+//        //furnitureMap as string
+//        serializeStateMap["furnitureMap"] = gson.toJson(furnitureMap)
+//
+//        //roomsToFurnitureMap as string
+//        serializeStateMap["roomToFurnitureMap"] = gson.toJson(roomToFurnitureMap)
+//
+//        return serializeStateMap
+//    }
 
     fun updateFirebase(){
         firebase.collection("users").document(user.id).set(user)

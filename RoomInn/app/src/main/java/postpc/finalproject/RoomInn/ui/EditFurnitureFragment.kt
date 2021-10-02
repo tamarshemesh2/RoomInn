@@ -227,13 +227,13 @@ class EditFurnitureFragment : Fragment() {
                 if (projectViewModel.furniture!!.id !in DB.roomToFurnitureMap[projectViewModel.room.id]!!) {
                     DB.roomToFurnitureMap[projectViewModel.room.id]!!.add(projectViewModel.furniture!!.id)
                 }
+
+                Navigation.findNavController(it)
+                        .navigate(R.id.action_editFurnitureFragment_to_floorPlanFragment)
             }
-            if (furniture.type in listOf("Door", "Window") || !projectViewModel.newFurniture) {
+            else {
                 Navigation.findNavController(it)
                     .navigate(R.id.action_editFurnitureFragment_to_floorPlanPlacingFragment)
-            } else {
-                Navigation.findNavController(it)
-                    .navigate(R.id.action_editFurnitureFragment_to_floorPlanFragment)
             }
 
         }

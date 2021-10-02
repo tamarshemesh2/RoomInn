@@ -23,14 +23,16 @@ data class Room(
 ) {
     private var minX = 0f
     private var minZ = 0f
-    private var roomCenter:Point3D? = null
+    private val roomCenter:Point3D by lazy {
+        init()
+    }
     var isInit = false
     val id = UUID.randomUUID().toString()
 
 
-    fun init() {
+    fun init(): Point3D {
         if (Corners.size == 0)
-            return
+            return Point3D()
         val fCorner = Corners.first()
         minX = fCorner.x
         minZ = fCorner.z
@@ -49,10 +51,11 @@ data class Room(
             }
         }
         val normalPoint = Point3D(-minX, 0f, -minZ)
-        roomCenter = Point3D((maxX+minX)/2f,0f,(maxZ+minZ)/2f)
+        val roomCenter = Point3D((maxX+minX)/2f,0f,(maxZ+minZ)/2f)
         Corners.replaceAll { it.add(normalPoint) }
-        roomCenter!!.add(normalPoint)
+        roomCenter.add(normalPoint)
         isInit = true
+        return roomCenter
     }
 
     fun rotateRoomCornersByAngle(angle: Float,center: Point3D = roomCenterGetter()) {

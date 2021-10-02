@@ -218,7 +218,8 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
             intent.putExtra("User ID", projectViewModel.room.userId)
             intent.putExtra("Room Name", projectViewModel.room.name)
             intent.putExtra("Return To", 1)
-                startActivity(intent)
+            startActivity(intent)
+            Log.d("updateRoom", "in flore plan, roomsMap is ${RoomInnApplication.getInstance().getRoomsDB().roomsMap}")
             }
 
         help.setOnClickListener {

@@ -9,10 +9,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
-import postpc.finalproject.RoomInn.models.LoadingStage
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 import postpc.finalproject.RoomInn.ui.RoomUnityPlayerActivity
-import postpc.finalproject.RoomInn.ui.ScanUnityHandler
 import postpc.finalproject.RoomInn.ui.gui_gestures.ProjectAdapterGesturesListener
 
 
