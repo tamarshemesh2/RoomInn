@@ -224,8 +224,7 @@ class RoomsDB(val context: Context) {
 
     fun createNewRoom(room: Room) {
         room.init()
-        val distancesFromFile = RoomInnApplication.getInstance().readFromFileToFloats()
-        RoomInnApplication.getInstance().createWalls(room, distancesFromFile)
+//        val distancesFromFile = RoomInnApplication.getInstance().readFromFileToFloats()
         updateRoom(room)
         roomToFurnitureMap[room.id] = mutableListOf()
         if (!rooms.value?.contains(room.name)!!) {

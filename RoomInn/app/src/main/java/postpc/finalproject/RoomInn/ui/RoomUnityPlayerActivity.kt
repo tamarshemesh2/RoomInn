@@ -85,7 +85,7 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
 
     private fun renderWalls(wallList: MutableList<Wall>) {
         for (wall in wallList) {
-            Log.e("Wall", wall.toString())
+            Log.e("RENDER TO UNITY", wall.toString())
             UnityPlayer.UnitySendMessage("RigidBodyFPSController", "addNewWall", wall.toString())
         }
     }
@@ -96,7 +96,7 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
 
     private fun renderFurniture(furnitureList: MutableList<Furniture>) {
         for (furniture in furnitureList) {
-            Log.e("funiture", furniture.toString())
+            Log.e("RENDER TO UNITY", furniture.toString())
             UnityPlayer.UnitySendMessage("RigidBodyFPSController", furniture.unityType.unityFuncName,
                 furniture.toString()
             )

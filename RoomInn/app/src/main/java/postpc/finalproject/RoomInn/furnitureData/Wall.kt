@@ -21,7 +21,8 @@ data class Wall(var position : Point3D = Point3D(),
             RoomInnApplication.getInstance()
                 .getRoomsDB().roomByRoomID(roomId)
                 .roomCenterGetter())
-        return screenPosition.add(roomCenter.multiply(-1f))
+
+        return (screenPosition.add(roomCenter.multiply(-1f)))
             .getDivideByPoint(Point3D(100f, 100f, -100f)).apply { y = 0f }
     }
 }
