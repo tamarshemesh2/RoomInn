@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import postpc.finalproject.RoomInn.Room
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.furnitureData.Point3D
 import postpc.finalproject.RoomInn.furnitureData.Wall
@@ -19,6 +20,9 @@ import kotlin.math.sqrt
 class RoomInnApplication: Application() {
     var pathToUnity: String = ""
     val json = Gson()
+    private val pointsPathName: String by lazy { "pointData.json" }
+    private val distancesPathName: String by lazy { "distances.json" }
+
 
 
     // provide instance of the class to other classes in the app
@@ -46,21 +50,9 @@ class RoomInnApplication: Application() {
 
     }
 
-//    fun saveToSP(){
-//        val editor = sp.edit()
-//        editor.clear()
-//        val serializedState: Map<String,String> = roomsDB.serializeState()
-//        for ((key,value) in serializedState){
-//            Log.d("furnitureSP", value)
-//
-//            editor.putString(key, value)
-//        }
-//        editor.apply()
-//    }
 
-
-    fun readFromFileToPoints(f: String): MutableList<Point3D> {
-        val file = File("$pathToUnity/$f")
+    fun readFromFileToPoints(): MutableList<Point3D> {
+        val file = File("$pathToUnity/$pointsPathName")
         Log.e("fileProblem!", file.exists().toString())
         if (!file.exists()) {
             Log.e("fileProblem!", file.absolutePath)
@@ -81,8 +73,8 @@ class RoomInnApplication: Application() {
         x*=-1} }
         return done
     }
-    fun readFromFileToFloats(f: String): MutableList<Float> {
-        val file = File("$pathToUnity/$f")
+    fun readFromFileToFloats(): MutableList<Float> {
+        val file = File("$pathToUnity/$distancesPathName")
         Log.e("fileProblem!", file.exists().toString())
         if (!file.exists()){
             Log.e("fileProblem!", file.absolutePath)
@@ -115,13 +107,13 @@ class RoomInnApplication: Application() {
         return result
     }
     fun createWalls(
-        corners: MutableList<Point3D>,
+        room: Room,
         distances: MutableList<Float>,
-         projectViewModel : ProjectViewModel
     ): MutableList<Wall> {
+        val corners = room.Corners
         val walls = mutableListOf<Wall>()
         for (i in 1..distances.size) {
-            var wall = Wall()
+            val wall = Wall()
             wall.position =
                 Point3D(Point3D(corners[i - 1]).add(Point3D(corners[i])).multiply(0.5f)).apply { y = 0f }
             wall.scale = Point3D(distances[i - 1] , 10f, 0.001f)
@@ -132,16 +124,16 @@ class RoomInnApplication: Application() {
             if (wall.rotation.y.isNaN()) {
                 wall.rotation.y = 90f
             }
-            wall.roomCenter = Point3D(projectViewModel.room.roomCenterGetter())
+            wall.roomId = room.id
             walls.add(wall)
             Log.d("create new wall", wall.toString())
         }
-        var wall = Wall()
+        val wall = Wall()
         val last = Point3D(corners.last())
         val first = Point3D(corners.first())
         wall.position =
-                Point3D(Point3D(last).add(Point3D(first)).multiply(0.5f)).apply { y = 0f }
-        val dist = sqrt(((last.x - first.x)*(last.x - first.x)) + ((last.z - first.z)*(last.z - first.z)))
+                Point3D((Point3D(last).add(first)).multiply(0.5f)).apply { y = 0f }
+        val dist = sqrt(((last.x - first.x)*(last.x - first.x)) + ((last.z - first.z)*(last.z - first.z)))/100f
         wall.scale = Point3D(dist, 10f, 0.001f)
         val sinY =
                 Point3D(last).add(Point3D(first).multiply(-1f)).x / (dist * 100)
@@ -150,10 +142,11 @@ class RoomInnApplication: Application() {
         if (wall.rotation.y.isNaN()) {
             wall.rotation.y = 90f
         }
-        wall.roomCenter = Point3D(projectViewModel.room.roomCenterGetter())
+        wall.roomId = room.id
         walls.add(wall)
         Log.d("create new wall", wall.toString())
 
+        room.Walls = walls
         return walls
     }
 

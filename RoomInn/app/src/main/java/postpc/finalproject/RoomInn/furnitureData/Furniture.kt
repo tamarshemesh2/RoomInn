@@ -20,7 +20,8 @@ abstract class Furniture(
     var type: String = "unknown"
     var roomId: String = "unknown"
     var freeScale: Boolean = false
-    constructor() : this(Point3D(),Point3D(),Point3D())
+
+    constructor() : this(Point3D(), Point3D(), Point3D())
 
     //copy constructor
     constructor(fur: Furniture) : this(fur.position, fur.rotation, fur.scale, fur.color, fur.id) {
@@ -67,13 +68,13 @@ abstract class Furniture(
     }
 
     fun toExportString(): String {
-        val furName:String = if (unityType.typeName.contains(type)) {
+        val furName: String = if (unityType.typeName.contains(type)) {
             unityType.typeName
         } else {
             unityType.typeName + "-" + type
         }
         val hexColor = String.format("%06X", 0xFFFFFF and this.color)
-        return "*"+furName + ":*" +
+        return "*" + furName + ":*" +
                 "\n\t width: ${scale.x.roundToInt()}cm" +
                 "\n\t length: ${scale.z.roundToInt()}cm" +
                 "\n\t height: ${scale.y.roundToInt()}cm" +
@@ -82,7 +83,9 @@ abstract class Furniture(
 
     open fun unityPosition(): Point3D {
         val screenPosition = Point3D(position)
-        screenPosition.add(scale.getDivideByPoint(Point3D(2f, 2f, 2f)))
+        if (type != "Door") {
+            screenPosition.add(scale.getDivideByPoint(Point3D(2f, 2f, 2f)))
+        }
         val roomCenter = Point3D(
             RoomInnApplication.getInstance()
                 .getRoomsDB().roomByRoomID(roomId)

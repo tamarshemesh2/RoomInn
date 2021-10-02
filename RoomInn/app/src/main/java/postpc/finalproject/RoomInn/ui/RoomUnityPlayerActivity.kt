@@ -2,6 +2,7 @@ package postpc.finalproject.RoomInn.ui
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
 import com.unity3d.player.UnityPlayer
@@ -32,6 +33,9 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        //sets the activity to sensor orientation
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER
+
         super.onCreate(savedInstanceState)
 
         roomName = intent.getStringExtra("Room Name")!!

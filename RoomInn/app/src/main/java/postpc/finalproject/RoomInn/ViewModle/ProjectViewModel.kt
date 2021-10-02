@@ -32,8 +32,6 @@ class ProjectViewModel : ViewModel() {
             }
             field = newRoom
         }
-    val pointsPathName: String by lazy { "pointData.json" }
-    val distancesPathName: String by lazy { "distances.json" }
 
     var goTo: Int = 0
 

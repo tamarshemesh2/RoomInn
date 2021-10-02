@@ -64,7 +64,7 @@ class FloorPlanRotateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val app = RoomInnApplication.getInstance()
 
-        var corners =app.readFromFileToPoints(projectViewModel.pointsPathName)
+        var corners =app.readFromFileToPoints()
 
         super.onViewCreated(view, savedInstanceState)
         this.activity?.window?.decorView?.layoutDirection = View.LAYOUT_DIRECTION_LTR;
@@ -163,10 +163,6 @@ class FloorPlanRotateFragment : Fragment() {
                             ((roomCanvas.rotation * PI.toFloat()) / 180f),roomCenterPoint
                         )
                         projectViewModel.room.name = projectNameEditText.text.toString()
-                        val distancesFromFile =
-                            app.readFromFileToFloats(projectViewModel.distancesPathName)
-
-                        projectViewModel.room.Walls = app.createWalls(corners,distancesFromFile, projectViewModel)
 
                         Navigation.findNavController(view)
                             .navigate(R.id.action_floorPlanRotateFragment_to_floorPlanPlacingFragment)

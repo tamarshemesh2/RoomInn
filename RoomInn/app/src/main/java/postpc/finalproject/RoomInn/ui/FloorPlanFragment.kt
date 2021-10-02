@@ -500,19 +500,4 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
 
         return uri
     }
-
 }
-
-
-//                undoButton.setOnClickListener {
-//                    if (!projectViewModel.memoryStack.undoStep()){
-//                    Toast.makeText(requireContext(),"there is no step to undo",Toast.LENGTH_SHORT).show()}
-//                    projectViewModel.redoUndoPresses.value=true
-//                }
-//                redoButton.setOnClickListener {
-//                    if(!projectViewModel.memoryStack.redoStep()){
-//                        Toast.makeText(requireContext(),"there is no step to redo",Toast.LENGTH_SHORT).show()}
-//                    projectViewModel.redoUndoPresses.value=true
-//
-//
-//                }

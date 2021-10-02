@@ -132,22 +132,6 @@ class ProfileFragment : Fragment() {
         // if firebase
         FirebaseAuth.getInstance().signOut()
     }
-    private fun lookForScan(view: View) {
-        val value = RoomInnApplication.getInstance().pathToUnity
-        if (value != "") {
-            val cornersFileName = value + projectViewModel.pointsPathName
-            val distancesFileName = value + projectViewModel.distancesPathName
-            val cornersFile = File(cornersFileName)
-            val distFile = File(distancesFileName)
-            val nowMillis = System.currentTimeMillis()
-            val lastModifiedThreshold = 1000
-            if (cornersFile.exists() && distFile.exists() &&
-                ((cornersFile.lastModified() - nowMillis < lastModifiedThreshold) ||
-                 (distFile.lastModified() - nowMillis < lastModifiedThreshold))) {
-                Navigation.findNavController(view)
-                    .navigate(R.id.action_profileFragment2_to_floorPlanRotateFragment)
-            }
-        }
-    }
+
 
 }

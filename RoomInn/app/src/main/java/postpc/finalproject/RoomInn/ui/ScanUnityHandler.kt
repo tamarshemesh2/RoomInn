@@ -2,6 +2,7 @@ package postpc.finalproject.RoomInn.ui
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,9 @@ class ScanUnityHandler : AppCompatActivity() {
     private var returnTo by Delegates.notNull<Int>()
 
     public override fun onCreate(savedInstanceState: Bundle?) {
+        //sets the activity to free orientation
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_unity_handler)
         val unityButton = findViewById<Button>(R.id.startUnityButton)

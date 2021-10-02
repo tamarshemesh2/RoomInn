@@ -2,6 +2,7 @@ package postpc.finalproject.RoomInn.ui
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
 import com.unity3d.player.UnityPlayer
@@ -23,6 +24,9 @@ class ScanUnityPlayerActivity : UnityPlayerActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        //sets the activity to free orientation
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER
+
         super.onCreate(savedInstanceState)
         userId = intent.getStringExtra("User ID")!!
         returnTo = intent.getIntExtra("Return To",0)

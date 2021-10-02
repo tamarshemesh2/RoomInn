@@ -2,16 +2,14 @@ package postpc.finalproject.RoomInn.ui
 
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Size
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ImageView
+import android.widget.*
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -71,6 +69,7 @@ class EditFurnitureFragment : Fragment() {
         // find all the views
 
         val colorBtn: ImageView = view.findViewById(R.id.color_btn)
+        val colorTxt = view.findViewById<TextView>(R.id.color_text)
         val widthEditText = view.findViewById<EditText>(R.id.width_edit_text)
         val heightEditText = view.findViewById<EditText>(R.id.height_edit_text)
         val lengthEditText = view.findViewById<EditText>(R.id.length_edit_text)
@@ -99,7 +98,6 @@ class EditFurnitureFragment : Fragment() {
             }
         })
         furnitureCanvas.rotation = furniture.rotation.y
-//        todo: make the map or something better and undo comment
         val typeMap: Map<Int, FurnitureType>? = (when (furniture.type) {
             ("Chair") -> Chair.typeMap
             ("Armchair") -> Armchair.typeMap
@@ -108,6 +106,7 @@ class EditFurnitureFragment : Fragment() {
             ("Couch") -> Couch.typeMap
             ("Table") -> Table.typeMap
             ("Dresser") -> Dresser.typeMap
+            ("Door")->Door.typeMap
             else -> null
         })
         if (typeMap != null) {
@@ -116,6 +115,17 @@ class EditFurnitureFragment : Fragment() {
                 Navigation.findNavController(it)
                     .navigate(R.id.action_editFurnitureFragment_to_chooseFurnitureTypeFragment)
             }
+            if (furniture.type != "Door"){
+            colorTxt.setTextColor(Color.GRAY)
+            colorBtn.visibility = View.VISIBLE}
+            else{
+                colorBtn.visibility = View.GONE
+                colorTxt.setTextColor(Color.TRANSPARENT)
+            }
+
+        }else{
+            colorBtn.visibility = View.GONE
+            colorTxt.setTextColor(Color.TRANSPARENT)
         }
 
         colorBtn.setColorFilter(furniture.color)
@@ -147,21 +157,6 @@ class EditFurnitureFragment : Fragment() {
             }
             colorPickerDialog.hideOpacityBar()
             colorPickerDialog.show();
-//            ColorPickerPopup.Builder(context).initialColor(furniture.color)
-//                .enableBrightness(true) // enable color brightness
-//                .enableAlpha(false) // enable color alpha
-//                .okTitle("Choose") // this is top right
-//                .cancelTitle("Cancel") // this is top left
-//                .showIndicator(true) // this is the small box
-//                .showValue(true).build().show(v,
-//                    object : ColorPickerObserver() {
-//                        override fun onColorPicked(color: Int) {
-//                            colorBtn.setColorFilter(color)
-//                            furniture.color = color
-//                        }
-//
-//
-//                    })
         }
 
         freeRatioCheckBox.setOnClickListener {

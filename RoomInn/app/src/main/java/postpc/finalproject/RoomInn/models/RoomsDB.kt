@@ -224,10 +224,14 @@ class RoomsDB(val context: Context) {
 
     fun createNewRoom(room: Room) {
         room.init()
+        val distancesFromFile = RoomInnApplication.getInstance().readFromFileToFloats()
+        RoomInnApplication.getInstance().createWalls(room, distancesFromFile)
         updateRoom(room)
         roomToFurnitureMap[room.id] = mutableListOf()
-        rooms.value!!.add(room.name)
-        roomListChanged()
+        if (!rooms.value?.contains(room.name)!!) {
+            rooms.value!!.add(room.name)
+            roomListChanged()
+        }
         Log.d("updateRoom: ", "list form createRoom is ${rooms.value}.")
         Log.d("updateRoom", "rooms map $roomsMap")
         Log.d("updateRoom", "room name ${room.name}")
@@ -524,7 +528,7 @@ class RoomsDB(val context: Context) {
     fun initializeAfterUnity(
         userID: String,
         roomName: String,
-        navController:NavController,
+        navController: NavController,
         viewModel: ProjectViewModel? = null
     ) {
         // todo- uncomment after the LoadFromSP will work properly
@@ -538,19 +542,19 @@ class RoomsDB(val context: Context) {
                     user = d.toObject(User::class.java)!!
                     rooms = MutableLiveData(user.roomsList)
                     isInitialized = true
-                    when (viewModel?.goTo ?: 0){
-                        (2)-> {
+                    when (viewModel?.goTo ?: 0) {
+                        (2) -> {
                             navController.navigate(R.id.action_profileFragment2_to_floorPlanRotateFragment)
                             userLoadingStage.value = LoadingStage.SUCCESS
                             roomListChanged()
                         }
-                        (1)-> {
+                        (1) -> {
                             loadRoomByName(roomName = roomName, activeFunc = {
                                 navController.navigate(R.id.action_profileFragment2_to_floorPlanFragment)
                                 roomListChanged()
                             }, viewModel = viewModel)
                         }
-                        (0)-> {
+                        (0) -> {
                             roomListChanged()
                             userLoadingStage.value = LoadingStage.SUCCESS
                         }
@@ -587,7 +591,7 @@ class RoomsDB(val context: Context) {
 //        return serializeStateMap
 //    }
 
-    fun updateFirebase(){
+    fun updateFirebase() {
         firebase.collection("users").document(user.id).set(user)
     }
 

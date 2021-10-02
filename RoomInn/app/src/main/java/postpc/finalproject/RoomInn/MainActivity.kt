@@ -1,7 +1,10 @@
 package postpc.finalproject.RoomInn
 
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
+import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import postpc.finalproject.RoomInn.models.RoomInnApplication.Companion.getInstance
@@ -19,7 +22,14 @@ import postpc.finalproject.RoomInn.models.RoomsDB
 class MainActivity : AppCompatActivity() {
     var progressDialog: ProgressDialog? = null
     var viewModel: ProjectViewModel? = null
+
+
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
+        //sets the main activity to portrait orientation
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED;
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val fragmentContainer =
@@ -96,6 +106,12 @@ class MainActivity : AppCompatActivity() {
         val DB = getInstance().getRoomsDB()
         DB.saveOnExit()
         super.onPause()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        val DB = getInstance().getRoomsDB()
+        DB.saveOnExit()
+        super.onSaveInstanceState(outState, outPersistentState)
     }
 
     override fun onBackPressed() {
