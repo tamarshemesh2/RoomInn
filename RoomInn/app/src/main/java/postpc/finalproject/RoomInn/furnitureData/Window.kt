@@ -7,12 +7,12 @@ import postpc.finalproject.RoomInn.models.RoomInnApplication
 class Window(
     position: Point3D = Point3D(),
     rotation: Point3D = Point3D(),
-    scale: Point3D = Point3D(130f, 60f, 65f),
+    scale: Point3D = Point3D(60f, 65f, 130f),
 ) : Furniture(position, rotation, scale, Color.BLACK) {
     //copy constructor
     constructor(fur:Window) : this(fur.position,fur.rotation,fur.scale){
         id= fur.id
-        unityType=fur.unityType
+        unityType= fur.unityType
         type=fur.type
         roomId=fur.roomId
         freeScale=fur.freeScale
@@ -48,9 +48,7 @@ class Window(
     }
 
     override fun unityScale(): Point3D {
-        return scale.getDivideByPoint(unityType.defaultScale).apply {
-            y = 0.03
-        }
+        return scale.getDivideByPoint(Point3D(100.0, 100.0, 100.0))
     }
 
     override fun unityPosition(): Point3D {
