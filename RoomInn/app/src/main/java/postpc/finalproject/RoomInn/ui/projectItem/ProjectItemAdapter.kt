@@ -130,6 +130,7 @@ class ProjectItemAdapter : RecyclerView.Adapter<ProjectItemHolder>() {
 
                     var DB = RoomInnApplication.getInstance().getRoomsDB()
                     DB.saveRoom(viewModel!!.room)
+                    viewModel!!.room.Walls = RoomInnApplication.getInstance().createWalls(viewModel!!.room)
                     DB.loadRoomByName(
                         roomName = projectItem.roomName,
                         activeFunc = {
