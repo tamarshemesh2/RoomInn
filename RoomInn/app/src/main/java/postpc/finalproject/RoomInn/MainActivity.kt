@@ -3,12 +3,16 @@ package postpc.finalproject.RoomInn
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import postpc.finalproject.RoomInn.models.RoomInnApplication.Companion.getInstance
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentContainerView
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
@@ -22,6 +26,8 @@ import postpc.finalproject.RoomInn.models.RoomsDB
 class MainActivity : AppCompatActivity() {
     var progressDialog: ProgressDialog? = null
     var viewModel: ProjectViewModel? = null
+
+
 
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -52,18 +58,21 @@ class MainActivity : AppCompatActivity() {
         if (intent.extras != null) {
             val userId = intent.getStringExtra("User ID")
             val roomName = intent.getStringExtra("Room Name")
-            RoomInnApplication.getInstance().pathToUnity = intent.getStringExtra("Path To Unity")?: ""
+            RoomInnApplication.getInstance().pathToUnity =
+                intent.getStringExtra("Path To Unity") ?: ""
             Log.e("unityPathIs MAIN", RoomInnApplication.getInstance().pathToUnity)
-            viewModel!!.goTo = intent.getIntExtra("Return To",0)
+            viewModel!!.goTo = intent.getIntExtra("Return To", 0)
             // 0 = profileFragment ,
             // 1 = floorPlanFragment ,
             // 2 = rotateFloorPlanFragment
 
 
-            val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+            val navHostFragment =
+                supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
             val navController = navHostFragment.navController
             Log.d("extras aren't null", "calling initializeAfterUnity")
-            getInstance().getRoomsDB().initializeAfterUnity(userId!!, roomName!!, navController, viewModel)
+            getInstance().getRoomsDB()
+                .initializeAfterUnity(userId!!, roomName!!, navController, viewModel)
 
 
         }
@@ -115,7 +124,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (viewModel != null && viewModel!!.helpMenuQueue != null){
+        if (viewModel != null && viewModel!!.helpMenuQueue != null) {
             viewModel!!.helpMenuQueue?.cancel(true)
         }
         super.onBackPressed()
