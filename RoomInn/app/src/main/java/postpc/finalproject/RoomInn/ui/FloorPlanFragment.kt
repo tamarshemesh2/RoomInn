@@ -32,6 +32,7 @@ import com.google.android.material.navigation.NavigationView
 import me.toptas.fancyshowcase.FancyShowCaseQueue
 import me.toptas.fancyshowcase.FancyShowCaseView
 import me.toptas.fancyshowcase.listener.OnCompleteListener
+import me.toptas.fancyshowcase.listener.OnViewInflateListener
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.furnitureData.Furniture
@@ -212,6 +213,23 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
         roomTitle.text = "${projectViewModel.projectName}"
 
         playButton.setOnClickListener {
+            if(RoomInnApplication.getInstance().getRoomsDB().user.firstPlay){
+                val fancyShowcasePlayButton = FancyShowCaseView.Builder(requireActivity())
+                    .title("instructions:")
+                    .customView(R.layout.room_play_button, object : OnViewInflateListener {
+                        override fun onViewInflated(view: View) {
+                        }
+                    })
+                    .focusBorderColor(Color.GRAY)
+                    .focusBorderSize(10)
+                    .titleStyle((R.style.MyTitleStyle), Gravity.CENTER)
+                    .enableAutoTextPosition()
+                    .backgroundColor(0)
+                    .closeOnTouch(false)
+                    .build()
+                fancyShowcasePlayButton.show()
+            }
+
             projectViewModel.room.Walls = RoomInnApplication.getInstance().createWalls(projectViewModel.room)
             RoomInnApplication.getInstance().getRoomsDB().saveRoom(projectViewModel.room)
             var intent = Intent(context, RoomUnityPlayerActivity::class.java)
@@ -219,9 +237,20 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
             intent.putExtra("User ID", projectViewModel.room.userId)
             intent.putExtra("Room Name", projectViewModel.room.name)
             intent.putExtra("Return To", 1)
-            startActivity(intent)
-            Log.d("updateRoom", "in flore plan, roomsMap is ${RoomInnApplication.getInstance().getRoomsDB().roomsMap}")
+            if (RoomInnApplication.getInstance().getRoomsDB().user.firstPlay){
+                RoomInnApplication.getInstance().getRoomsDB().user.firstPlay = false
+                RoomInnApplication.getInstance().getRoomsDB().updateFirebase()
+                Timer().schedule(object : TimerTask() {
+                    override fun run() {
+                        startActivity(intent)
+                    }
+                }, 10000 /*amount of time in milliseconds before execution*/)
             }
+            else{
+                startActivity(intent)
+            }
+            Log.d("updateRoom", "in flore plan, roomsMap is ${RoomInnApplication.getInstance().getRoomsDB().roomsMap}")
+        }
 
         help.setOnClickListener {
             val fancyShowCaseViewAdd = FancyShowCaseView.Builder(requireActivity())

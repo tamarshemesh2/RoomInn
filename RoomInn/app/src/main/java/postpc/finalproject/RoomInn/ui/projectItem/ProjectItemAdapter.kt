@@ -1,17 +1,24 @@
 package postpc.finalproject.RoomInn.ui.projectItem
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import me.toptas.fancyshowcase.FancyShowCaseQueue
+import me.toptas.fancyshowcase.FancyShowCaseView
+import me.toptas.fancyshowcase.listener.OnViewInflateListener
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 import postpc.finalproject.RoomInn.ui.RoomUnityPlayerActivity
 import postpc.finalproject.RoomInn.ui.gui_gestures.ProjectAdapterGesturesListener
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ProjectItemAdapter : RecyclerView.Adapter<ProjectItemHolder>() {
@@ -71,13 +78,12 @@ class ProjectItemAdapter : RecyclerView.Adapter<ProjectItemHolder>() {
                 holder.projectName.gravity = Gravity.CENTER
                 holder.projectName.text = ""
                 holder.border.visibility = View.GONE
-            }
-            else {
+            } else {
                 holder.playButton.visibility = View.GONE
                 holder.editFabButton.visibility = View.GONE
                 holder.projectName.gravity = Gravity.CENTER
                 holder.projectName.text =
-                        "\n\nYou don't have any projects yet \n\n \uD83D\uDE31 \n\nPress on the add button below to get started!"
+                    "\n\nYou don't have any projects yet \n\n \uD83D\uDE31 \n\nPress on the add button below to get started!"
                 holder.border.visibility = View.GONE
             }
 
@@ -101,27 +107,54 @@ class ProjectItemAdapter : RecyclerView.Adapter<ProjectItemHolder>() {
 
             holder.editFabButton.setOnClickListener {
                 RoomInnApplication.getInstance().getRoomsDB()
-                    .loadRoomByName(roomName=projectItem.roomName, viewModel = viewModel)
+                    .loadRoomByName(roomName = projectItem.roomName, viewModel = viewModel)
                 viewModel!!.projectName = projectItem.roomName
             }
 
             holder.playButton.setOnClickListener {
-                var DB = RoomInnApplication.getInstance().getRoomsDB()
-                DB.saveRoom(viewModel!!.room)
-                DB.loadRoomByName(
-                            roomName=projectItem.roomName,
-                            activeFunc = {
-                                val intent = Intent(context, RoomUnityPlayerActivity::class.java)
-                                intent.putExtra("Room Name", projectItem.roomName)
-                                intent.putExtra("User ID", viewModel!!.room.userId)
-                                intent.putExtra("Return To", "0")
+                if (RoomInnApplication.getInstance().getRoomsDB().user.firstPlay){
+                    val fancyShowcasePlayButton = FancyShowCaseView.Builder(context as Activity)
+                        .title("instructions:")
+                        .customView(R.layout.room_play_button, object : OnViewInflateListener {
+                            override fun onViewInflated(view: View) {
+                            }
+                        })
+                        .focusBorderColor(Color.GRAY)
+                        .focusBorderSize(10)
+                        .titleStyle((R.style.MyTitleStyle), Gravity.CENTER)
+                        .enableAutoTextPosition()
+                        .backgroundColor(0)
+                        .build()
+                    fancyShowcasePlayButton.show()
+                }
+
+                    var DB = RoomInnApplication.getInstance().getRoomsDB()
+                    DB.saveRoom(viewModel!!.room)
+                    DB.loadRoomByName(
+                        roomName = projectItem.roomName,
+                        activeFunc = {
+                            val intent = Intent(context, RoomUnityPlayerActivity::class.java)
+                            intent.putExtra("Room Name", projectItem.roomName)
+                            intent.putExtra("User ID", viewModel!!.room.userId)
+                            intent.putExtra("Return To", "0")
+                            if (RoomInnApplication.getInstance().getRoomsDB().user.firstPlay){
+                                RoomInnApplication.getInstance().getRoomsDB().user.firstPlay = false
+                                RoomInnApplication.getInstance().getRoomsDB().updateFirebase()
+                                Timer().schedule(object : TimerTask() {
+                                    override fun run() {
+                                        context.startActivity(intent)
+                                    }
+                                }, 10000 /*amount of time in milliseconds before execution*/)
+                            }
+                            else{
                                 context.startActivity(intent)
+                            }
+                        },
+                        viewModel = viewModel
+                    )
+                }
 
-                            },
-                            viewModel = viewModel)
             }
-        }
-
     }
 
     override fun getItemCount(): Int {

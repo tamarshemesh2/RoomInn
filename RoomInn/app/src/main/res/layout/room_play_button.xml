@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/panorama"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:src="@drawable/panorama_img"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ImageView
+    android:id="@+id/direction"
+    android:layout_width="220dp"
+    android:layout_height="220dp"
+    android:src="@drawable/direction_img"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/panorama"
+        app:layout_constraintBottom_toTopOf="@id/direction"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="instructions for VR:\n\ntop of screen used to pan the view of the room\n\nbottom of screen used to move in certain direction"
+        android:textSize="24dp"
+        android:paddingEnd="32dp"
+        android:paddingStart="32dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
