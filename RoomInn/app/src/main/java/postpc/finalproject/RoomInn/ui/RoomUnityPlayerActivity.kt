@@ -25,9 +25,9 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
         lateinit var ctx: Context
     }
 
-    lateinit var roomName : String
-    lateinit var userId : String
-    lateinit var roomDB : RoomsDB
+    lateinit var roomName: String
+    lateinit var userId: String
+    lateinit var roomDB: RoomsDB
     var returnTo by Delegates.notNull<Int>()
     private lateinit var unityPath: String
 
@@ -40,20 +40,26 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
 
         roomName = intent.getStringExtra("Room Name")!!
         roomDB = RoomInnApplication.getInstance().getRoomsDB()
-        userId =  intent.getStringExtra("User ID")!!
-        returnTo = intent.getIntExtra("Return To",0)
+        userId = intent.getStringExtra("User ID")!!
+        returnTo = intent.getIntExtra("Return To", 0)
 
         ctx = this
         unityPath =
             UnityPlayer.currentActivity.getExternalFilesDir("")!!.absolutePath
         Log.e("unityPathIs", unityPath)
 
-        Log.d("updateRoom", "in unity player activity, roomsMap is ${RoomInnApplication.getInstance().getRoomsDB().roomsMap}")
+        Log.d(
+            "updateRoom",
+            "in unity player activity, roomsMap is ${
+                RoomInnApplication.getInstance().getRoomsDB().roomsMap
+            }"
+        )
 
         UnityPlayer.UnitySendMessage(
-                "SceneLoader",
-                "loadScene",
-                RoomUnityPlayerActivity.sceneIndex)
+            "SceneLoader",
+            "loadScene",
+            RoomUnityPlayerActivity.sceneIndex
+        )
     }
 
     fun existUnityActivity() {
@@ -62,7 +68,7 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
             intent.putExtra("User ID", userId)
             intent.putExtra("Room Name", roomName)
             intent.putExtra("Return To", returnTo)
-            intent.putExtra("Path To Unity",unityPath)
+            intent.putExtra("Path To Unity", unityPath)
 
             startActivity(intent)
             mUnityPlayer.quit()
@@ -73,7 +79,7 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
 
         Log.e("roomCenter", roomDB.roomByRoomName(roomName).roomCenterGetter().toString())
 
-         //render the walls.
+        //render the walls.
         renderWalls(roomDB.wallsByRoomName(roomName!!))
 
         // render the furniture.
@@ -87,18 +93,13 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
     }
 
     private fun renderWalls(wallList: MutableList<Wall>) {
-
-        var count = 0
         for (wall in wallList) {
-            if (count < 3) {
-                Log.e("Wall", wall.toString())
-                UnityPlayer.UnitySendMessage(
-                    "RigidBodyFPSController",
-                    "addNewWall",
-                    wall.toString()
-                )
-                count++
-            }
+            Log.e("Wall", wall.toString())
+            UnityPlayer.UnitySendMessage(
+                "RigidBodyFPSController",
+                "addNewWall",
+                wall.toString()
+            )
         }
     }
 
@@ -109,7 +110,8 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
     private fun renderFurniture(furnitureList: MutableList<Furniture>) {
         for (furniture in furnitureList) {
             Log.e("furniture", furniture.toString())
-            UnityPlayer.UnitySendMessage("RigidBodyFPSController", furniture.unityType.unityFuncName,
+            UnityPlayer.UnitySendMessage(
+                "RigidBodyFPSController", furniture.unityType.unityFuncName,
                 furniture.toString()
             )
         }
@@ -125,7 +127,11 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
     private fun renderWindows(windowList: MutableList<Window>) {
         for (window in windowList) {
             Log.e("Window", window.toString())
-            UnityPlayer.UnitySendMessage("RigidBodyFPSController", "addNewWindow", window.toString())
+            UnityPlayer.UnitySendMessage(
+                "RigidBodyFPSController",
+                "addNewWindow",
+                window.toString()
+            )
         }
     }
 }

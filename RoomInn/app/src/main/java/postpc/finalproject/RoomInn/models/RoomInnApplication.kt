@@ -100,11 +100,16 @@ class RoomInnApplication : Application() {
                 Point3D((Point3D(last).add(first)).multiply(0.5)).apply { y = 0.0 }
             val dist =
                 sqrt(((last.x - first.x) * (last.x - first.x)) + ((last.z - first.z) * (last.z - first.z)))
-            wall.scale = Point3D(dist / 100f, 10.0, 0.001)
-            val sinY =
+            wall.scale = Point3D(dist / 99, 10.0, 0.001)
+            var sinY =
                 (Point3D(last).add(Point3D(first).multiply(-1f)).x / (dist))
             Log.e("sinY", sinY.toString())
-            wall.rotation = Point3D(0.0, (asin(abs(sinY)) * (180 / PI)), 0.0)
+            val roomCenter = room.roomCenterGetter()
+            if (roomCenter.z<wall.position.z && roomCenter.x<wall.position.x ){
+                Log.e("sinY2", sinY.toString())
+                sinY = abs(sinY)
+            }
+            wall.rotation = Point3D(0.0, (asin(sinY) * (180 / PI)), 0.0)
             if (wall.rotation.y.isNaN()) {
                 wall.rotation.y = 90.0
             }
