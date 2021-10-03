@@ -88,11 +88,17 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
 
     private fun renderWalls(wallList: MutableList<Wall>) {
 
-        var bool = true
+        var count = 0
         for (wall in wallList) {
-            Log.e("Wall", wall.toString())
-            UnityPlayer.UnitySendMessage("RigidBodyFPSController", "addNewWall", wall.toString())
-
+            if (count < 3) {
+                Log.e("Wall", wall.toString())
+                UnityPlayer.UnitySendMessage(
+                    "RigidBodyFPSController",
+                    "addNewWall",
+                    wall.toString()
+                )
+                count++
+            }
         }
     }
 
@@ -102,7 +108,7 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
 
     private fun renderFurniture(furnitureList: MutableList<Furniture>) {
         for (furniture in furnitureList) {
-            Log.e("RENDER TO UNITY", furniture.toString())
+            Log.e("furniture", furniture.toString())
             UnityPlayer.UnitySendMessage("RigidBodyFPSController", furniture.unityType.unityFuncName,
                 furniture.toString()
             )

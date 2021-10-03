@@ -12,6 +12,7 @@ import postpc.finalproject.RoomInn.furnitureData.Wall
 import java.io.BufferedReader
 import java.io.File
 import kotlin.math.PI
+import kotlin.math.abs
 import kotlin.math.asin
 import kotlin.math.sqrt
 
@@ -99,11 +100,11 @@ class RoomInnApplication : Application() {
                 Point3D((Point3D(last).add(first)).multiply(0.5)).apply { y = 0.0 }
             val dist =
                 sqrt(((last.x - first.x) * (last.x - first.x)) + ((last.z - first.z) * (last.z - first.z)))
-            wall.scale = Point3D(dist / 100, 10.0, 0.001)
+            wall.scale = Point3D(dist / 100f, 10.0, 0.001)
             val sinY =
                 (Point3D(last).add(Point3D(first).multiply(-1f)).x / (dist))
             Log.e("sinY", sinY.toString())
-            wall.rotation = Point3D(0.0, (asin(sinY) * (180 / PI)), 0.0)
+            wall.rotation = Point3D(0.0, (asin(abs(sinY)) * (180 / PI)), 0.0)
             if (wall.rotation.y.isNaN()) {
                 wall.rotation.y = 90.0
             }
