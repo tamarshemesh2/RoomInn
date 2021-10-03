@@ -37,34 +37,35 @@ class Closet(
     override fun draw(sizeWidth: Double, sizeHeight: Double): Path {
         val path = Path()
         val margin = 8f
+        val doorsHeigth = (scale.z * sizeHeight) / 3f
         path.addRect(
             margin,
             margin,
             ((scale.x * sizeWidth) + margin/2).toFloat(),
-            (((scale.z * sizeHeight) / 2f) + margin).toFloat(),
+            (scale.z * sizeHeight - margin-(2*doorsHeigth)).toFloat(),
             Path.Direction.CCW
         )
         path.moveTo(
             (((scale.x * sizeWidth) + margin) / 2).toFloat(),
-            (((scale.z * sizeHeight) / 2f) + margin).toFloat()
+            (scale.z * sizeHeight - margin-(2*doorsHeigth)).toFloat()
         )
         path.lineTo((((scale.x * sizeWidth) + margin) / 2).toFloat(), margin)
         path.moveTo((((scale.x * sizeWidth) + margin/2).toFloat()),
-            (((scale.z * sizeHeight) / 2f) + margin).toFloat()
+            (scale.z * sizeHeight - margin-(2*doorsHeigth)).toFloat()
         )
         path.arcTo(
             (((scale.x * sizeWidth) + margin) / 2).toFloat(),
-            (((scale.z * sizeHeight) / 3f).toFloat()),
+            (scale.z * sizeHeight - margin-(2*doorsHeigth)).toFloat(),
             ((scale.x * sizeWidth) + margin).toFloat(),
-            (((scale.z * sizeHeight * 2) / 3f) + margin).toFloat(),
+            (((scale.z * sizeHeight - margin-doorsHeigth).toFloat())),
             120f, 50f, false)
         path.moveTo((margin), (((scale.z * sizeHeight) / 2f) + margin).toFloat())
 
         path.arcTo(
             (margin) ,
-            (((scale.z * sizeHeight) / 3f).toFloat()),
+            (scale.z * sizeHeight - margin-(2*doorsHeigth)).toFloat(),
             (((scale.x * sizeWidth) + margin) / 2).toFloat(),
-            (((scale.z * sizeHeight * 2) / 3f) + margin).toFloat(),
+            (((scale.z * sizeHeight - margin-doorsHeigth).toFloat())),
             60f, -50f, false)
         return path
     }
