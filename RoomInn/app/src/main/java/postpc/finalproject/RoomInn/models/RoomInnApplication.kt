@@ -11,10 +11,7 @@ import postpc.finalproject.RoomInn.furnitureData.Point3D
 import postpc.finalproject.RoomInn.furnitureData.Wall
 import java.io.BufferedReader
 import java.io.File
-import kotlin.math.PI
-import kotlin.math.abs
-import kotlin.math.asin
-import kotlin.math.sqrt
+import kotlin.math.*
 
 
 class RoomInnApplication : Application() {
@@ -87,6 +84,7 @@ class RoomInnApplication : Application() {
         for (i in 1..room.Corners.size) {
             val last:Point3D
             val first:Point3D
+            Log.e("untill", i.toString())
             if (i==room.Corners.size){
                 first = Point3D(corners.last())
                 last = Point3D(corners.first())
@@ -100,16 +98,34 @@ class RoomInnApplication : Application() {
                 Point3D((Point3D(last).add(first)).multiply(0.5)).apply { y = 0.0 }
             val dist =
                 sqrt(((last.x - first.x) * (last.x - first.x)) + ((last.z - first.z) * (last.z - first.z)))
-            wall.scale = Point3D(dist / 99, 10.0, 0.001)
-            var sinY =
-                (last.x - first.x) / (dist)
-            Log.e("sinY", sinY.toString())
-            val roomCenter = room.roomCenterGetter()
-            if (roomCenter.z<wall.position.z && roomCenter.x<wall.position.x ){
-                Log.e("sinY2", sinY.toString())
-                sinY = abs(sinY)
+            var tanY = (last.x - first.x) / (last.z - first.z)
+            if ((first.x - last.x)  * (first.z - last.z) < 0) {
+                wall.rotation = Point3D(0.0, (atan(abs(tanY)) * (180 / PI)), 0.0)
             }
-            wall.rotation = Point3D(0.0, (asin(sinY) * (180 / PI)), 0.0)
+            else  {
+                wall.rotation = Point3D(0.0,  - (atan(abs(tanY)) * (180 / PI)), 0.0)
+            }
+//            else if (first.x < last.x  && first.z >= last.z) {
+//                wall.rotation = Point3D(0.0, -(atan(tanY) * (180 / PI)), 0.0)
+//            }
+//            if ((first.x - last.x)  * (first.z - last.z) >= 0){
+//                wall.rotation = Point3D(0.0, (atan(tanY) * (180 / PI)), 0.0)
+//            }
+//            else {
+//                wall.rotation = Point3D(0.0, 180 - (atan(tanY) * (180 / PI)), 0.0)
+//            }
+
+            wall.scale = Point3D(dist / 99, 10.0, 0.001)
+//            var sinY =
+//                (last.x - first.x) / (dist)
+//            Log.e("sinY", sinY.toString())
+            val roomCenter = room.roomCenterGetter()
+//            if (roomCenter.z<wall.position.z && roomCenter.x<wall.position.x ){
+//                Log.e("sinY2", sinY.toString())
+//                sinY = abs(sinY)
+//            }
+//            wall.rotation = Point3D(0.0, (asin(sinY) * (180 / PI)), 0.0)
+//            wall.rotation = Point3D(0.0, (abs(atan(tanY)) * (180 / PI)), 0.0)
             if (wall.rotation.y.isNaN()) {
                 wall.rotation.y = 90.0
             }
