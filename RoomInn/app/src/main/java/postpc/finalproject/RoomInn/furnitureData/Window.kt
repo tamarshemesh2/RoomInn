@@ -52,7 +52,8 @@ class Window(
     }
 
     override fun unityPosition(): Point3D {
-        val screenPosition = Point3D(position)
+        val screenPosition = Point3D(position).add(Point3D((scale.z*0.5f).toFloat(),0f,5f))
+
         val roomCenter = Point3D(
             RoomInnApplication.getInstance()
                 .getRoomsDB().roomByRoomID(roomId)

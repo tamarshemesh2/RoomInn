@@ -138,8 +138,7 @@ class Door(
     override fun unityPosition(): Point3D {
         val screenPosition = Point3D(position)
         if (rotation.y>=90 && rotation.y<180){
-            screenPosition.add(Point3D(-3.0,0.0,3.0-(scale.z*0.5)))
-
+            screenPosition.add(Point3D(-3.0+(scale.x)*0.5,0.0,3.0))
         }
         else if (rotation.y >= 180 && rotation.y < 270) {
             screenPosition.add(screenPosition.add(Point3D(scale.x,0.0,0.0)))
@@ -150,7 +149,7 @@ class Door(
             screenPosition.add(Point3D(3.0,0.0,-3.0))
         }
         else{
-            screenPosition.add(Point3D(3.0,0.0,3.0+scale.x*0.5))
+            screenPosition.add(Point3D(3.0,0.0,3.0+(scale.x*0.5)))
 
         }
         val roomCenter = Point3D(

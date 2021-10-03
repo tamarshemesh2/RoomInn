@@ -33,7 +33,7 @@
             app:layout_constraintBottom_toTopOf="@id/addButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titleTextView" />
+            app:layout_constraintTop_toBottomOf="@id/bottomTitleTxt" />
 
         <TextView
             android:id="@+id/titleTextView"
@@ -51,13 +51,13 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
         <TextView
+            android:id="@+id/bottomTitleTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lobster"
             android:text="Floor Plan"
             app:layout_constraintTop_toBottomOf="@id/titleTextView"
             app:layout_constraintEnd_toEndOf="@id/titleTextView"
-            app:layout_constraintStart_toStartOf="@id/titleTextView"
             android:textSize="28sp"
 />
 
