@@ -26,9 +26,9 @@ class Closet(
 
     companion object {
         val typeMap = mapOf<Int, FurnitureType>(
-            1 to FurnitureType("Large", R.drawable.closet1, Point3D(   150f,	200f	,50f), "addNewClosetTypeOne",1),
-            2 to FurnitureType("Medium", R.drawable.closet2, Point3D(200f	,200f	,70f), "addNewClosetTypeTwo",2),
-            3 to FurnitureType("Small" , R.drawable.closet3, Point3D(75f,	200f,	55f), "addNewClosetTypeThree",3)
+            1 to FurnitureType("Normal", R.drawable.closet1, Point3D(   150f,	200f	,50f), "addNewClosetTypeOne",1),
+            2 to FurnitureType("Large", R.drawable.closet2, Point3D(200f	,200f	,70f), "addNewClosetTypeTwo",2),
+            3 to FurnitureType("Slim" , R.drawable.closet3, Point3D(75f,	200f,	55f), "addNewClosetTypeThree",3)
         )
 
     }
