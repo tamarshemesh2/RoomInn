@@ -3,7 +3,6 @@ package postpc.finalproject.RoomInn.furnitureData
 import android.graphics.Color
 import android.graphics.Path
 import postpc.finalproject.RoomInn.R
-import java.util.*
 
 
 class Bed(
@@ -36,14 +35,14 @@ class Bed(
 
     }
 
-    override fun draw(sizeWidth:Float, sizeHeight:Float): Path {
+    override fun draw(sizeWidth: Double, sizeHeight: Double): Path {
         val path = Path()
         val margin = 8f
         path.addRoundRect(
             margin,
             margin,
-            (scale.x * sizeWidth) + margin,
-            (scale.z * sizeHeight) + margin,
+            ((scale.x * sizeWidth) + margin).toFloat(),
+            ((scale.z * sizeHeight) + margin).toFloat(),
             (scale.x * sizeWidth).toFloat() / 15,
             (scale.z * sizeHeight).toFloat() / 15,
             Path.Direction.CCW
@@ -52,33 +51,35 @@ class Bed(
             path.addRoundRect(
                 margin,
                 3*margin,
-                ((scale.x * sizeWidth) + margin),
-                (scale.z * sizeHeight + margin) / 2.5f,
-                (scale.x * sizeWidth)/ 5,
-                (scale.z * sizeHeight) / 5,
+                (((scale.x * sizeWidth) + margin).toFloat()),
+                ((scale.z * sizeHeight + margin) / 2.5f).toFloat(),
+                ((scale.x * sizeWidth)/ 5).toFloat(),
+                ((scale.z * sizeHeight) / 5).toFloat(),
                 Path.Direction.CCW
             )}else{
 
         path.addRoundRect(
             margin,
             3*margin,
-            ((scale.x * sizeWidth / 2f) + margin),
-            (scale.z * sizeHeight + margin) / 2.5f,
-            (scale.x * sizeWidth)/ 5,
-            (scale.z * sizeHeight) / 5,
+            (((scale.x * sizeWidth / 2f) + margin).toFloat()),
+            ((scale.z * sizeHeight + margin) / 2.5f).toFloat(),
+            ((scale.x * sizeWidth)/ 5).toFloat(),
+            ((scale.z * sizeHeight) / 5).toFloat(),
             Path.Direction.CCW
         )
         path.addRoundRect(
-            ((scale.x * sizeHeight) / 2) + margin,
+            (((scale.x * sizeHeight) / 2) + margin).toFloat(),
             3*margin,
-            ((scale.x * sizeWidth) + margin),
-            (scale.z * sizeHeight + margin) / 2.5f,
-            (scale.x * sizeWidth) / 5,
-            (scale.z * sizeHeight) / 5,
+            (((scale.x * sizeWidth) + margin).toFloat()),
+            ((scale.z * sizeHeight + margin) / 2.5f).toFloat(),
+            ((scale.x * sizeWidth) / 5).toFloat(),
+            ((scale.z * sizeHeight) / 5).toFloat(),
             Path.Direction.CCW
         )}
-        path.moveTo(margin,(scale.z * sizeHeight + margin) / 2f)
-        path.lineTo(((scale.x * sizeWidth) + margin),(scale.z * sizeHeight + margin) / 2f)
+        path.moveTo(margin, ((scale.z * sizeHeight + margin) / 2f).toFloat())
+        path.lineTo((((scale.x * sizeWidth) + margin).toFloat()),
+            ((scale.z * sizeHeight + margin) / 2f).toFloat()
+        )
         return path
     }
 }

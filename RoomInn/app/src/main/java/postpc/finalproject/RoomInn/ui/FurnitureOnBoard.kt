@@ -20,8 +20,8 @@ class FurnitureOnBoard(
     private val context: Context,
     var furniture: Furniture,
     private val board: RelativeLayout,
-    coorX: Float,//relative location
-    coorY: Float,//relative location
+    coorX: Double,//relative location
+    coorY: Double,//relative location
     withListeners: Boolean = true
 ) {
     val margin = 10
@@ -89,7 +89,7 @@ class FurnitureOnBoard(
         }
     }
 
-    private fun furniturPos(coorX: Float, coorY: Float) {
+    private fun furniturPos(coorX: Double, coorY: Double) {
         val params = imageView.layoutParams as RelativeLayout.LayoutParams
         if (furniture.type == "Door") {
             params.width = (furniture.scale.x * roomRatio).roundToInt() + margin
@@ -107,7 +107,7 @@ class FurnitureOnBoard(
         params.rightMargin = params.leftMargin + 5 * params.width
         params.bottomMargin = params.topMargin + 10 * params.height
 
-        imageView.rotation = furniture.rotation.y
+        imageView.rotation = furniture.rotation.y.toFloat()
     }
 
     private fun createNewImageView() {

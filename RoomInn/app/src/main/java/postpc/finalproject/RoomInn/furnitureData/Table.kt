@@ -34,14 +34,14 @@ class Table(
 
     }
 
-    override fun draw(sizeWidth:Float, sizeHeight:Float): Path {
+    override fun draw(sizeWidth: Double, sizeHeight: Double): Path {
         val path = Path()
         val margin = 8f
         path.addRect(
             margin,
             margin,
-            (scale.x * sizeWidth) - margin,
-            (scale.z * sizeHeight)-margin,
+            ((scale.x * sizeWidth) - margin).toFloat(),
+            ((scale.z * sizeHeight)-margin).toFloat(),
             Path.Direction.CCW
         )
         return path

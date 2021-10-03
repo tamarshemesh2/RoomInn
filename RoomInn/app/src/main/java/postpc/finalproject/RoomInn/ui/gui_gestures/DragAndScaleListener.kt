@@ -3,7 +3,6 @@ package postpc.finalproject.RoomInn.ui.gui_gestures
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
@@ -91,8 +90,8 @@ class DragAndScaleListener(
                 y = event.rawY
                 params.leftMargin = ((x - dx).toInt())
                 params.topMargin = ((y - dy).toInt())
-                furniture.position.x = (x - dx)
-                furniture.position.z = (y - dy)
+                furniture.position.x = ((x - dx).toDouble())
+                furniture.position.z = ((y - dy).toDouble())
                 params.rightMargin = 0
                 params.bottomMargin = 0
                 params.rightMargin = params.leftMargin + 5 * params.width
@@ -137,9 +136,9 @@ class DragAndScaleListener(
             }
         }
         furniture.position = Point3D(
-            params.leftMargin.toFloat(),
+            params.leftMargin.toDouble(),
             furniture.position.y,
-            params.topMargin.toFloat()
+            params.topMargin.toDouble()
         ).toAbsolutLocation(roomRatio, intArrayOf(0, 0)).add(scaleDiff)
 
         projectViewModel.furniture = furniture

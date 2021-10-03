@@ -34,32 +34,37 @@ class Closet(
     }
 
 
-    override fun draw(sizeWidth:Float, sizeHeight:Float): Path {
+    override fun draw(sizeWidth: Double, sizeHeight: Double): Path {
         val path = Path()
         val margin = 8f
         path.addRect(
             margin,
             margin,
-            (scale.x * sizeWidth) + margin/2,
-            ((scale.z * sizeHeight) / 2f) + margin,
+            ((scale.x * sizeWidth) + margin/2).toFloat(),
+            (((scale.z * sizeHeight) / 2f) + margin).toFloat(),
             Path.Direction.CCW
         )
-        path.moveTo(((scale.x * sizeWidth) + margin) / 2, ((scale.z * sizeHeight) / 2f) + margin)
-        path.lineTo(((scale.x * sizeWidth) + margin) / 2, margin)
-        path.moveTo(((scale.x * sizeWidth) + margin/2), ((scale.z * sizeHeight) / 2f) + margin)
+        path.moveTo(
+            (((scale.x * sizeWidth) + margin) / 2).toFloat(),
+            (((scale.z * sizeHeight) / 2f) + margin).toFloat()
+        )
+        path.lineTo((((scale.x * sizeWidth) + margin) / 2).toFloat(), margin)
+        path.moveTo((((scale.x * sizeWidth) + margin/2).toFloat()),
+            (((scale.z * sizeHeight) / 2f) + margin).toFloat()
+        )
         path.arcTo(
-            ((scale.x * sizeWidth) + margin) / 2,
-            ((scale.z * sizeHeight) / 3f),
-            (scale.x * sizeWidth) + margin,
-            ((scale.z * sizeHeight * 2) / 3f) + margin,
+            (((scale.x * sizeWidth) + margin) / 2).toFloat(),
+            (((scale.z * sizeHeight) / 3f).toFloat()),
+            ((scale.x * sizeWidth) + margin).toFloat(),
+            (((scale.z * sizeHeight * 2) / 3f) + margin).toFloat(),
             120f, 50f, false)
-        path.moveTo((margin), ((scale.z * sizeHeight) / 2f) + margin)
+        path.moveTo((margin), (((scale.z * sizeHeight) / 2f) + margin).toFloat())
 
         path.arcTo(
             (margin) ,
-            ((scale.z * sizeHeight) / 3f),
-            ((scale.x * sizeWidth) + margin) / 2,
-            ((scale.z * sizeHeight * 2) / 3f) + margin,
+            (((scale.z * sizeHeight) / 3f).toFloat()),
+            (((scale.x * sizeWidth) + margin) / 2).toFloat(),
+            (((scale.z * sizeHeight * 2) / 3f) + margin).toFloat(),
             60f, -50f, false)
         return path
     }

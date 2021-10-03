@@ -97,7 +97,7 @@ class EditFurnitureFragment : Fragment() {
                 renderDrawing(furniture, furnitureCanvas)
             }
         })
-        furnitureCanvas.rotation = furniture.rotation.y
+        furnitureCanvas.rotation = furniture.rotation.y.toFloat()
         val typeMap: Map<Int, FurnitureType>? = (when (furniture.type) {
             ("Chair") -> Chair.typeMap
             ("Armchair") -> Armchair.typeMap
@@ -171,7 +171,7 @@ class EditFurnitureFragment : Fragment() {
         rotateBtn.setOnClickListener {
             furniture.rotation.y = (furniture.rotation.y + 45) % 360
             rotateEditText.setText(furniture.rotation.y.toString())
-            furnitureCanvas.rotation = furniture.rotation.y
+            furnitureCanvas.rotation = furniture.rotation.y.toFloat()
         }
 
 
@@ -180,8 +180,8 @@ class EditFurnitureFragment : Fragment() {
             if (num == "") {
                 num = "0"
             }
-            furniture.rotation.y = num.toFloat() % 360
-            furnitureCanvas.rotation = furniture.rotation.y
+            furniture.rotation.y = (num.toFloat() % 360).toDouble()
+            furnitureCanvas.rotation = furniture.rotation.y.toFloat()
         }
 
         delFab.setOnClickListener {
@@ -208,12 +208,12 @@ class EditFurnitureFragment : Fragment() {
             }
 
             if (furniture.type == "Window") {
-                furniture.position.y = lengthEditText.text.toString().toFloat()
+                furniture.position.y = lengthEditText.text.toString().toDouble()
             } else {
-                furniture.scale.y = heightEditText.text.toString().toFloat()
+                furniture.scale.y = heightEditText.text.toString().toDouble()
             }
-            furniture.scale.z = lengthEditText.text.toString().toFloat()
-            furniture.scale.x = widthEditText.text.toString().toFloat()
+            furniture.scale.z = lengthEditText.text.toString().toDouble()
+            furniture.scale.x = widthEditText.text.toString().toDouble()
             projectViewModel.furniture = furniture
 
             if (furniture.type !in listOf("Door", "Window")) {

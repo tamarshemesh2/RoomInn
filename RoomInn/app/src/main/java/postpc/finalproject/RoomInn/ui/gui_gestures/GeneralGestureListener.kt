@@ -23,7 +23,7 @@ class GeneralGestureListener(
     override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
         furniture.rotation.y += 45
         furniture.rotation.y %= 360
-        imageView.rotation = furniture.rotation.y
+        imageView.rotation = furniture.rotation.y.toFloat()
         return super.onSingleTapConfirmed(e)
     }
 

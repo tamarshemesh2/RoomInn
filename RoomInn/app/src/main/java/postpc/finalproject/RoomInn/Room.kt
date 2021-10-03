@@ -17,13 +17,13 @@ data class Room(
     var Walls: MutableList<Wall> = mutableListOf(),
     var windows: MutableList<Window> = mutableListOf(),
     var doors: MutableList<Door> = mutableListOf(),
-    private var displayRatio: Float = 1f,
+    private var displayRatio: Double = 1.0,
     var name: String = "Project Name",
     var userId: String = "user id"
 ) {
-    private var minX = 0f
-    private var minZ = 0f
-    private val roomCenter:Point3D by lazy {
+    private var minX = 0.0
+    private var minZ = 0.0
+    private val roomCenter: Point3D by lazy {
         init()
     }
     var isInit = false
@@ -50,15 +50,28 @@ data class Room(
                 maxZ = corner.z
             }
         }
-        val normalPoint = Point3D(-minX, 0f, -minZ)
-        val roomCenter = Point3D((maxX+minX)/2f,0f,(maxZ+minZ)/2f)
+        val normalPoint = Point3D(-minX, 0.0, -minZ)
+        val roomCenter = Point3D((maxX + minX) / 2f, 0.0, (maxZ + minZ) / 2f)
         Corners.replaceAll { it.add(normalPoint) }
         roomCenter.add(normalPoint)
         isInit = true
         return roomCenter
     }
 
-    fun rotateRoomCornersByAngle(angle: Float,center: Point3D = roomCenterGetter()) {
+    fun mirrorCorners(): MutableList<Point3D> {
+        val mirrorCorners = mutableListOf<Point3D>()
+        var maxX = Corners.first().x
+        Corners.forEach {
+            if (it.x > maxX) {
+                maxX = it.x
+            }
+            mirrorCorners.add(Point3D(it).apply { x *= -1 })
+        }
+        mirrorCorners.forEach { it.add(Point3D(maxX,0.0,0.0)) }
+        return mirrorCorners
+    }
+
+    fun rotateRoomCornersByAngle(angle: Float, center: Point3D = roomCenterGetter()) {
         for (corner in Corners) {
             corner.rotateAroundPointByAngle(center, angle)
         }
@@ -91,7 +104,7 @@ data class Room(
         return Size((maxX).toInt(), (maxZ).toInt())
     }
 
-    fun getOffsetToFit(windowWidth: Int, windowHeight: Int): Pair<Float, Float> {
+    fun getOffsetToFit(windowWidth: Int, windowHeight: Int): Pair<Double, Double> {
         if (!isInit) {
             init()
         }
@@ -107,12 +120,12 @@ data class Room(
         }
         val roomSize = getRoomSize()
         displayRatio = minOf(
-            (boardSize.width - 20) / roomSize.width.toFloat(),
-            boardSize.height / roomSize.height.toFloat()
+            (boardSize.width - 20) / roomSize.width.toDouble(),
+            boardSize.height / roomSize.height.toDouble()
         )
     }
 
-    fun getRoomRatio(): Float {
+    fun getRoomRatio(): Double {
         // must have a call to set room ratio before!
         if (!isInit) {
             init()
@@ -130,10 +143,14 @@ data class Room(
         }
         if (Corners.size > 0) {
             val last = Corners.last()
-            path.moveTo((last.x) * displayRatio, (last.z) * displayRatio)
+            path.moveTo(((last.x) * displayRatio).toFloat(), ((last.z) * displayRatio).toFloat())
             for (point in Corners) {
-                path.lineTo((point.x) * displayRatio, (point.z) * displayRatio)
-                path.moveTo((point.x) * displayRatio, (point.z) * displayRatio)
+                path.lineTo(((point.x) * displayRatio).toFloat(),
+                    ((point.z) * displayRatio).toFloat()
+                )
+                path.moveTo(((point.x) * displayRatio).toFloat(),
+                    ((point.z) * displayRatio).toFloat()
+                )
             }
         }
         return path

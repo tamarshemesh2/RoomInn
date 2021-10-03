@@ -35,7 +35,7 @@ class Armchair(
 
     }
 
-    override fun draw(sizeWidth: Float, sizeHeight: Float): Path {
+    override fun draw(sizeWidth: Double, sizeHeight: Double): Path {
         val path = Path()
         val margin = 8f
         val sidePillow = scale.x * sizeWidth * 0.2f
@@ -43,8 +43,8 @@ class Armchair(
         path.addRoundRect(
             margin,
             margin,
-            ((scale.x * sizeWidth) -margin),
-            ((scale.z * sizeHeight)) - margin,
+            (((scale.x * sizeWidth) -margin).toFloat()),
+            (((scale.z * sizeHeight)) - margin).toFloat(),
             (scale.x * sizeWidth).toFloat()/10 ,
             (scale.z * sizeHeight).toFloat()/10,
             Path.Direction.CCW
@@ -52,31 +52,35 @@ class Armchair(
         path.addRoundRect(
             margin,
             margin,
-            ((scale.x * sizeWidth) -margin),
-            ((scale.z * sizeHeight *2) / 5f) - margin,
+            (((scale.x * sizeWidth) -margin).toFloat()),
+            (((scale.z * sizeHeight *2) / 5f) - margin).toFloat(),
             (scale.x * sizeWidth).toFloat()/5 ,
             (scale.z * sizeHeight).toFloat()/10,
             Path.Direction.CCW
         )
 
-        path.moveTo(margin+ sidePillow,((scale.z * sizeHeight *2) / 5f) - margin+(scale.z * sizeHeight).toFloat()/10)
-        path.lineTo((scale.x * sizeWidth) - (sidePillow +margin),((scale.z * sizeHeight *2) / 5f) - margin+(scale.z * sizeHeight).toFloat()/10)
+        path.moveTo((margin+ sidePillow).toFloat(),
+            (((scale.z * sizeHeight *2) / 5f) - margin+(scale.z * sizeHeight).toFloat()/10).toFloat()
+        )
+        path.lineTo(((scale.x * sizeWidth) - (sidePillow +margin)).toFloat(),
+            (((scale.z * sizeHeight *2) / 5f) - margin+(scale.z * sizeHeight).toFloat()/10).toFloat()
+        )
 
 //         hands pillows
         path.addRoundRect(
             margin,
-            ((scale.z * sizeHeight *2) / 5f) - margin,
-            margin+ sidePillow,
-            ((scale.z * sizeHeight)) - margin,
+            (((scale.z * sizeHeight *2) / 5f) - margin).toFloat(),
+            (margin+ sidePillow).toFloat(),
+            (((scale.z * sizeHeight)) - margin).toFloat(),
             (scale.x * sizeWidth).toFloat()/10 ,
             (scale.z * sizeHeight).toFloat()/10,
             Path.Direction.CCW
         )
         path.addRoundRect(
-            (scale.x * sizeWidth) - (sidePillow +margin),
-            ((scale.z * sizeHeight *2) / 5f) - margin,
-            (scale.x * sizeWidth) - (margin),
-            ((scale.z * sizeHeight)) - margin,
+            ((scale.x * sizeWidth) - (sidePillow +margin)).toFloat(),
+            (((scale.z * sizeHeight *2) / 5f) - margin).toFloat(),
+            ((scale.x * sizeWidth) - (margin)).toFloat(),
+            (((scale.z * sizeHeight)) - margin).toFloat(),
             (scale.x * sizeWidth).toFloat()/10 ,
             (scale.z * sizeHeight).toFloat()/10,
             Path.Direction.CCW

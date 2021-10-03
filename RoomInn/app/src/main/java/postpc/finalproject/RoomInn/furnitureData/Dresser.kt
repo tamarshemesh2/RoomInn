@@ -30,31 +30,30 @@ class Dresser(
             2 to FurnitureType("Practical", R.drawable.dresser2, Point3D(100f,	85f	,45f), "addNewDresserTypeTwo",2),
             3 to FurnitureType("Night Stand" , R.drawable.dresser3, Point3D(40f	,50f	,45f), "addNewDresserTypeThree",3)
         )
-
     }
-    override fun draw(sizeWidth: Float, sizeHeight: Float): Path {
+    override fun draw(sizeWidth: Double, sizeHeight: Double): Path {
         val path = Path()
         val margin = 8f
         path.addRoundRect(
             margin,
             margin,
-            (scale.x * sizeWidth) - margin,
-            (scale.z * sizeHeight) - 2 * margin,
-            (scale.x * sizeWidth) / 15,
-            (scale.z * sizeHeight) / 15,
+            ((scale.x * sizeWidth) - margin).toFloat(),
+            ((scale.z * sizeHeight) - 2 * margin).toFloat(),
+            ((scale.x * sizeWidth) / 15).toFloat(),
+            ((scale.z * sizeHeight) / 15).toFloat(),
             Path.Direction.CCW
         )
         path.addRect(
-            (scale.x * sizeWidth * 0.2f),
-            (scale.z * sizeHeight) - 2 * margin,
-            (scale.x * sizeWidth * 0.35f) ,
-            (scale.z * sizeHeight) - margin, Path.Direction.CCW
+            ((scale.x * sizeWidth * 0.2f).toFloat()),
+            ((scale.z * sizeHeight) - 2 * margin).toFloat(),
+            ((scale.x * sizeWidth * 0.35f).toFloat()) ,
+            ((scale.z * sizeHeight) - margin).toFloat(), Path.Direction.CCW
         )
         path.addRect(
-            (scale.x * sizeWidth * 0.65f),
-            (scale.z * sizeHeight) - 2 * margin,
-            (scale.x * sizeWidth * 0.8f) ,
-            (scale.z * sizeHeight) - margin, Path.Direction.CCW
+            ((scale.x * sizeWidth * 0.65f).toFloat()),
+            ((scale.z * sizeHeight) - 2 * margin).toFloat(),
+            ((scale.x * sizeWidth * 0.8f).toFloat()) ,
+            ((scale.z * sizeHeight) - margin).toFloat(), Path.Direction.CCW
         )
         return path
     }

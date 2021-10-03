@@ -2,9 +2,6 @@ package postpc.finalproject.RoomInn.furnitureData
 
 import android.graphics.Color
 import android.graphics.Path
-import android.util.Size
-import postpc.finalproject.RoomInn.furnitureData.Point3D
-import java.util.*
 
 class Window(
     position: Point3D = Point3D(),
@@ -23,27 +20,27 @@ class Window(
         type = "Window"
         unityType= FurnitureType(defaultScale = Point3D(scale))    }
 
-    override fun draw(sizeWidth: Float, sizeHeight: Float): Path {
+    override fun draw(sizeWidth: Double, sizeHeight: Double): Path {
         val path = Path()
         val margin = 8f
         path.addRect(
             margin,
             margin,
-            (scale.x * sizeWidth) + margin,
-            (10 * sizeHeight) + margin,
+            ((scale.x * sizeWidth) + margin).toFloat(),
+            ((10 * sizeHeight) + margin).toFloat(),
             Path.Direction.CCW
         )
         return path
     }
 
-    fun drawFront(sizeWidth: Float, sizeHeight: Float): Path {
+    fun drawFront(sizeWidth: Double, sizeHeight: Double): Path {
         val path = Path()
         val margin = 8f
         path.addRect(
             margin,
             margin,
-            (scale.x * sizeWidth) + margin,
-            (scale.z * sizeHeight) + margin,
+            ((scale.x * sizeWidth) + margin).toFloat(),
+            ((scale.z * sizeHeight) + margin).toFloat(),
             Path.Direction.CCW
         )
         return path
@@ -51,7 +48,7 @@ class Window(
 
     override fun unityScale(): Point3D {
         return scale.getDivideByPoint(unityType.defaultScale).apply {
-            y = 1f
+            y = 1.0
         }
     }
 

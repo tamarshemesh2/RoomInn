@@ -86,7 +86,7 @@ class FloorPlanInnerFragment : Fragment() {
     }
 
     private fun loadAllFurnitureToBoard(
-        roomRatio: Float,
+        roomRatio: Double,
         furnitureOnBoardList: MutableList<FurnitureOnBoard>,
         layout: RelativeLayout
     ) {
@@ -109,7 +109,6 @@ class FloorPlanInnerFragment : Fragment() {
                                 relativeLocation.x,
                                 relativeLocation.z
                             )
-
                     }
                 }
             }

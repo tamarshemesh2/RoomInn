@@ -55,7 +55,7 @@ class Couch(
     }
 
 
-    override fun draw(sizeWidth: Float, sizeHeight: Float): Path {
+    override fun draw(sizeWidth: Double, sizeHeight: Double): Path {
         val path = Path()
         val margin = 8f
         val sidePillow = scale.x * sizeWidth * 0.08f
@@ -69,26 +69,26 @@ class Couch(
                 path.addRect(
                     margin,
                     margin,
-                    (scale.x * sizeWidth) - (margin),
-                    backPillow,
+                    ((scale.x * sizeWidth) - (margin)).toFloat(),
+                    backPillow.toFloat(),
                     Path.Direction.CCW
                 )
                 //seat pillows
                 path.addRoundRect(
-                    sidePillow + margin,
-                    backPillow + margin,
-                    ((scale.x * sizeWidth) + margin) * 0.6f,
-                    (((scale.z * sizeHeight) - margin)) * 0.6f,
+                    (sidePillow + margin).toFloat(),
+                    (backPillow + margin).toFloat(),
+                    (((scale.x * sizeWidth) + margin) * 0.6f).toFloat(),
+                    ((((scale.z * sizeHeight) - margin)) * 0.6f).toFloat(),
                     (scale.x * sizeWidth).toFloat() / 14,
                     (scale.z * sizeHeight).toFloat() / 14,
                     Path.Direction.CCW
                 )
 
                 path.addRoundRect(
-                    ((scale.x * sizeWidth) + margin) * 0.6f,
-                    backPillow + margin,
-                    (scale.x * sizeWidth) - (sidePillow + margin),
-                    (((scale.z * sizeHeight)) - margin),
+                    (((scale.x * sizeWidth) + margin) * 0.6f).toFloat(),
+                    (backPillow + margin).toFloat(),
+                    ((scale.x * sizeWidth) - (sidePillow + margin)).toFloat(),
+                    ((((scale.z * sizeHeight)) - margin).toFloat()),
                     (scale.x * sizeWidth).toFloat() / 14,
                     (scale.z * sizeHeight).toFloat() / 14,
                     Path.Direction.CCW
@@ -96,16 +96,16 @@ class Couch(
                 // hands pillows
                 path.addRect(
                     margin,
-                    backPillow + margin,
-                    margin + sidePillow,
-                    (((scale.z * sizeHeight)) - margin) * 0.6f,
+                    (backPillow + margin).toFloat(),
+                    (margin + sidePillow).toFloat(),
+                    ((((scale.z * sizeHeight)) - margin) * 0.6f).toFloat(),
                     Path.Direction.CCW
                 )
                 path.addRect(
-                    (scale.x * sizeWidth) - (sidePillow + margin),
-                    backPillow + margin,
-                    (scale.x * sizeWidth) - (margin),
-                    (((scale.z * sizeHeight)) - margin),
+                    ((scale.x * sizeWidth) - (sidePillow + margin)).toFloat(),
+                    (backPillow + margin).toFloat(),
+                    ((scale.x * sizeWidth) - (margin)).toFloat(),
+                    ((((scale.z * sizeHeight)) - margin).toFloat()),
                     Path.Direction.CCW
                 )
             }
@@ -114,26 +114,26 @@ class Couch(
                 path.addRect(
                     margin,
                     margin,
-                    (scale.x * sizeWidth) - (margin),
-                    backPillow,
+                    ((scale.x * sizeWidth) - (margin)).toFloat(),
+                    backPillow.toFloat(),
                     Path.Direction.CCW
                 )
                 //seat pillows
                 path.addRoundRect(
-                    sidePillow + margin,
-                    backPillow + margin,
-                    ((scale.x * sizeWidth) + margin) * 0.35f,
-                    (((scale.z * sizeHeight)) - margin),
+                    (sidePillow + margin).toFloat(),
+                    (backPillow + margin).toFloat(),
+                    (((scale.x * sizeWidth) + margin) * 0.35f).toFloat(),
+                    ((((scale.z * sizeHeight)) - margin).toFloat()),
                     (scale.x * sizeWidth).toFloat() / 14,
                     (scale.z * sizeHeight).toFloat() / 14,
                     Path.Direction.CCW
                 )
 
                 path.addRoundRect(
-                    ((scale.x * sizeWidth) + margin) * 0.35f,
-                    backPillow + margin,
-                    (scale.x * sizeWidth) - (sidePillow + margin),
-                    (((scale.z * sizeHeight) - margin)) * 0.6f,
+                    (((scale.x * sizeWidth) + margin) * 0.35f).toFloat(),
+                    (backPillow + margin).toFloat(),
+                    ((scale.x * sizeWidth) - (sidePillow + margin)).toFloat(),
+                    ((((scale.z * sizeHeight) - margin)) * 0.6f).toFloat(),
                     (scale.x * sizeWidth).toFloat() / 14,
                     (scale.z * sizeHeight).toFloat() / 14,
                     Path.Direction.CCW
@@ -141,16 +141,16 @@ class Couch(
                 // hands pillows
                 path.addRect(
                     margin,
-                    backPillow + margin,
-                    margin + sidePillow,
-                    (((scale.z * sizeHeight)) - margin),
+                    (backPillow + margin).toFloat(),
+                    (margin + sidePillow).toFloat(),
+                    ((((scale.z * sizeHeight)) - margin).toFloat()),
                     Path.Direction.CCW
                 )
                 path.addRect(
-                    (scale.x * sizeWidth) - (sidePillow + margin),
-                    backPillow + margin,
-                    (scale.x * sizeWidth) - (margin),
-                    (((scale.z * sizeHeight)) - margin) * 0.6f,
+                    ((scale.x * sizeWidth) - (sidePillow + margin)).toFloat(),
+                    (backPillow + margin).toFloat(),
+                    ((scale.x * sizeWidth) - (margin)).toFloat(),
+                    ((((scale.z * sizeHeight)) - margin) * 0.6f).toFloat(),
                     Path.Direction.CCW
                 )
             }
@@ -159,32 +159,32 @@ class Couch(
                 path.addRect(
                     margin,
                     margin,
-                    ((scale.x * sizeWidth) + 0.5f * margin) / 2,
-                    backPillow,
+                    (((scale.x * sizeWidth) + 0.5f * margin) / 2).toFloat(),
+                    backPillow.toFloat(),
                     Path.Direction.CCW
                 )
                 path.addRect(
-                    ((scale.x * sizeWidth) + 0.6f * margin) / 2,
+                    (((scale.x * sizeWidth) + 0.6f * margin) / 2).toFloat(),
                     margin,
-                    (scale.x * sizeWidth) - (margin),
-                    backPillow,
+                    ((scale.x * sizeWidth) - (margin)).toFloat(),
+                    backPillow.toFloat(),
                     Path.Direction.CCW
                 )
                 // seat pillows
                 path.addRoundRect(
-                    ((scale.x * sizeWidth) + margin) / 2,
-                    backPillow + margin,
-                    (scale.x * sizeWidth) - (sidePillow + margin),
-                    ((scale.z * sizeHeight)) - margin,
+                    (((scale.x * sizeWidth) + margin) / 2).toFloat(),
+                    (backPillow + margin).toFloat(),
+                    ((scale.x * sizeWidth) - (sidePillow + margin)).toFloat(),
+                    (((scale.z * sizeHeight)) - margin).toFloat(),
                     (scale.x * sizeWidth).toFloat() / 14,
                     (scale.z * sizeHeight).toFloat() / 14,
                     Path.Direction.CCW
                 )
                 path.addRoundRect(
-                    margin + sidePillow,
-                    backPillow + margin,
-                    ((scale.x * sizeWidth) + margin) / 2,
-                    ((scale.z * sizeHeight)) - margin,
+                    (margin + sidePillow).toFloat(),
+                    (backPillow + margin).toFloat(),
+                    (((scale.x * sizeWidth) + margin) / 2).toFloat(),
+                    (((scale.z * sizeHeight)) - margin).toFloat(),
                     (scale.x * sizeWidth).toFloat() / 14,
                     (scale.z * sizeHeight).toFloat() / 14,
                     Path.Direction.CCW
@@ -192,16 +192,16 @@ class Couch(
                 // hands pillows
                 path.addRect(
                     margin,
-                    backPillow + margin,
-                    margin + sidePillow,
-                    ((scale.z * sizeHeight)) - margin,
+                    (backPillow + margin).toFloat(),
+                    (margin + sidePillow).toFloat(),
+                    (((scale.z * sizeHeight)) - margin).toFloat(),
                     Path.Direction.CCW
                 )
                 path.addRect(
-                    (scale.x * sizeWidth) - (sidePillow + margin),
-                    backPillow + margin,
-                    (scale.x * sizeWidth) - (margin),
-                    ((scale.z * sizeHeight)) - margin,
+                    ((scale.x * sizeWidth) - (sidePillow + margin)).toFloat(),
+                    (backPillow + margin).toFloat(),
+                    ((scale.x * sizeWidth) - (margin)).toFloat(),
+                    (((scale.z * sizeHeight)) - margin).toFloat(),
                     Path.Direction.CCW
                 )
             }

@@ -48,7 +48,7 @@ class AddFurnitureFragment : Fragment() {
             "Armchair" to (Armchair(position = Point3D(position), roomId = projectViewModel.room.id))
         )
         defaultItems.forEach {
-            it.value.position = it.value.position.add(Point3D(it.value.scale).multiply(-0.5f)).apply { y=0f }
+            it.value.position = it.value.position.add(Point3D(it.value.scale).multiply(-0.5f)).apply { y=0.0 }
         }
         adapter.setViewModel(projectViewModel)
         adapter.setContext(requireContext())

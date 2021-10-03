@@ -41,15 +41,15 @@ abstract class Furniture(
         val oldPivot = Point3D(position).add(Point3D(scale).multiply(0.5f))
         val distance = newPivot.add(oldPivot.multiply(-1f)) // newPivot-oldPivot
         return newScale.add(oldScale.multiply(-1f)).multiply(0.5f)
-            .add(distance.multiply(-1f)).multiply(-1f).apply { this.y = 0f }
+            .add(distance.multiply(-1f)).multiply(-1f).apply { this.y = 0.0 }
     }
 
-    fun getSizeToDraw(size: Size): Pair<Float, Float> {
+    fun getSizeToDraw(size: Size): Pair<Double, Double> {
         val ratioSize = min(size.height / (scale.z), size.width / scale.x)
         return Pair(ratioSize, ratioSize)
     }
 
-    open fun getOffsetToFit(windowWidth: Int, windowHeight: Int): Pair<Float, Float> {
+    open fun getOffsetToFit(windowWidth: Int, windowHeight: Int): Pair<Double, Double> {
         val first = getSizeToDraw(Size(windowWidth.toInt(), windowHeight.toInt())).first
         val heightMargin = (windowHeight - (first * scale.z)) / 2
         val widthMargin = (windowWidth - (first * scale.x)) / 2
@@ -92,7 +92,7 @@ abstract class Furniture(
                 .roomCenterGetter()
         )
         return screenPosition.add(roomCenter.multiply(-1f))
-            .getDivideByPoint(Point3D(100f, 100f, -100f)).apply { y = 0f }
+            .getDivideByPoint(Point3D(100f, 100f, -100f)).apply { y = 0.0 }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -110,7 +110,7 @@ abstract class Furniture(
     }
 
 
-    abstract fun draw(sizeWidth: Float, sizeHeight: Float): Path
+    abstract fun draw(sizeWidth: Double, sizeHeight: Double): Path
 
     override fun hashCode(): Int {
         var result = position.hashCode()

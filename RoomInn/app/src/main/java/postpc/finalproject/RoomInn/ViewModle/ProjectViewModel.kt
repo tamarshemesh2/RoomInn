@@ -2,14 +2,9 @@ package postpc.finalproject.RoomInn.ViewModle
 
 import android.content.Context
 import android.os.Build
-import android.os.FileObserver
-import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.Navigation
 import me.toptas.fancyshowcase.FancyShowCaseQueue
-import postpc.finalproject.RoomInn.furnitureData.Wall
 import postpc.finalproject.RoomInn.Room
 import postpc.finalproject.RoomInn.furnitureData.Furniture
 import postpc.finalproject.RoomInn.furnitureData.Point3D
@@ -17,8 +12,6 @@ import postpc.finalproject.RoomInn.models.LoadingStage
 import postpc.finalproject.RoomInn.models.RoomInnApplication.Companion.getInstance
 import postpc.finalproject.RoomInn.ui.FurnitureOnBoard
 import postpc.finalproject.RoomInn.ui.projectItem.ProjectItemAdapter
-import kotlin.math.PI
-import kotlin.math.asin
 
 class ProjectViewModel : ViewModel() {
     var helpMenuQueue: FancyShowCaseQueue? = null

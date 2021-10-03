@@ -4,10 +4,11 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 data class Point3D(
-    var x: Float = 0f,
-    var y: Float = 0f,
-    var z: Float = 0f
+    var x: Double = 0.0,
+    var y: Double = 0.0,
+    var z: Double = 0.0
 ) {
+    constructor(x: Float, y: Float, z: Float) : this(x.toDouble(), y.toDouble(), z.toDouble())
 
     constructor(copy: Point3D) : this() {
         this.x = copy.x
@@ -15,11 +16,11 @@ data class Point3D(
         this.z = copy.z
     }
 
-    fun getRelativeLocation(roomRatio: Float, roomLocation: IntArray): Point3D {
+    fun getRelativeLocation(roomRatio: Double, roomLocation: IntArray): Point3D {
         return Point3D((x * roomRatio) + roomLocation[0], y, (z * roomRatio) + roomLocation[1])
     }
 
-    fun toAbsolutLocation(roomRatio: Float, roomLocation: IntArray): Point3D {
+    fun toAbsolutLocation(roomRatio: Double, roomLocation: IntArray): Point3D {
         x = (x - roomLocation[0]) / roomRatio
         z = (z - roomLocation[1]) / roomRatio
         return this
@@ -33,6 +34,10 @@ data class Point3D(
     }
 
     fun multiply(scaleFactor: Float): Point3D {
+        return multiply(scaleFactor.toDouble())
+    }
+
+    fun multiply(scaleFactor: Double): Point3D {
         x *= scaleFactor
         y *= scaleFactor
         z *= scaleFactor
@@ -71,6 +76,13 @@ data class Point3D(
     override fun equals(other: Any?): Boolean {
         val o = other as Point3D
         return (x == o.x) && (y == o.y) && (z == o.z)
+    }
+
+    override fun hashCode(): Int {
+        var result = x.hashCode()
+        result = 31 * result + y.hashCode()
+        result = 31 * result + z.hashCode()
+        return result
     }
 
 

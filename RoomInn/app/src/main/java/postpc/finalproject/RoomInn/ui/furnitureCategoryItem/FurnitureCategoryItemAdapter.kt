@@ -1,7 +1,6 @@
 package postpc.finalproject.RoomInn.ui.furnitureCategoryItem
 
 import android.content.Context
-import android.graphics.Path
 import android.util.Size
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,9 +9,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
-import postpc.finalproject.RoomInn.furnitureData.Bed
 import postpc.finalproject.RoomInn.furnitureData.Furniture
-import postpc.finalproject.RoomInn.furnitureData.Point3D
 import kotlin.math.roundToInt
 
 
