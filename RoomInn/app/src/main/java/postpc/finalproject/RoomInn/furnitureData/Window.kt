@@ -2,6 +2,7 @@ package postpc.finalproject.RoomInn.furnitureData
 
 import android.graphics.Color
 import android.graphics.Path
+import postpc.finalproject.RoomInn.models.RoomInnApplication
 
 class Window(
     position: Point3D = Point3D(),
@@ -48,8 +49,26 @@ class Window(
 
     override fun unityScale(): Point3D {
         return scale.getDivideByPoint(unityType.defaultScale).apply {
-            y = 1.0
+            y = 0.03
         }
+    }
+
+    override fun unityPosition(): Point3D {
+        val screenPosition = Point3D(position)
+        val roomCenter = Point3D(
+            RoomInnApplication.getInstance()
+                .getRoomsDB().roomByRoomID(roomId)
+                .roomCenterGetter()
+        )
+        return screenPosition.add(roomCenter.multiply(-1f))
+            .getDivideByPoint(Point3D(100f, 100f, -100f))
+    }
+
+    override fun toString() : String {
+        return  unityPosition().toString() + "\n" +
+                Point3D(rotation).add(Point3D(0f,90f,0f)).toString() + "\n" +
+                unityScale().toString() + "\n" +
+                color.toString()
     }
 
 }

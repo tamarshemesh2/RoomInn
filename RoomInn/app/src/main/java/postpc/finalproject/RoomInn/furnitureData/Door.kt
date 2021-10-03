@@ -3,6 +3,7 @@ package postpc.finalproject.RoomInn.furnitureData
 import android.graphics.Color
 import android.graphics.Path
 import postpc.finalproject.RoomInn.R
+import postpc.finalproject.RoomInn.models.RoomInnApplication
 
 class Door(
     position: Point3D = Point3D(),
@@ -134,10 +135,28 @@ class Door(
         }
     }
 
+    override fun unityPosition(): Point3D {
+        val screenPosition = Point3D(position)
+        if (rotation.y >= 180 && rotation.y < 270) {
+            screenPosition.add(scale.getDivideByPoint(Point3D(1f, 2f, 2f)))
+        }
+        else if (rotation.y >= 270 && rotation.y < 360) {
+            screenPosition.add(Point3D(0.0,0.0,scale.x))
+        }
+        val roomCenter = Point3D(
+            RoomInnApplication.getInstance()
+                .getRoomsDB().roomByRoomID(roomId)
+                .roomCenterGetter()
+        )
+
+        return screenPosition.add(roomCenter.multiply(-1f))
+            .getDivideByPoint(Point3D(100f, 100f, -100f)).apply { y = 0.0 }
+    }
+
     override fun toString() : String {
-        return  unityPosition().toString() + "\n" + // TODO - Change back to unityPosition
-                Point3D(rotation).add(Point3D(0f,-90f,0f)).toString() + "\n" +
-                scale.toString() + "\n" +
+        return  unityPosition().toString() + "\n" +
+                Point3D(rotation).add(Point3D(0f,90f,0f)).toString() + "\n" +
+                unityScale().toString() + "\n" +
                 color.toString()
     }
 

@@ -94,12 +94,12 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
 
     private fun renderWalls(wallList: MutableList<Wall>) {
         for (wall in wallList) {
-            Log.e("Wall", wall.toString())
-            UnityPlayer.UnitySendMessage(
-                "RigidBodyFPSController",
-                "addNewWall",
-                wall.toString()
-            )
+                Log.e("Wall", wall.toString())
+                UnityPlayer.UnitySendMessage(
+                    "RigidBodyFPSController",
+                    "addNewWall",
+                    wall.toString()
+                )
         }
     }
 

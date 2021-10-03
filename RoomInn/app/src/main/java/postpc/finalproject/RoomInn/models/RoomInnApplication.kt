@@ -88,8 +88,8 @@ class RoomInnApplication : Application() {
             val last:Point3D
             val first:Point3D
             if (i==room.Corners.size){
-                last = Point3D(corners.last())
-                first = Point3D(corners.first())
+                first = Point3D(corners.last())
+                last = Point3D(corners.first())
             }else{
                 first=Point3D(corners[i])
                 last=Point3D(corners[i - 1])
@@ -102,7 +102,7 @@ class RoomInnApplication : Application() {
                 sqrt(((last.x - first.x) * (last.x - first.x)) + ((last.z - first.z) * (last.z - first.z)))
             wall.scale = Point3D(dist / 99, 10.0, 0.001)
             var sinY =
-                (Point3D(last).add(Point3D(first).multiply(-1f)).x / (dist))
+                (last.x - first.x) / (dist)
             Log.e("sinY", sinY.toString())
             val roomCenter = room.roomCenterGetter()
             if (roomCenter.z<wall.position.z && roomCenter.x<wall.position.x ){
