@@ -22,6 +22,7 @@ import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.furnitureData.*
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 import postpc.finalproject.RoomInn.models.RoomsDB
+import kotlin.math.roundToInt
 
 
 class EditFurnitureFragment : Fragment() {
@@ -106,7 +107,7 @@ class EditFurnitureFragment : Fragment() {
             ("Couch") -> Couch.typeMap
             ("Table") -> Table.typeMap
             ("Dresser") -> Dresser.typeMap
-            ("Door")->Door.typeMap
+            ("Door") -> Door.typeMap
             else -> null
         })
         if (typeMap != null) {
@@ -115,26 +116,24 @@ class EditFurnitureFragment : Fragment() {
                 Navigation.findNavController(it)
                     .navigate(R.id.action_editFurnitureFragment_to_chooseFurnitureTypeFragment)
             }
-            if (furniture.type != "Door"){
             colorTxt.setTextColor(Color.GRAY)
-            colorBtn.visibility = View.VISIBLE}
-            else{
-                colorBtn.visibility = View.GONE
-                colorTxt.setTextColor(Color.TRANSPARENT)
-            }
+            colorBtn.visibility = View.VISIBLE
 
-        }else{
+        } else {
             colorBtn.visibility = View.GONE
             colorTxt.setTextColor(Color.TRANSPARENT)
         }
 
         colorBtn.setColorFilter(furniture.color)
-        widthEditText.setText(furniture.scale.x.toString())
-        lengthEditText.setText(furniture.scale.z.toString())
+
         if (furniture.type == "Window") {
-            heightEditText.setText(furniture.position.y.toString())
+            heightEditText.setText(furniture.position.y.roundToInt().toString())
+            widthEditText.setText(furniture.scale.z.roundToInt().toString())
+            lengthEditText.setText(furniture.scale.y.roundToInt().toString())
         } else {
-            heightEditText.setText(furniture.scale.y.toString())
+            heightEditText.setText(furniture.scale.y.roundToInt().toString())
+            widthEditText.setText(furniture.scale.x.roundToInt().toString())
+            lengthEditText.setText(furniture.scale.z.roundToInt().toString())
         }
         rotateEditText.setText(furniture.rotation.y.toString())
         widthEditText.isEnabled = furniture.freeScale
@@ -143,7 +142,7 @@ class EditFurnitureFragment : Fragment() {
         rotateEditText.isEnabled = furniture.freeScale
         freeRatioCheckBox.isChecked = furniture.freeScale
 
-        colorBtn.setOnClickListener { v ->
+        colorBtn.setOnClickListener{ v ->
 
             val colorPickerDialog: ColorPickerDialog =
                 ColorPickerDialog.createColorPickerDialog(
@@ -159,7 +158,7 @@ class EditFurnitureFragment : Fragment() {
             colorPickerDialog.show();
         }
 
-        freeRatioCheckBox.setOnClickListener {
+        freeRatioCheckBox.setOnClickListener{
             val bool = freeRatioCheckBox.isChecked
             widthEditText.isEnabled = bool
             lengthEditText.isEnabled = bool
@@ -168,14 +167,14 @@ class EditFurnitureFragment : Fragment() {
             furniture.freeScale = bool
         }
 
-        rotateBtn.setOnClickListener {
+        rotateBtn.setOnClickListener{
             furniture.rotation.y = (furniture.rotation.y + 45) % 360
             rotateEditText.setText(furniture.rotation.y.toString())
             furnitureCanvas.rotation = furniture.rotation.y.toFloat()
         }
 
 
-        rotateEditText.doOnTextChanged { txt, _, _, _ ->
+        rotateEditText.doOnTextChanged{ txt, _, _, _ ->
             var num = txt.toString()
             if (num == "") {
                 num = "0"
@@ -184,19 +183,25 @@ class EditFurnitureFragment : Fragment() {
             furnitureCanvas.rotation = furniture.rotation.y.toFloat()
         }
 
-        delFab.setOnClickListener {
-            DB.deleteFurniture(projectViewModel.furniture!!)
-
-            if (furniture.type in listOf("Door", "Window") || !projectViewModel.newFurniture) {
-                Navigation.findNavController(it).popBackStack()
+        delFab.setOnClickListener{
+            if (furniture.type in listOf("Door", "Window")) {
+                projectViewModel.doorsAndWindows.forEachIndexed { index, furnitureOnBoard ->
+                    if (furnitureOnBoard.furniture.id == furniture.id) {
+                        projectViewModel.doorsAndWindows.removeAt(index)
+                        return@forEachIndexed
+                    }
+                }
+                Navigation.findNavController(it)
+                    .navigate(R.id.action_editFurnitureFragment_to_floorPlanPlacingFragment)
             } else {
+                DB.deleteFurniture(projectViewModel.furniture!!)
                 Navigation.findNavController(it)
                     .navigate(R.id.action_editFurnitureFragment_to_floorPlanFragment)
             }
 
         }
 
-        saveFab.setOnClickListener {
+        saveFab.setOnClickListener{
             if (lengthEditText.text.isEmpty()) {
                 lengthEditText.setText("0")
             }
@@ -208,12 +213,15 @@ class EditFurnitureFragment : Fragment() {
             }
 
             if (furniture.type == "Window") {
-                furniture.position.y = lengthEditText.text.toString().toDouble()
+                furniture.position.y = heightEditText.text.toString().toDouble()
+                furniture.scale.y = lengthEditText.text.toString().toDouble()
+                furniture.scale.z = widthEditText.text.toString().toDouble()
+
             } else {
                 furniture.scale.y = heightEditText.text.toString().toDouble()
+                furniture.scale.z = lengthEditText.text.toString().toDouble()
+                furniture.scale.x = widthEditText.text.toString().toDouble()
             }
-            furniture.scale.z = lengthEditText.text.toString().toDouble()
-            furniture.scale.x = widthEditText.text.toString().toDouble()
             projectViewModel.furniture = furniture
 
             if (furniture.type !in listOf("Door", "Window")) {
@@ -224,9 +232,8 @@ class EditFurnitureFragment : Fragment() {
                 }
 
                 Navigation.findNavController(it)
-                        .navigate(R.id.action_editFurnitureFragment_to_floorPlanFragment)
-            }
-            else {
+                    .navigate(R.id.action_editFurnitureFragment_to_floorPlanFragment)
+            } else {
                 Navigation.findNavController(it)
                     .navigate(R.id.action_editFurnitureFragment_to_floorPlanPlacingFragment)
             }

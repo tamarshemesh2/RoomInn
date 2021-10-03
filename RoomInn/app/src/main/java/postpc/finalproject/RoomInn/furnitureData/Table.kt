@@ -7,7 +7,7 @@ import postpc.finalproject.RoomInn.R
 class Table(
     position: Point3D = Point3D(),
     rotation: Point3D = Point3D(),
-    scale: Point3D = Point3D(Armchair.typeMap[1]!!.defaultScale),
+    scale: Point3D = Point3D(typeMap[1]!!.defaultScale),
     color: Int = Color.GRAY,
     roomId: String = ""
 ): Furniture(position,rotation, scale, color){

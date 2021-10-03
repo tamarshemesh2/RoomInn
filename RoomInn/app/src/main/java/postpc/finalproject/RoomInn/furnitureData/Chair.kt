@@ -7,7 +7,7 @@ import postpc.finalproject.RoomInn.R
 class Chair(
     position: Point3D = Point3D(),
     rotation: Point3D = Point3D(),
-    scale: Point3D = Point3D(Armchair.typeMap[1]!!.defaultScale),
+    scale: Point3D = Point3D(typeMap[1]!!.defaultScale),
     color: Int = Color.GRAY,
     roomId: String = ""
 ) : Furniture(position, rotation, scale, color) {
@@ -38,40 +38,42 @@ class Chair(
     override fun draw(sizeWidth: Double, sizeHeight: Double): Path {
         val path = Path()
         val margin = 8f
+        val handPillowWidth = (scale.x * sizeWidth) / 9f
+        val handPillowHeight = (scale.z * sizeHeight * 5f) / 9f
         //seat
         path.addRoundRect(
-            (((scale.x * sizeWidth * 2) / 9) + margin).toFloat(),
-            ((scale.z * sizeHeight * 1) / 9).toFloat(),
-            (((scale.x * sizeWidth * 8) / 9) - margin).toFloat(),
-            ((scale.z * sizeHeight * 8) / 9).toFloat(),
+            (handPillowWidth + margin).toFloat(),
+            (margin),
+            (((scale.x * sizeWidth)-handPillowWidth) - margin).toFloat(),
+            ((scale.z * sizeHeight )-margin).toFloat(),
             (scale.x * sizeWidth).toFloat() / 5,
             (scale.z * sizeHeight).toFloat() / 5,
             Path.Direction.CCW
         )
         path.addRoundRect(
-            (((scale.x * sizeWidth * 2) / 9) + margin).toFloat(),
-            ((scale.z * sizeHeight * 3.5f) / 9).toFloat(),
-            (((scale.x * sizeWidth * 8) / 9) - margin).toFloat(),
-            ((scale.z * sizeHeight * 8) / 9).toFloat(),
+            (handPillowWidth + margin).toFloat(),
+            (handPillowHeight*0.7f).toFloat(),
+            (((scale.x * sizeWidth)-handPillowWidth) - margin).toFloat(),
+            ((scale.z * sizeHeight )-margin).toFloat(),
             (scale.x * sizeWidth).toFloat() / 5,
             (scale.z * sizeHeight).toFloat() / 5,
             Path.Direction.CCW
         )
         // hands
         path.addRoundRect(
-            (((scale.x * sizeWidth) / 9f) + margin).toFloat(),
-            ((scale.z * sizeHeight * 4f) / 9f).toFloat(),
-            (((scale.x * sizeWidth * 2f) / 9f) + margin).toFloat(),
-            (((scale.z * sizeHeight * 8f) / 9f) - margin).toFloat(),
+            (margin),
+            (handPillowHeight*0.6f).toFloat(),
+            (handPillowWidth + margin).toFloat(),
+            ((1.6*handPillowHeight) - margin).toFloat(),
             (scale.x * sizeWidth).toFloat() / 11,
             (scale.z * sizeHeight).toFloat() / 11,
             Path.Direction.CCW
         )
         path.addRoundRect(
-            (((scale.x * sizeWidth * 8) / 9) - margin).toFloat(),
-            ((scale.z * sizeHeight * 4) / 9).toFloat(),
+            (((scale.x * sizeWidth)-handPillowWidth) - margin).toFloat(),
+            (handPillowHeight*0.6f).toFloat(),
             (((scale.x * sizeWidth)) - margin).toFloat(),
-            (((scale.z * sizeHeight * 8) / 9) - margin).toFloat(),
+            ((1.6*handPillowHeight) - margin).toFloat(),
             (scale.x * sizeWidth).toFloat() / 11,
             (scale.z * sizeHeight).toFloat() / 11,
             Path.Direction.CCW

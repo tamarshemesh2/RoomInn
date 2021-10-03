@@ -27,7 +27,7 @@ class Window(
         path.addRect(
             margin,
             margin,
-            ((scale.x * sizeWidth) + margin).toFloat(),
+            ((scale.z * sizeWidth) + margin).toFloat(),
             ((10 * sizeHeight) + margin).toFloat(),
             Path.Direction.CCW
         )
@@ -40,8 +40,8 @@ class Window(
         path.addRect(
             margin,
             margin,
-            ((scale.x * sizeWidth) + margin).toFloat(),
-            ((scale.z * sizeHeight) + margin).toFloat(),
+            ((scale.z * sizeWidth) + margin).toFloat(),
+            ((scale.y * sizeHeight) + margin).toFloat(),
             Path.Direction.CCW
         )
         return path

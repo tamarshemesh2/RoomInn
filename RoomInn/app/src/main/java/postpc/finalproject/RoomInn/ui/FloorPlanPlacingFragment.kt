@@ -1,5 +1,6 @@
 package postpc.finalproject.RoomInn.ui
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.navigation.Navigation
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -45,14 +47,17 @@ class FloorPlanPlacingFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_floor_plan_no_doors, container, false)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val layout = view.findViewById<RelativeLayout>(R.id.floorPlanLayout)
         val roomCanvas = view.findViewById<RoomCanvas>(R.id.room_canvas)
         val addWindowBtn = view.findViewById<ImageButton>(R.id.addWindowButton)
         val addDoorBtn = view.findViewById<ImageButton>(R.id.addDoorButton)
+        val titleTxt = view.findViewById<TextView>(R.id.titleTextView)
         val doneFab = view.findViewById<FloatingActionButton>(R.id.done_fab)
         val app by lazy { RoomInnApplication.getInstance() }
+        titleTxt.text = projectViewModel.projectName +"\nplace windows and doors"
 
         val vto = layout.viewTreeObserver
         vto.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
@@ -60,16 +65,6 @@ class FloorPlanPlacingFragment : Fragment() {
             override fun onGlobalLayout() {
                 layout.viewTreeObserver
                     .removeOnGlobalLayoutListener(this)
-
-//                reading from a json file- using this tutorial :
-//                https://medium.com/nplix/how-to-read-and-write-json-data-in-kotlin-with-gson-c2971fd2d124
-
-
-                //TODO: find a way to call those lines only after unity is closed
-
-//                val distances = app.readFromFileToFloats(distancesPathName)
-//                val walls = projectViewModel.createWalls(corners, distances)
-//                projectViewModel.room = Room(corners,walls)
 
                 roomCanvas.setPath(
                     projectViewModel.room.drawFloorPlan(layout.measuredWidth-10,layout.measuredHeight-10))

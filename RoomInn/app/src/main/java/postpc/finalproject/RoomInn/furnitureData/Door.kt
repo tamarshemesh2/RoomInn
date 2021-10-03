@@ -8,7 +8,7 @@ import postpc.finalproject.RoomInn.models.RoomInnApplication
 class Door(
     position: Point3D = Point3D(),
     rotation: Point3D = Point3D(),
-    scale: Point3D = Point3D(Door.typeMap[2]!!.defaultScale),
+    scale: Point3D = Point3D(typeMap[2]!!.defaultScale),
     color: Int = Color.BLACK
 ) : Furniture(position, rotation, scale, Color.BLACK) {
     //copy constructor
@@ -23,15 +23,15 @@ class Door(
     companion object {
         val typeMap = mapOf<Int, FurnitureType>(
             1 to FurnitureType(
-                "Right",
-                R.drawable.armchair1,
+                "Left",
+                R.drawable.door1,
                 Point3D(90f, 100f, 210f),
                 "addNewArmchairTypeOne",
                 1
             ),
             2 to FurnitureType(
-                "Left",
-                R.drawable.armchair2,
+                "Right",
+                R.drawable.door2,
                 Point3D(90f, 100f, 210f),
                 "addNewArmchairTypeTwo",
                 2
@@ -137,11 +137,21 @@ class Door(
 
     override fun unityPosition(): Point3D {
         val screenPosition = Point3D(position)
-        if (rotation.y >= 180 && rotation.y < 270) {
-            screenPosition.add(scale.getDivideByPoint(Point3D(1f, 2f, 2f)))
+        if (rotation.y>=90 && rotation.y<180){
+            screenPosition.add(Point3D(-3.0,0.0,3.0-(scale.z*0.5)))
+
+        }
+        else if (rotation.y >= 180 && rotation.y < 270) {
+            screenPosition.add(screenPosition.add(Point3D(scale.x,0.0,0.0)))
+            screenPosition.add(Point3D(-3.0,0.0,3.0))
         }
         else if (rotation.y >= 270 && rotation.y < 360) {
             screenPosition.add(Point3D(0.0,0.0,scale.x))
+            screenPosition.add(Point3D(3.0,0.0,-3.0))
+        }
+        else{
+            screenPosition.add(Point3D(3.0,0.0,3.0+scale.x*0.5))
+
         }
         val roomCenter = Point3D(
             RoomInnApplication.getInstance()

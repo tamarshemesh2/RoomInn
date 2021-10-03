@@ -57,6 +57,7 @@ class ChooseFurnitureTypeFragment : Fragment() {
             ("Couch") -> Couch.typeMap
             ("Table") -> Table.typeMap
             ("Dresser") -> Dresser.typeMap
+            ("Door") -> Door.typeMap
             else -> null
         })
         if (typeMap == null) {

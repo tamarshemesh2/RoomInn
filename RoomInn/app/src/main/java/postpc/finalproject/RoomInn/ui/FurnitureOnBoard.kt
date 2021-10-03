@@ -28,19 +28,6 @@ class FurnitureOnBoard(
     val roomRatio = projectViewModel.room.getRoomRatio()
     private lateinit var imageView: FurnitureCanvas
 
-//
-//    fun setFurnitureOnBoard(furniture: Furniture){
-//        this.furniture = furniture
-//        val relativeLocation = furniture.position.getRelativeLocation(
-//            projectViewModel.room.getRoomRatio(),
-//            projectViewModel.layoutMeasures
-//        )
-//        furniturPos(relativeLocation.x,relativeLocation.z)
-//    }
-//
-//    fun furID(): String {
-//        return furniture.id
-//    }
 
     /* Use GestureDetectorCompat to detect general gesture take place on the image view. */
     private fun addGeneralGestureListener() {
@@ -65,13 +52,14 @@ class FurnitureOnBoard(
             }
 
             // update the furniture in the DB
-            if (furniture.type !in listOf("Window","Door")){
-            val DB: RoomsDB = RoomInnApplication.getInstance().getRoomsDB()
-            furniture = projectViewModel.furniture!!
-            DB.furnitureMap[furniture.id] = furniture
-            if (furniture.id !in DB.roomToFurnitureMap[projectViewModel.room.id]!!) {
-                DB.roomToFurnitureMap[projectViewModel.room.id]!!.add(furniture.id)
-            }}
+            if (furniture.type !in listOf("Window", "Door")) {
+                val DB: RoomsDB = RoomInnApplication.getInstance().getRoomsDB()
+                furniture = projectViewModel.furniture!!
+                DB.furnitureMap[furniture.id] = furniture
+                if (furniture.id !in DB.roomToFurnitureMap[projectViewModel.room.id]!!) {
+                    DB.roomToFurnitureMap[projectViewModel.room.id]!!.add(furniture.id)
+                }
+            }
             // Return true to tell android OS this listener has consumed the event, do not need to pass the event to other listeners.
             true
         }
@@ -81,6 +69,8 @@ class FurnitureOnBoard(
 
         createNewImageView()
         board.addView(imageView)
+        imageView.x=0f
+        imageView.y=0f
 
         furniturPos(coorX, coorY)
 
@@ -91,12 +81,19 @@ class FurnitureOnBoard(
 
     private fun furniturPos(coorX: Double, coorY: Double) {
         val params = imageView.layoutParams as RelativeLayout.LayoutParams
-        if (furniture.type == "Door") {
-            params.width = (furniture.scale.x * roomRatio).roundToInt() + margin
-            params.height = (furniture.scale.x * roomRatio).roundToInt() + margin
-        } else {
-            params.width = (furniture.scale.x * roomRatio).roundToInt() + margin
-            params.height = (furniture.scale.z * roomRatio).roundToInt() + margin
+        when (furniture.type) {
+            "Door" -> {
+                params.width = (furniture.scale.x * roomRatio).roundToInt() + margin
+                params.height = (furniture.scale.x * roomRatio).roundToInt() + margin
+            }
+            "Window" -> {
+                params.width = (furniture.scale.z * roomRatio).roundToInt() + margin
+                params.height = (15 * roomRatio).roundToInt() + margin
+            }
+            else -> {
+                params.width = (furniture.scale.x * roomRatio).roundToInt() + margin
+                params.height = (furniture.scale.z * roomRatio).roundToInt() + margin
+            }
         }
 
         params.leftMargin = (coorX).toInt()
@@ -114,6 +111,7 @@ class FurnitureOnBoard(
         imageView = FurnitureCanvas(context)
         imageView.setPaintColor(furniture.color)
         imageView.setPath(furniture.draw(roomRatio, roomRatio))
-        imageView.setBackgroundColor(Color.TRANSPARENT)
+//        imageView.setBackgroundColor(Color.TRANSPARENT)
+        imageView.setBackgroundColor(Color.BLUE)
     }
 }

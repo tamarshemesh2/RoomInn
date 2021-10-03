@@ -209,7 +209,7 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
             }
         }
 
-        roomTitle.text = "${projectViewModel.projectName} \n- Floor Plan"
+        roomTitle.text = "${projectViewModel.projectName}"
 
         playButton.setOnClickListener {
             projectViewModel.room.Walls = RoomInnApplication.getInstance().createWalls(projectViewModel.room)

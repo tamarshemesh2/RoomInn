@@ -71,7 +71,7 @@
         <action
             android:id="@+id/action_editFurnitureFragment_to_chooseFurnitureTypeFragment"
             app:destination="@id/chooseFurnitureTypeFragment"
-            app:popUpTo="@id/chooseFurnitureTypeFragment"
+            app:popUpTo="@id/editFurnitureFragment"
             app:popUpToInclusive="true"/>
     </fragment>
     <fragment

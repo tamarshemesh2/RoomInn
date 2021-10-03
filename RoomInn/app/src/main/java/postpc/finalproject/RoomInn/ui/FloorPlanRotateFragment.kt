@@ -163,6 +163,7 @@ class FloorPlanRotateFragment : Fragment() {
                             ((roomCanvas.rotation * PI.toFloat()) / 180f),roomCenterPoint
                         )
                         projectViewModel.room.name = projectNameEditText.text.toString()
+                        projectViewModel.projectName = projectViewModel.room.name
 
                         Navigation.findNavController(view)
                             .navigate(R.id.action_floorPlanRotateFragment_to_floorPlanPlacingFragment)

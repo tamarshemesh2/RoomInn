@@ -7,7 +7,7 @@ import postpc.finalproject.RoomInn.R
 class Couch(
     position: Point3D = Point3D(),
     rotation: Point3D = Point3D(),
-    scale: Point3D = Point3D(Armchair.typeMap[2]!!.defaultScale),
+    scale: Point3D = Point3D(typeMap[2]!!.defaultScale),
     color: Int = Color.GRAY,
     roomId: String = ""
 ) : Furniture(position, rotation, scale, color) {

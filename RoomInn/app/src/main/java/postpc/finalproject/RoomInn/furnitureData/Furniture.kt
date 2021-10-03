@@ -45,7 +45,11 @@ abstract class Furniture(
     }
 
     fun getSizeToDraw(size: Size): Pair<Double, Double> {
-        val ratioSize = min(size.height / (scale.z), size.width / scale.x)
+        val ratioSize: Double = if (type == "Window") {
+            min(size.height / (scale.y), size.width / scale.z)
+        } else {
+            min(size.height / (scale.z), size.width / scale.x)
+        }
         return Pair(ratioSize, ratioSize)
     }
 
@@ -107,7 +111,6 @@ abstract class Furniture(
                 (this.freeScale == o.freeScale)
     }
 
-
     abstract fun draw(sizeWidth: Double, sizeHeight: Double): Path
 
     override fun hashCode(): Int {
@@ -121,6 +124,4 @@ abstract class Furniture(
         result = 31 * result + freeScale.hashCode()
         return result
     }
-
-
 }

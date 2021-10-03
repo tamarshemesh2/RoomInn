@@ -11,6 +11,7 @@ import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.furnitureData.Furniture
 import postpc.finalproject.RoomInn.furnitureData.FurnitureType
+import postpc.finalproject.RoomInn.furnitureData.Point3D
 import postpc.finalproject.RoomInn.ui.furnitureCategoryItem.FurnitureCategoryItem
 import postpc.finalproject.RoomInn.ui.furnitureCategoryItem.FurnitureCategoryItemHolder
 import kotlin.math.roundToInt
@@ -51,7 +52,7 @@ class FurnitureTypeItemAdapter : RecyclerView.Adapter<FurnitureTypeItemHolder>()
 
         holder.bg.setOnClickListener {
             projectViewModel.furniture!!.unityType = furnitureType
-            projectViewModel.furniture!!.scale = furnitureType.defaultScale
+            projectViewModel.furniture!!.scale = Point3D(furnitureType.defaultScale)
             Navigation.findNavController(it)
                 .navigate(R.id.action_chooseFurnitureTypeFragment_to_editFurnitureFragment)
         }
