@@ -60,7 +60,7 @@ class Window(
                 .roomCenterGetter()
         )
 
-        return screenPosition.add(roomCenter.multiply(-1f)).apply { y = (x+(scale.y*0.5))-200 }
+        return screenPosition.add(roomCenter.multiply(-1f)).apply { y = (y+(scale.y*0.5))-200 }
             .getDivideByPoint(Point3D(100f, 100f, -100f))
     }
 
