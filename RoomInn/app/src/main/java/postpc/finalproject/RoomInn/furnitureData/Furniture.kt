@@ -20,6 +20,8 @@ abstract class Furniture(
     var type: String = "unknown"
     var roomId: String = "unknown"
     var freeScale: Boolean = false
+    var pivot: Point3D = Point3D()
+
 
     constructor() : this(Point3D(), Point3D(), Point3D())
 

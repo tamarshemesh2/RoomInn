@@ -111,7 +111,7 @@ class EditFurnitureFragment : Fragment() {
             else -> null
         })
         if (typeMap != null) {
-            furnitureImageView.visibility=View.VISIBLE
+            furnitureImageView.visibility = View.VISIBLE
             furnitureImageView.setImageResource(typeMap[furniture.unityType.key]!!.typeRecID)
             furnitureImageView.setOnClickListener {
                 Navigation.findNavController(it)
@@ -121,7 +121,7 @@ class EditFurnitureFragment : Fragment() {
             colorBtn.visibility = View.VISIBLE
 
         } else {
-            furnitureImageView.visibility=View.GONE
+            furnitureImageView.visibility = View.GONE
             colorBtn.visibility = View.GONE
             colorTxt.setTextColor(Color.TRANSPARENT)
         }
@@ -143,7 +143,7 @@ class EditFurnitureFragment : Fragment() {
         rotateEditText.isEnabled = furniture.freeScale
         freeRatioCheckBox.isChecked = furniture.freeScale
 
-        colorBtn.setOnClickListener{ v ->
+        colorBtn.setOnClickListener { v ->
 
             val colorPickerDialog: ColorPickerDialog =
                 ColorPickerDialog.createColorPickerDialog(
@@ -159,7 +159,7 @@ class EditFurnitureFragment : Fragment() {
             colorPickerDialog.show();
         }
 
-        freeRatioCheckBox.setOnClickListener{
+        freeRatioCheckBox.setOnClickListener {
             val bool = freeRatioCheckBox.isChecked
             widthEditText.isEnabled = bool
             lengthEditText.isEnabled = bool
@@ -168,14 +168,14 @@ class EditFurnitureFragment : Fragment() {
             furniture.freeScale = bool
         }
 
-        rotateBtn.setOnClickListener{
+        rotateBtn.setOnClickListener {
             furniture.rotation.y = (furniture.rotation.y + 45) % 360
             rotateEditText.setText(furniture.rotation.y.toString())
             furnitureCanvas.rotation = furniture.rotation.y.toFloat()
         }
 
 
-        rotateEditText.doOnTextChanged{ txt, _, _, _ ->
+        rotateEditText.doOnTextChanged { txt, _, _, _ ->
             var num = txt.toString()
             if (num == "") {
                 num = "0"
@@ -184,16 +184,36 @@ class EditFurnitureFragment : Fragment() {
             furnitureCanvas.rotation = furniture.rotation.y.toFloat()
         }
 
-        delFab.setOnClickListener{
+        delFab.setOnClickListener {
             if (furniture.type in listOf("Door", "Window")) {
-                projectViewModel.doorsAndWindows.forEachIndexed { index, furnitureOnBoard ->
-                    if (furnitureOnBoard.furniture.id == furniture.id) {
-                        projectViewModel.doorsAndWindows.removeAt(index)
-                        return@forEachIndexed
+                if (projectViewModel.newFurniture) {
+                    projectViewModel.doorsAndWindows.forEachIndexed { index, furnitureOnBoard ->
+                        if (furnitureOnBoard.furniture.id == furniture.id) {
+                            projectViewModel.doorsAndWindows.removeAt(index)
+                            return@forEachIndexed
+                        }
+                    }
+                } else if (furniture.type == "Door") {
+                    projectViewModel.room.doors.forEachIndexed { index, furnitureOnBoard ->
+                        if (furnitureOnBoard.id == furniture.id) {
+                            projectViewModel.room.doors.removeAt(index)
+                            return@forEachIndexed
+                        }
+                    }
+                } else {
+                    projectViewModel.room.windows.forEachIndexed { index, furnitureOnBoard ->
+                        if (furnitureOnBoard.id == furniture.id) {
+                            projectViewModel.room.windows.removeAt(index)
+                            return@forEachIndexed
+                        }
                     }
                 }
+                if (projectViewModel.newFurniture){
                 Navigation.findNavController(it)
-                    .navigate(R.id.action_editFurnitureFragment_to_floorPlanPlacingFragment)
+                    .navigate(R.id.action_editFurnitureFragment_to_floorPlanPlacingFragment)}else{
+                    Navigation.findNavController(it)
+                        .navigate(R.id.action_editFurnitureFragment_to_floorPlanFragment)
+                }
             } else {
                 DB.deleteFurniture(projectViewModel.furniture!!)
                 Navigation.findNavController(it)
@@ -202,7 +222,7 @@ class EditFurnitureFragment : Fragment() {
 
         }
 
-        saveFab.setOnClickListener{
+        saveFab.setOnClickListener {
             if (lengthEditText.text.isEmpty()) {
                 lengthEditText.setText("0")
             }
@@ -233,21 +253,21 @@ class EditFurnitureFragment : Fragment() {
                 }
                 Navigation.findNavController(it)
                     .navigate(R.id.action_editFurnitureFragment_to_floorPlanFragment)
-            } else if (projectViewModel.newFurniture){
+            } else if (projectViewModel.newFurniture) {
                 Navigation.findNavController(it)
                     .navigate(R.id.action_editFurnitureFragment_to_floorPlanPlacingFragment)
-            }else{
-                if(furniture.type=="Window"){
+            } else {
+                if (furniture.type == "Window") {
                     projectViewModel.room.windows.forEachIndexed { index, window ->
-                        if (window.id == furniture.id){
+                        if (window.id == furniture.id) {
                             projectViewModel.room.windows[index] = (furniture as Window)
                             return@forEachIndexed
                         }
                     }
 
-                }else  if(furniture.type=="Door"){
+                } else if (furniture.type == "Door") {
                     projectViewModel.room.doors.forEachIndexed { index, door ->
-                        if (door.id == furniture.id){
+                        if (door.id == furniture.id) {
                             projectViewModel.room.doors[index] = (furniture as Door)
                             return@forEachIndexed
                         }

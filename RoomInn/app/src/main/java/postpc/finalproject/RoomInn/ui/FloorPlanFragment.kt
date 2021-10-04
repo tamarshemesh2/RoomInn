@@ -249,7 +249,6 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
             else{
                 startActivity(intent)
             }
-            Log.d("updateRoom", "in flore plan, roomsMap is ${RoomInnApplication.getInstance().getRoomsDB().roomsMap}")
         }
 
         help.setOnClickListener {

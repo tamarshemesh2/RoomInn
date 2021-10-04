@@ -3,12 +3,15 @@ package postpc.finalproject.RoomInn.ui
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.View
 import android.widget.RelativeLayout
 import androidx.core.view.GestureDetectorCompat
 import postpc.finalproject.RoomInn.FurnitureCanvas
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
+import postpc.finalproject.RoomInn.furnitureData.Door
 import postpc.finalproject.RoomInn.furnitureData.Furniture
+import postpc.finalproject.RoomInn.furnitureData.Point3D
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 import postpc.finalproject.RoomInn.models.RoomsDB
 import postpc.finalproject.RoomInn.ui.gui_gestures.DragAndScaleListener
@@ -116,6 +119,16 @@ class FurnitureOnBoard(
 
         params.rightMargin = params.leftMargin + 5 * params.width
         params.bottomMargin = params.topMargin + 10 * params.height
+
+//        if (furniture.type =="Door"){
+//            val furLoc = intArrayOf(0,0)
+//            imageView.getLocationOnScreen(furLoc)
+//            val pivX = furLoc[0]+(imageView.width.toDouble()/2)
+//            val pivY = furLoc[1]+(imageView.height.toDouble()/2)
+//            furniture.pivot = Point3D(pivX,0.0,pivY).toAbsolutLocation(roomRatio, projectViewModel.layoutMeasures)
+//            Log.e("pivotAtFurOnBoard", "pivX:${pivX}, pivY:${pivY}, newPiv:${furniture.pivot}")
+//
+//        }
 
         imageView.rotation = furniture.rotation.y.toFloat()
         imageView.visibility = View.VISIBLE

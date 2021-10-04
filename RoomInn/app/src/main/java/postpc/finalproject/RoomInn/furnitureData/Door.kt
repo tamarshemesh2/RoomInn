@@ -12,6 +12,7 @@ class Door(
     scale: Point3D = Point3D(typeMap[1]!!.defaultScale),
     color: Int = Color.BLACK
 ) : Furniture(position, rotation, scale, Color.BLACK) {
+
     //copy constructor
     constructor(fur: Door) : this(fur.position, fur.rotation, fur.scale, fur.color) {
         id = fur.id
@@ -19,6 +20,7 @@ class Door(
         roomId = fur.roomId
         unityType = fur.unityType
         freeScale = fur.freeScale
+        pivot = fur.pivot
     }
 
     companion object {
@@ -139,9 +141,14 @@ class Door(
     }
 
     override fun unityPosition(): Point3D {
-        val screenPosition = Point3D(position).add(Point3D(0.0, 0.0, (scale.x) * 0.5))
+
+        val screenPosition = Point3D(position).add(Point3D((scale.z * 0.5), 0.0, (scale.x * 0.5)))
+//        Log.e("pivotDoor-pos", screenPosition.toString())
+
         val doorCenter = Point3D(position).add(Point3D((scale.x) * 0.5, 0.0, (scale.x) * 0.5))
         screenPosition.rotateAroundPointByAngle(doorCenter, (rotation.y.toFloat()) % 360)
+//        Log.e("pivotDoor", pivot.toString())
+//        Log.e("pivotDoor-posafter", screenPosition.toString())
 
         val roomCenter = Point3D(
             RoomInnApplication.getInstance().getRoomsDB().roomByRoomID(roomId).roomCenterGetter()

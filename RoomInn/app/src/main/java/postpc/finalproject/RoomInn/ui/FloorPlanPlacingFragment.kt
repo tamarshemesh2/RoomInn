@@ -88,7 +88,7 @@ class FloorPlanPlacingFragment : Fragment() {
                 }
 
                 val roomCenter = Point3D(projectViewModel.room.roomCenterGetter())
-                val windLocation = Point3D(roomCenter).apply { this.y = 165.0 }
+                val windLocation = Point3D(roomCenter).apply { this.y = 130.0 }
                 val roomCenterRelative = roomCenter.getRelativeLocation(roomRatio,  intArrayOf(0,0))
 
                 addDoorBtn.setOnClickListener {
@@ -113,6 +113,8 @@ class FloorPlanPlacingFragment : Fragment() {
                 }
                 val roomsDB = RoomInnApplication.getInstance().getRoomsDB()
                 doneFab.setOnClickListener {
+                    projectViewModel.room.doors.clear()
+                    projectViewModel.room.windows.clear()
                     for (item in projectViewModel.doorsAndWindows) {
                         if (item.furniture.type == "Door") {
                             projectViewModel.room.doors.add(item.furniture as Door)

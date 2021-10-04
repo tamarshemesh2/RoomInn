@@ -58,18 +58,6 @@ data class Room(
         return roomCenter
     }
 
-    fun mirrorCorners(): MutableList<Point3D> {
-        val mirrorCorners = mutableListOf<Point3D>()
-        var maxX = Corners.first().x
-        Corners.forEach {
-            if (it.x > maxX) {
-                maxX = it.x
-            }
-            mirrorCorners.add(Point3D(it).apply { x *= -1 })
-        }
-        mirrorCorners.forEach { it.add(Point3D(maxX,0.0,0.0)) }
-        return mirrorCorners
-    }
 
     fun rotateRoomCornersByAngle(angle: Float, center: Point3D = roomCenterGetter()) {
         for (corner in Corners) {

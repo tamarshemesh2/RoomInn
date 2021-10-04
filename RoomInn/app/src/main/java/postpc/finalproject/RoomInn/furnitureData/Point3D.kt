@@ -54,6 +54,7 @@ data class Point3D(
     }
 
     fun rotateAroundPointByAngle(center: Point3D, angle: Float) {
+
         val x1 = x - center.x;
         val z1 = z - center.z;
 
