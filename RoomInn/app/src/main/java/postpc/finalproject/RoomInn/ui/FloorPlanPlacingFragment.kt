@@ -88,7 +88,7 @@ class FloorPlanPlacingFragment : Fragment() {
                 }
 
                 val roomCenter = Point3D(projectViewModel.room.roomCenterGetter())
-                val windLocation = Point3D(roomCenter).apply { this.y -= 50 }
+                val windLocation = Point3D(roomCenter).apply { this.y = 165.0 }
                 val roomCenterRelative = roomCenter.getRelativeLocation(roomRatio,  intArrayOf(0,0))
 
                 addDoorBtn.setOnClickListener {

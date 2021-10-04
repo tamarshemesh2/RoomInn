@@ -33,7 +33,7 @@ class Door(
             2 to FurnitureType(
                 "Right",
                 R.drawable.door2,
-                Point3D(90f, 210f, 10f),
+                Point3D(90f, 210f, 15f),
                 "addNewDoor",
                 2
             ),
@@ -137,13 +137,12 @@ class Door(
     }
 
     override fun unityPosition(): Point3D {
-        val screenPosition = Point3D(position).add(Point3D(-(scale.z) / 4, 0.0, (scale.x) *0.5))
+        val screenPosition = Point3D(position).add(Point3D(0.0, 0.0, (scale.x) *0.5))
         val doorCenter = Point3D(position).add(Point3D((scale.x) * 0.5, 0.0, (scale.x) * 0.5))
         screenPosition.rotateAroundPointByAngle(doorCenter, (rotation.y.toFloat()) % 360)
 
         val roomCenter = Point3D(
-            RoomInnApplication.getInstance().getRoomsDB().roomByRoomID(roomId).roomCenterGetter()
-        )
+            RoomInnApplication.getInstance().getRoomsDB().roomByRoomID(roomId).roomCenterGetter())
 
         return screenPosition.add(roomCenter.multiply(-1f))
             .getDivideByPoint(Point3D(100f, 100f, -100f)).apply { y = 0.0 }
