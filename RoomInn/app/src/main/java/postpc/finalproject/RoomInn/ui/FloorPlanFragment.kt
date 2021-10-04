@@ -117,7 +117,7 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
         // TODO: finish finding all the views
         // find all views
         val roomCanvas: FragmentContainerView = view.findViewById(R.id.floorPlan)
-        val roomLayout: RelativeLayout = view.findViewById(R.id.floorPlanLayout)
+//        val roomLayout: RelativeLayout = view.findViewById(R.id.floorPlanLayout)
         val roomTitle: TextView = view.findViewById(R.id.titleTextView)
         val addFab: ImageButton = view.findViewById(R.id.addButton)
         val playButton: FloatingActionButton = view.findViewById(R.id.playButton)
@@ -175,7 +175,7 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
                 .backgroundColor(0)
                 .build()
             val fancyShowCaseViewRoom = FancyShowCaseView.Builder(requireActivity())
-                .focusOn(roomLayout)
+                .focusOn(roomCanvas)
                 .title("tap furniture:\n1. once to rotate\n2. twice to edit\n")
                 .focusBorderColor(Color.GRAY)
                 .titleStyle((R.style.MyTitleStyle), Gravity.CENTER)
@@ -185,7 +185,7 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
                 .focusCircleRadiusFactor(.75)
                 .build()
             val fancyShowCaseViewRoom2 = FancyShowCaseView.Builder(requireActivity())
-                .focusOn(roomLayout)
+                .focusOn(roomCanvas)
                 .title("pinch furniture to change size")
                 .focusBorderColor(Color.GRAY)
                 .titleStyle((R.style.MyTitleStyle), Gravity.CENTER)
@@ -290,7 +290,7 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
                 .backgroundColor(0)
                 .build()
             val fancyShowCaseViewRoom = FancyShowCaseView.Builder(requireActivity())
-                .focusOn(roomLayout)
+                .focusOn(roomCanvas)
                 .title("tap furniture:\n1. once to rotate\n2. twice to edit\n")
                 .focusBorderColor(Color.GRAY)
                 .titleStyle((R.style.MyTitleStyle), Gravity.CENTER)
@@ -300,7 +300,7 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
                 .focusCircleRadiusFactor(.75)
                 .build()
             val fancyShowCaseViewRoom2 = FancyShowCaseView.Builder(requireActivity())
-                .focusOn(roomLayout)
+                .focusOn(roomCanvas)
                 .title("pinch furniture to change size")
                 .focusBorderColor(Color.GRAY)
                 .titleStyle((R.style.MyTitleStyle), Gravity.CENTER)
@@ -326,10 +326,10 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
         }
 
 
-        val vto = roomLayout.viewTreeObserver
+        val vto = roomCanvas.viewTreeObserver
         vto.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                roomLayout.viewTreeObserver
+                roomCanvas.viewTreeObserver
                         .removeOnGlobalLayoutListener(this)
 
                 roomCanvas.setOnTouchListener { v, event ->

@@ -111,6 +111,7 @@ class EditFurnitureFragment : Fragment() {
             else -> null
         })
         if (typeMap != null) {
+            furnitureImageView.visibility=View.VISIBLE
             furnitureImageView.setImageResource(typeMap[furniture.unityType.key]!!.typeRecID)
             furnitureImageView.setOnClickListener {
                 Navigation.findNavController(it)
@@ -120,10 +121,10 @@ class EditFurnitureFragment : Fragment() {
             colorBtn.visibility = View.VISIBLE
 
         } else {
+            furnitureImageView.visibility=View.GONE
             colorBtn.visibility = View.GONE
             colorTxt.setTextColor(Color.TRANSPARENT)
         }
-
         colorBtn.setColorFilter(furniture.color)
 
         if (furniture.type == "Window") {
@@ -230,14 +231,32 @@ class EditFurnitureFragment : Fragment() {
                 if (projectViewModel.furniture!!.id !in DB.roomToFurnitureMap[projectViewModel.room.id]!!) {
                     DB.roomToFurnitureMap[projectViewModel.room.id]!!.add(projectViewModel.furniture!!.id)
                 }
+                Navigation.findNavController(it)
+                    .navigate(R.id.action_editFurnitureFragment_to_floorPlanFragment)
+            } else if (projectViewModel.newFurniture){
+                Navigation.findNavController(it)
+                    .navigate(R.id.action_editFurnitureFragment_to_floorPlanPlacingFragment)
+            }else{
+                if(furniture.type=="Window"){
+                    projectViewModel.room.windows.forEachIndexed { index, window ->
+                        if (window.id == furniture.id){
+                            projectViewModel.room.windows[index] = (furniture as Window)
+                            return@forEachIndexed
+                        }
+                    }
+
+                }else  if(furniture.type=="Door"){
+                    projectViewModel.room.doors.forEachIndexed { index, door ->
+                        if (door.id == furniture.id){
+                            projectViewModel.room.doors[index] = (furniture as Door)
+                            return@forEachIndexed
+                        }
+                    }
+                }
 
                 Navigation.findNavController(it)
                     .navigate(R.id.action_editFurnitureFragment_to_floorPlanFragment)
-            } else {
-                Navigation.findNavController(it)
-                    .navigate(R.id.action_editFurnitureFragment_to_floorPlanPlacingFragment)
             }
-
         }
     }
 

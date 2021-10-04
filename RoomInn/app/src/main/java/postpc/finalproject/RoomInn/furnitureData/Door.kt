@@ -2,13 +2,14 @@ package postpc.finalproject.RoomInn.furnitureData
 
 import android.graphics.Color
 import android.graphics.Path
+import android.util.Log
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 
 class Door(
     position: Point3D = Point3D(),
     rotation: Point3D = Point3D(),
-    scale: Point3D = Point3D(typeMap[2]!!.defaultScale),
+    scale: Point3D = Point3D(typeMap[1]!!.defaultScale),
     color: Int = Color.BLACK
 ) : Furniture(position, rotation, scale, Color.BLACK) {
     //copy constructor
@@ -25,15 +26,15 @@ class Door(
             1 to FurnitureType(
                 "Left",
                 R.drawable.door1,
-                Point3D(90f, 100f, 210f),
-                "addNewArmchairTypeOne",
+                Point3D(90f, 210f, 15f),
+                "addNewDoor",
                 1
             ),
             2 to FurnitureType(
                 "Right",
                 R.drawable.door2,
-                Point3D(90f, 100f, 210f),
-                "addNewArmchairTypeTwo",
+                Point3D(90f, 210f, 10f),
+                "addNewDoor",
                 2
             ),
         )
@@ -88,13 +89,13 @@ class Door(
             path.moveTo(margin * 2, (((scale.x * sizeHeight) + margin).toFloat()))
             path.lineTo(margin * 2, margin)
         } else {
-            path.moveTo(margin , margin)
+            path.moveTo(margin, margin)
 
             path.arcTo(
-                ((-scale.x * sizeWidth+margin).toFloat()),
-                ((-scale.x * sizeHeight+margin).toFloat()),
-                ((scale.x * sizeWidth+margin).toFloat()),
-                ((scale.x * sizeHeight+margin).toFloat()),
+                ((-scale.x * sizeWidth + margin).toFloat()),
+                ((-scale.x * sizeHeight + margin).toFloat()),
+                ((scale.x * sizeWidth + margin).toFloat()),
+                ((scale.x * sizeHeight + margin).toFloat()),
                 90f, -90f, false
             )
             path.lineTo(
@@ -126,8 +127,8 @@ class Door(
             path.moveTo(margin * 2, (((scale.x * sizeHeight) + margin).toFloat()))
             path.lineTo(margin * 2, margin)
         }
-    return path
-}
+        return path
+    }
 
     override fun unityScale(): Point3D {
         return scale.getDivideByPoint(unityType.defaultScale).apply {
@@ -136,35 +137,21 @@ class Door(
     }
 
     override fun unityPosition(): Point3D {
-        val screenPosition = Point3D(position)
-        if (rotation.y>=90 && rotation.y<180){
-            screenPosition.add(Point3D(-3.0+(scale.x)*0.5,0.0,3.0))
-        }
-        else if (rotation.y >= 180 && rotation.y < 270) {
-            screenPosition.add(screenPosition.add(Point3D(scale.x,0.0,0.0)))
-            screenPosition.add(Point3D(-3.0,0.0,3.0))
-        }
-        else if (rotation.y >= 270 && rotation.y < 360) {
-            screenPosition.add(Point3D(0.0,0.0,scale.x))
-            screenPosition.add(Point3D(3.0,0.0,-3.0))
-        }
-        else{
-            screenPosition.add(Point3D(3.0,0.0,3.0+(scale.x*0.5)))
+        val screenPosition = Point3D(position).add(Point3D(-(scale.z) / 4, 0.0, (scale.x) *0.5))
+        val doorCenter = Point3D(position).add(Point3D((scale.x) * 0.5, 0.0, (scale.x) * 0.5))
+        screenPosition.rotateAroundPointByAngle(doorCenter, (rotation.y.toFloat()) % 360)
 
-        }
         val roomCenter = Point3D(
-            RoomInnApplication.getInstance()
-                .getRoomsDB().roomByRoomID(roomId)
-                .roomCenterGetter()
+            RoomInnApplication.getInstance().getRoomsDB().roomByRoomID(roomId).roomCenterGetter()
         )
 
         return screenPosition.add(roomCenter.multiply(-1f))
             .getDivideByPoint(Point3D(100f, 100f, -100f)).apply { y = 0.0 }
     }
 
-    override fun toString() : String {
-        return  unityPosition().toString() + "\n" +
-                Point3D(rotation).add(Point3D(0f,90f,0f)).toString() + "\n" +
+    override fun toString(): String {
+        return unityPosition().toString() + "\n" +
+                Point3D(rotation).add(Point3D(0f, 90f, 0f)).toString() + "\n" +
                 unityScale().toString() + "\n" +
                 color.toString()
     }

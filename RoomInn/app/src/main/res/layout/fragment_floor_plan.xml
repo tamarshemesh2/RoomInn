@@ -16,20 +16,10 @@
             android:name="postpc.finalproject.RoomInn.ui.FloorPlanInnerFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:orientation="horizontal"
             android:layout_marginTop="16dp"
-            app:layout_constraintBottom_toTopOf="@id/addButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titleTextView" />
-
-        <RelativeLayout
-            android:id="@+id/floorPlanLayout"
-            android:name="com.postpc.myapplication.ui.FloorPlanInnerFragment"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
             android:orientation="horizontal"
-            android:layout_marginTop="16dp"
+            android:paddingRight="16dp"
+            android:paddingLeft="16dp"
             app:layout_constraintBottom_toTopOf="@id/addButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,49 +30,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:fontFamily="@font/dosis_medium"
+            android:layout_marginEnd="16dp"
             android:background="@color/white_overly"
+            android:fontFamily="@font/dosis_medium"
+            android:foregroundGravity="center"
+            android:gravity="center"
+            android:paddingRight="16dp"
             android:text="Project Name"
             android:textSize="32sp"
-            android:foregroundGravity="center"
-            android:paddingRight="16dp"
-            android:layout_marginEnd="16dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/bottomTitleTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lobster"
             android:text="Floor Plan"
-            app:layout_constraintTop_toBottomOf="@id/titleTextView"
-            app:layout_constraintEnd_toEndOf="@id/titleTextView"
             android:textSize="28sp"
-/>
+            app:layout_constraintEnd_toEndOf="@id/titleTextView"
+            app:layout_constraintTop_toBottomOf="@id/titleTextView" />
 
-
-        <!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--            android:id="@+id/undoButton"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:clickable="true"-->
-<!--            app:layout_constraintBottom_toTopOf="@id/playButton"-->
-<!--            app:layout_constraintEnd_toStartOf="@id/addButton"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/addButton"-->
-<!--            app:maxImageSize="50dp"-->
-<!--            app:srcCompat="@drawable/ic_round_undo_24" />-->
-
-<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--            android:id="@+id/redoButton"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:clickable="true"-->
-<!--            app:layout_constraintBottom_toTopOf="@id/playButton"-->
-<!--            app:layout_constraintStart_toEndOf="@id/addButton"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/addButton"-->
-<!--            app:maxImageSize="50dp"-->
-<!--            app:srcCompat="@drawable/ic_round_redo_24" />-->
 
         <ImageButton
             android:id="@+id/addButton"
@@ -117,8 +85,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:contentDescription="TODO"
             android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="TODO"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_round_menu_24" />
@@ -127,11 +95,11 @@
             android:id="@+id/helpButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_baseline_help_outline_24"
-            android:background="?android:attr/selectableItemBackground"
             android:layout_marginStart="16dp"
+            android:background="?android:attr/selectableItemBackground"
+            app:layout_constraintStart_toEndOf="@id/hamburgerMenuButton"
             app:layout_constraintTop_toTopOf="@id/hamburgerMenuButton"
-            app:layout_constraintStart_toEndOf="@id/hamburgerMenuButton"/>
+            app:srcCompat="@drawable/ic_baseline_help_outline_24" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -140,7 +108,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/white"
-
         app:headerLayout="@layout/hamburger_header_layout"
         app:menu="@menu/hamburger_menu" />
 

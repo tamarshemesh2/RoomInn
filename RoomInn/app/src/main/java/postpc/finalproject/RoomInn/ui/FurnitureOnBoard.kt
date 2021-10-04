@@ -3,6 +3,7 @@ package postpc.finalproject.RoomInn.ui
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.view.View
 import android.widget.RelativeLayout
 import androidx.core.view.GestureDetectorCompat
 import postpc.finalproject.RoomInn.FurnitureCanvas
@@ -28,6 +29,20 @@ class FurnitureOnBoard(
     val roomRatio = projectViewModel.room.getRoomRatio()
     private lateinit var imageView: FurnitureCanvas
 
+    private fun  addWindowDoorGestureListener(){
+        val imageViewGestureListener =
+            GeneralGestureListener(context, projectViewModel, furniture, board, imageView)
+        val imageViewGestureDetectorCompat =
+            GestureDetectorCompat(context, imageViewGestureListener)
+        imageViewGestureDetectorCompat.setOnDoubleTapListener(imageViewGestureListener)
+        imageView.setOnTouchListener { v, motionEvent ->
+            projectViewModel.furniture = furniture
+            projectViewModel.newFurniture = false
+            /* When image view ontouch event occurred, call it's gesture detector's onTouchEvent method. */
+            imageViewGestureDetectorCompat.onTouchEvent(motionEvent)
+        return@setOnTouchListener true}
+    }
+
 
     /* Use GestureDetectorCompat to detect general gesture take place on the image view. */
     private fun addGeneralGestureListener() {
@@ -46,6 +61,7 @@ class FurnitureOnBoard(
         // Set a new OnTouchListener to image view.
         imageView.setOnTouchListener { v, motionEvent ->
             projectViewModel.furniture = furniture
+            projectViewModel.newFurniture = true
             /* When image view ontouch event occurred, call it's gesture detector's onTouchEvent method. */
             if (!imageViewGestureDetectorCompat.onTouchEvent(motionEvent)) {
                 imageViewDragGestureListener.onTouch(v, motionEvent)
@@ -66,20 +82,17 @@ class FurnitureOnBoard(
     }
 
     init {
-
         createNewImageView()
         board.addView(imageView)
-        imageView.x=0f
-        imageView.y=0f
-
-        furniturPos(coorX, coorY)
-
+        furniturePos(coorX, coorY)
         if (withListeners) {
             addGeneralGestureListener()
+        } else{
+            addWindowDoorGestureListener()
         }
     }
 
-    private fun furniturPos(coorX: Double, coorY: Double) {
+    private fun furniturePos(coorX: Double, coorY: Double) {
         val params = imageView.layoutParams as RelativeLayout.LayoutParams
         when (furniture.type) {
             "Door" -> {
@@ -105,13 +118,14 @@ class FurnitureOnBoard(
         params.bottomMargin = params.topMargin + 10 * params.height
 
         imageView.rotation = furniture.rotation.y.toFloat()
+        imageView.visibility = View.VISIBLE
     }
 
     private fun createNewImageView() {
         imageView = FurnitureCanvas(context)
         imageView.setPaintColor(furniture.color)
         imageView.setPath(furniture.draw(roomRatio, roomRatio))
-//        imageView.setBackgroundColor(Color.TRANSPARENT)
-        imageView.setBackgroundColor(Color.BLUE)
+        imageView.setBackgroundColor(Color.TRANSPARENT)
+//        imageView.setBackgroundColor(Color.BLUE)
     }
 }

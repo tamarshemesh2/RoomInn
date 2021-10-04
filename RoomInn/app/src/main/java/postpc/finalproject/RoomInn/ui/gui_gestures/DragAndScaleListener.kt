@@ -34,6 +34,8 @@ class DragAndScaleListener(
     private var oldDist = 1f
     private var scaleDiff = Point3D(1f, 1f, 1f)
     private val locations = intArrayOf(0, 0)
+    private val margin = 10
+
 
 
     var params = imageView.layoutParams as RelativeLayout.LayoutParams
@@ -111,13 +113,19 @@ class DragAndScaleListener(
                             scaleDiff =
                                 furniture.scale(scale, pivot(event))
 
-                            if (furniture.type == "Door") {
-                                params.width = (furniture.scale.x * roomRatio).roundToInt()+10
-                                params.height = (furniture.scale.x * roomRatio).roundToInt()+10
-                            } else {
-                                params.width = (furniture.scale.x * roomRatio).roundToInt()+10
-                                params.height = (furniture.scale.z * roomRatio).roundToInt()+10
-                                view.scaleX
+                            when (furniture.type) {
+                                "Door" -> {
+                                    params.width = (furniture.scale.x * roomRatio).roundToInt() + margin
+                                    params.height = (furniture.scale.x * roomRatio).roundToInt() + margin
+                                }
+                                "Window" -> {
+                                    params.width = (furniture.scale.z * roomRatio).roundToInt() + margin
+                                    params.height = (15 * roomRatio).roundToInt() + margin
+                                }
+                                else -> {
+                                    params.width = (furniture.scale.x * roomRatio).roundToInt() + margin
+                                    params.height = (furniture.scale.z * roomRatio).roundToInt() + margin
+                                }
                             }
                             view.lastScaled *= scale
                             oldDist=newDist
