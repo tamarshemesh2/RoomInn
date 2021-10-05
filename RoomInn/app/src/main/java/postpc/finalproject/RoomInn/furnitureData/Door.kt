@@ -141,7 +141,7 @@ class Door(
     }
 
     override fun unityPosition(): Point3D {
-        val screenPosition = Point3D(position).add(Point3D(-scale.z/4, 0.0, (scale.x * 0.5)))
+        val screenPosition = Point3D(position).add(Point3D(-scale.z/6, 0.0, (scale.x * 0.5)))
         val doorCenter = Point3D(position).add(Point3D((scale.x * 0.5), 0.0, (scale.x*0.5)))
         screenPosition.rotateAroundPointByRadAngle(doorCenter, ((rotation.y * PI.toFloat()) / 180f).toFloat())
 
