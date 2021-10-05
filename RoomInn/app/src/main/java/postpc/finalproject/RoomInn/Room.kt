@@ -61,7 +61,7 @@ data class Room(
 
     fun rotateRoomCornersByAngle(angle: Float, center: Point3D = roomCenterGetter()) {
         for (corner in Corners) {
-            corner.rotateAroundPointByAngle(center, angle)
+            corner.rotateAroundPointByRadAngle(center, angle)
         }
         init()
     }
