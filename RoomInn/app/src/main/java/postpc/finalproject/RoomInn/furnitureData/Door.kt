@@ -147,8 +147,7 @@ class Door(
 
 
         val roomCenter = Point3D(
-            RoomInnApplication.getInstance().getRoomsDB().roomByRoomID(roomId).roomCenterGetter()
-        )
+            RoomInnApplication.getInstance().getRoomsDB().roomByRoomID(roomId).roomCenterGetter())
 
         return screenPosition.add(roomCenter.multiply(-1f))
             .getDivideByPoint(Point3D(100f, 100f, -100f)).apply { y = 0.0 }

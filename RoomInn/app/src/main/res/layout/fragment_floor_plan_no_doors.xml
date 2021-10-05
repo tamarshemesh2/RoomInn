@@ -20,7 +20,7 @@
             app:layout_constraintBottom_toTopOf="@id/addWindowButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titleTextView" />
+            app:layout_constraintTop_toBottomOf="@id/miniTitleTextView" />
 
         <postpc.finalproject.RoomInn.RoomCanvas
             android:id="@+id/room_canvas"
@@ -32,20 +32,31 @@
             app:layout_constraintBottom_toTopOf="@id/addWindowButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titleTextView" />
+            app:layout_constraintTop_toBottomOf="@id/miniTitleTextView" />
 
         <TextView
             android:id="@+id/titleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/dosis_medium"
+            android:fontFamily="@font/lobster"
             android:background="@color/white_overly"
-            android:paddingRight="32dp"
+            android:layout_marginRight="32dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="16dp"
             android:gravity="center"
-            android:text="Project Name \n place windows and doors"
+            android:text="Project Name"
+            android:textSize="24dp" />
+        <TextView
+            android:id="@+id/miniTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dosis_medium"
+            android:background="@color/white_overly"
+            app:layout_constraintRight_toRightOf="@id/titleTextView"
+            app:layout_constraintTop_toBottomOf="@id/titleTextView"
+            android:gravity="center"
+            android:text="place windows and doors"
             android:textSize="24dp" />
 
 

@@ -57,7 +57,7 @@ class FloorPlanPlacingFragment : Fragment() {
         val titleTxt = view.findViewById<TextView>(R.id.titleTextView)
         val doneFab = view.findViewById<FloatingActionButton>(R.id.done_fab)
         val app by lazy { RoomInnApplication.getInstance() }
-        titleTxt.text = projectViewModel.projectName +"\nplace windows and doors"
+        titleTxt.text = projectViewModel.projectName
 
         val vto = layout.viewTreeObserver
         vto.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {

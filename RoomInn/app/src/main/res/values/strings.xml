@@ -30,5 +30,6 @@
     <string name="my_ScreenShoot">FlorePlane</string>
 
     <string name="game_view_content_description" translatable="false">Game view</string>
+    <string name="name_this_project">Name this project</string>
 
 </resources>

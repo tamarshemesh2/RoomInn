@@ -21,7 +21,6 @@
 
     <TextView
         android:id="@+id/title"
-        android:background="@color/white_overly"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
@@ -43,34 +42,33 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/lobster"
-        android:background="@color/white_overly"
         android:gravity="center"
-        android:hint="Name this project"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:textSize="32dp"
+        android:textColor="@color/dark_purple"
+        android:hint="@string/name_this_project"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title" />
 
     <EditText
-        android:background="@color/white_overly"
         android:id="@+id/rotateEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:background="@color/white_overly"
         android:fontFamily="@font/dosis_medium"
         android:gravity="center"
+        android:inputType="numberDecimal"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:inputType="numberDecimal"
+        android:paddingBottom="8dp"
         android:text="0"
         android:textSize="32dp"
-        app:layout_constraintEnd_toStartOf="@id/rotateRight"
-        app:layout_constraintStart_toEndOf="@id/rotateLeft"
         app:layout_constraintBottom_toTopOf="@id/done_fab"
-        android:paddingBottom="8dp"
-        />
+        app:layout_constraintEnd_toStartOf="@id/rotateRight"
+        app:layout_constraintStart_toEndOf="@id/rotateLeft" />
 
     <ImageButton
         android:id="@+id/rotateRight"
