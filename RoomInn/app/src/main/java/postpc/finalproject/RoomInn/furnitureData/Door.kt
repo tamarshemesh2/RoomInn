@@ -2,9 +2,9 @@ package postpc.finalproject.RoomInn.furnitureData
 
 import android.graphics.Color
 import android.graphics.Path
-import android.util.Log
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.models.RoomInnApplication
+import kotlin.math.PI
 
 class Door(
     position: Point3D = Point3D(),
@@ -141,14 +141,10 @@ class Door(
     }
 
     override fun unityPosition(): Point3D {
+        val screenPosition = Point3D(position).add(Point3D(-scale.z/4, 0.0, (scale.x * 0.5)))
+        val doorCenter = Point3D(position).add(Point3D((scale.x * 0.5), 0.0, (scale.x*0.5)))
+        screenPosition.rotateAroundPointByRadAngle(doorCenter, ((rotation.y * PI.toFloat()) / 180f).toFloat())
 
-        val screenPosition = Point3D(position).add(Point3D((scale.z * 0.5), 0.0, (scale.x * 0.5)))
-//        Log.e("pivotDoor-pos", screenPosition.toString())
-
-        val doorCenter = Point3D(position).add(Point3D((scale.x) * 0.5, 0.0, (scale.x) * 0.5))
-        screenPosition.rotateAroundPointByAngle(doorCenter, (rotation.y.toFloat()) % 360)
-//        Log.e("pivotDoor", pivot.toString())
-//        Log.e("pivotDoor-posafter", screenPosition.toString())
 
         val roomCenter = Point3D(
             RoomInnApplication.getInstance().getRoomsDB().roomByRoomID(roomId).roomCenterGetter()
