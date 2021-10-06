@@ -23,7 +23,7 @@ At any time the user could view the design in VR, implemented in Unity as well.
 We used Firebase to manage user login authentication & database.
 
 ## Demo 
-[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://youtu.be/vt5fpE0bzSY)
+[![Watch the video](https://img.youtube.com/vi/Z-GFqyqcpm4/0.jpg)](https://youtu.be/Z-GFqyqcpm4)
 
 ## Installation
 
