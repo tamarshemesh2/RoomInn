@@ -114,17 +114,15 @@ class FloorPlanFragment : Fragment(), NavigationView.OnNavigationItemSelectedLis
         // set the view direction -> LTR
         this.activity?.window?.decorView?.layoutDirection = View.LAYOUT_DIRECTION_LTR;
 
-        // TODO: finish finding all the views
         // find all views
         val roomCanvas: FragmentContainerView = view.findViewById(R.id.floorPlan)
-//        val roomLayout: RelativeLayout = view.findViewById(R.id.floorPlanLayout)
         val roomTitle: TextView = view.findViewById(R.id.titleTextView)
         val addFab: ImageButton = view.findViewById(R.id.addButton)
         val playButton: FloatingActionButton = view.findViewById(R.id.playButton)
         var mQueue: FancyShowCaseQueue? = null
 
         var toAddFurniture = false
-        //add all furniture to board
+
 
         // find hamburger views:
         drawerLayout = view.findViewById(R.id.draw_layout)

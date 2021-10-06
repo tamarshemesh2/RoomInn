@@ -3,25 +3,19 @@ package postpc.finalproject.RoomInn
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.pm.ActivityInfo
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.util.Log
-import android.view.View
-import android.widget.Toast
 import postpc.finalproject.RoomInn.models.RoomInnApplication.Companion.getInstance
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentContainerView
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import postpc.finalproject.RoomInn.models.LoadingStage
-import postpc.finalproject.RoomInn.models.RoomsDB
+
+
+
 
 class MainActivity : AppCompatActivity() {
     var progressDialog: ProgressDialog? = null
@@ -53,28 +47,19 @@ class MainActivity : AppCompatActivity() {
         viewModel!!.activityContext = this
         listenToLoadingStage()
 
-        // todo - add the function of tamar, initialize by user id and room name
         val intent = intent
         if (intent.extras != null) {
             val userId = intent.getStringExtra("User ID")
             val roomName = intent.getStringExtra("Room Name")
             RoomInnApplication.getInstance().pathToUnity =
                 intent.getStringExtra("Path To Unity") ?: ""
-            Log.e("unityPathIs MAIN", RoomInnApplication.getInstance().pathToUnity)
             viewModel!!.goTo = intent.getIntExtra("Return To", 0)
-            // 0 = profileFragment ,
-            // 1 = floorPlanFragment ,
-            // 2 = rotateFloorPlanFragment
-
 
             val navHostFragment =
                 supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
             val navController = navHostFragment.navController
-            Log.d("extras aren't null", "calling initializeAfterUnity")
             getInstance().getRoomsDB()
                 .initializeAfterUnity(userId!!, roomName!!, navController, viewModel)
-
-
         }
     }
 
@@ -95,14 +80,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        Log.d("main activity", "onSaveInstanceState")
         super.onSaveInstanceState(outState)
         val DB = getInstance().getRoomsDB()
         DB.saveOnExit()
     }
 
     override fun onDestroy() {
-        Log.d("main activity", "onDestroy")
         val DB = getInstance().getRoomsDB()
         DB.rooms.removeObservers(this)
         DB.userLoadingStage.removeObservers(this)
@@ -111,7 +94,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        Log.d("main activity", "onPause")
         val DB = getInstance().getRoomsDB()
         DB.saveOnExit()
         super.onPause()

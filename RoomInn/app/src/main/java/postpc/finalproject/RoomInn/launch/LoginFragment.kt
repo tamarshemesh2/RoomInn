@@ -21,7 +21,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import postpc.finalproject.RoomInn.MainActivity
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.LoginViewModel
@@ -67,7 +66,6 @@ class LoginFragment : Fragment(R.layout.login_fegment) {
             viewModel!!.googleSingInCallable()
         }
 
-
         // setup login with facebook:
         facebookLogInButton = view.findViewById(R.id.facebook_log_in_button)
         facebookLogInButton!!.setEnabled(false)
@@ -77,19 +75,15 @@ class LoginFragment : Fragment(R.layout.login_fegment) {
         facebookViewButton.visibility = View.VISIBLE
 
 
-//        facebookLogInButton.setPermissions(Arrays.asList(...));
         facebookLogInButton!!.registerCallback(viewModel!!.callbackManager, object : FacebookCallback<LoginResult?> {
             override fun onSuccess(loginResult: LoginResult?) {
-                Log.d("facebook login", "Success")
                 goToMainActivity()
             }
 
             override fun onCancel() {
-                Log.d("facebook login", "cancel")
             }
 
             override fun onError(error: FacebookException) {
-                Log.d("facebook login", error.toString())
             }
         })
         facebookViewButton.setOnClickListener { v: View? -> facebookLogInButton!!.callOnClick() }
@@ -160,12 +154,10 @@ class LoginFragment : Fragment(R.layout.login_fegment) {
             val isLoggedIn = accessToken != null && !accessToken.isExpired
             if (isLoggedIn) {
                 userId = accessToken!!.userId
-                Log.d("login", "login with facebook id: $userId")
             }
             val user = FirebaseAuth.getInstance().currentUser
             if (user != null) {
                 userId = user.uid
-                Log.d("login", "login with firebase id: $userId")
             }
             return userId!!
         }

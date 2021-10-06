@@ -1,14 +1,11 @@
 package postpc.finalproject.RoomInn.models
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.*
 import androidx.navigation.NavController
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.furnitureData.Wall
 import postpc.finalproject.RoomInn.Room
@@ -36,48 +33,7 @@ class RoomsDB(val context: Context) {
 
     init {
         FirebaseApp.initializeApp(context)
-        // todo- uncomment after the LoadFromSP will work properly
-//        loadFromSP()
     }
-
-//    private fun loadFromSP(): Boolean {
-//
-//        val json = RoomInnApplication.getInstance().json
-//        val userStr = RoomInnApplication.sp.getString("user", null) ?: return false
-//        Log.d("Loading", "userStrSP $userStr")
-//        val roomsMapStr = RoomInnApplication.sp.getString("roomsMap", null) ?: return false
-//        Log.d("Loading", "roomsMapStrSP $roomsMapStr")
-//        val furnitureMapStr = RoomInnApplication.sp.getString("furnitureMap", null) ?: return false
-//        Log.d("Loading", "furnitureSP $furnitureMapStr")
-//
-//        val roomToFurnitureMapStr =
-//            RoomInnApplication.sp.getString("roomToFurnitureMap", null) ?: return false
-//        Log.d("Loading", "roomToFurnitureMapStrSP $roomToFurnitureMapStr")
-//
-//        val roomsMapType = object : TypeToken<MutableMap<String, Room>>() {}.type
-//        val roomToFurnitureMapType =
-//            object : TypeToken<MutableMap<String, MutableList<String>>>() {}.type
-//
-//        // todo - use the factory method to re-Object the furniture as a specific type
-//        val furnitureMapType = object : TypeToken<MutableMap<String, Any>>() {}.type
-//
-//
-////        }
-//
-//        user = json.fromJson(userStr, User::class.java)
-//        Log.d("Loading", "user: ${user}")
-//        roomsMap = json.fromJson(roomsMapStr, roomsMapType)
-//        Log.d("Loading", "roomsMap: ${roomsMap}")
-//        roomToFurnitureMap = json.fromJson(roomToFurnitureMapStr, roomToFurnitureMapType)
-//        Log.d("Loading", "roomToFurnitureMap: ${roomToFurnitureMap}")
-//        furnitureMap = json.fromJson(furnitureMapStr, furnitureMapType)
-//        Log.d("Loading", "furnitureMap: ${furnitureMap}")
-//
-//        // reset the SP
-//        RoomInnApplication.sp.edit().clear().apply()
-//
-//        return true
-//    }
 
 
     fun isInitialized(): Boolean {
@@ -96,16 +52,13 @@ class RoomsDB(val context: Context) {
         document.set(user)
             .addOnSuccessListener {
                 isInitialized = true
-                Log.d("Firebase", "loading user data succeeded")
                 userLoadingStage.value = LoadingStage.SUCCESS
             }
             .addOnFailureListener {
                 userLoadingStage.value = LoadingStage.FAILURE
-                Log.d("Firebase", "loading user data failed")
             }
             .addOnCanceledListener {
                 userLoadingStage.value = LoadingStage.SUCCESS
-                Log.d("Firebase", "loading user data failed")
             }
     }
 
@@ -130,11 +83,9 @@ class RoomsDB(val context: Context) {
         }
             .addOnFailureListener {
                 userLoadingStage.value = LoadingStage.FAILURE
-                Log.d("Firebase", "loading user data failed")
             }
             .addOnCanceledListener {
                 userLoadingStage.value = LoadingStage.SUCCESS
-                Log.d("Firebase", "loading user data failed")
             }
 
     }
@@ -153,13 +104,9 @@ class RoomsDB(val context: Context) {
             rooms.value!!.add(room.name)
             roomListChanged()
         }
-        Log.d("updateRoom: ", "list form createRoom is ${rooms.value}.")
-        Log.d("updateRoom", "rooms map $roomsMap")
-        Log.d("updateRoom", "room name ${room.name}")
     }
 
     fun roomListChanged() {
-        Log.d("rooms", rooms.value!!.toString())
         user.roomsList = rooms.value!!
         roomsListenerLambda()
         firebase.collection("users").document(user.id).set(user)
@@ -241,12 +188,10 @@ class RoomsDB(val context: Context) {
         roomToFurnitureMap[room.id] = mutableListOf()
         firebase.collection("furniture").whereEqualTo("roomId", room.id).get()
             .addOnSuccessListener {
-                Log.d("Loading: ", "addFurnitureToMap SUCCESS")
                 val documents = it.documents
                 for (doc in documents) {
                     val furniture = furniturFactory(doc)
                     if (furniture != null) {
-                        Log.d("furniture", furniture.type)
                         roomToFurnitureMap[room.id]!!.add(furniture.id)
                         furnitureMap[furniture.id] = furniture
                     }
@@ -263,14 +208,11 @@ class RoomsDB(val context: Context) {
                 }
             }
             .addOnFailureListener {
-                Log.d("Loading: ", "addFurnitureToMap FAIL")
-                // TODO: is this right?
                 userLoadingStage.value = LoadingStage.FAILURE
             }
     }
 
     private fun furniturFactory(doc: DocumentSnapshot): Furniture? {
-        Log.d("furniture", doc.toString())
         return when (doc["type"]) {
             "Bed" -> doc.toObject(Bed::class.java)
             "Chair" -> doc.toObject(Chair::class.java)
@@ -320,8 +262,6 @@ class RoomsDB(val context: Context) {
     }
 
     fun roomByRoomName(roomName: String): Room {
-        Log.d("updateRoom", "rooms map $roomsMap")
-        Log.d("updateRoom", "room name $roomName")
         return roomsMap[roomName]!!
     }
 
@@ -452,8 +392,6 @@ class RoomsDB(val context: Context) {
         navController: NavController,
         viewModel: ProjectViewModel? = null
     ) {
-        // todo- uncomment after the LoadFromSP will work properly
-//        if (loadFromSP()) return
         userLoadingStage.value = LoadingStage.LOADING
         val document = firebase.collection("users")
             .document(userID)
@@ -484,33 +422,13 @@ class RoomsDB(val context: Context) {
             }
             .addOnFailureListener {
                 userLoadingStage.value = LoadingStage.FAILURE
-                Log.d("Firebase", "loading user data failed")
             }
             .addOnCanceledListener {
                 userLoadingStage.value = LoadingStage.SUCCESS
-                Log.d("Firebase", "loading user data failed")
             }
 
     }
 
-//    fun serializeState(): Map<String, String> {
-//        val serializeStateMap = mutableMapOf<String, String>()
-//        val gson = Gson()
-//
-//        // user as string
-//        serializeStateMap["user"] = gson.toJson(user)
-//
-//        //roomsMap as string
-//        serializeStateMap["roomsMap"] = gson.toJson(roomsMap)
-//
-//        //furnitureMap as string
-//        serializeStateMap["furnitureMap"] = gson.toJson(furnitureMap)
-//
-//        //roomsToFurnitureMap as string
-//        serializeStateMap["roomToFurnitureMap"] = gson.toJson(roomToFurnitureMap)
-//
-//        return serializeStateMap
-//    }
 
     fun updateFirebase() {
         firebase.collection("users").document(user.id).set(user)

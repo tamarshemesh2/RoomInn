@@ -1,7 +1,5 @@
 package postpc.finalproject.RoomInn.furnitureData
 
-import android.util.Log
-import postpc.finalproject.RoomInn.furnitureData.Point3D
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 
 data class Wall(var position : Point3D = Point3D(),
@@ -11,7 +9,7 @@ data class Wall(var position : Point3D = Point3D(),
 )
 {
     override fun toString() : String {
-        return  unityPosition().toString() + "\n" + // TODO - Change back to unityPosition
+        return  unityPosition().toString() + "\n" +
                 Point3D(rotation).add(Point3D(0f,-90f,0f)).toString() + "\n" +
                 scale.toString()
     }

@@ -3,7 +3,6 @@ package postpc.finalproject.RoomInn.models
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import postpc.finalproject.RoomInn.Room
@@ -50,18 +49,14 @@ class RoomInnApplication : Application() {
 
     fun readFromFileToPoints(): MutableList<Point3D> {
         val file = File("$pathToUnity/$pointsPathName")
-        Log.e("fileProblem!", file.exists().toString())
         if (!file.exists()) {
-            Log.e("fileProblem!", file.absolutePath)
             return mutableListOf()
         }
         //Read the file
-        Log.e("fileProblem!", file.absolutePath)
         val bufferedReader: BufferedReader = file.bufferedReader()
         // Read the text from bufferReader and store in String variable
         val inputString = bufferedReader.use { it.readText() }
         val inputCleanString = inputString.substring(9, inputString.length - 1)
-        Log.e("fileProblem!-inputString", inputCleanString)
 
         //Convert the Json File to Gson Object
         val listPointsType = object : TypeToken<MutableList<Point3D>>() {}.type

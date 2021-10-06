@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.util.Log
 import com.unity3d.player.UnityPlayer
 import com.unity3d.player.UnityPlayerActivity
 import postpc.finalproject.RoomInn.MainActivity
@@ -46,19 +45,11 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
         ctx = this
         unityPath =
             UnityPlayer.currentActivity.getExternalFilesDir("")!!.absolutePath
-        Log.e("unityPathIs", unityPath)
-
-        Log.d(
-            "updateRoom",
-            "in unity player activity, roomsMap is ${
-                RoomInnApplication.getInstance().getRoomsDB().roomsMap
-            }"
-        )
 
         UnityPlayer.UnitySendMessage(
             "SceneLoader",
             "loadScene",
-            RoomUnityPlayerActivity.sceneIndex
+            sceneIndex
         )
     }
 
@@ -77,8 +68,6 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
 
     fun renderRoom() {
 
-        Log.e("roomCenter", roomDB.roomByRoomName(roomName).roomCenterGetter().toString())
-
         //render the walls.
         renderWalls(roomDB.wallsByRoomName(roomName!!))
 
@@ -94,12 +83,8 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
 
     private fun renderWalls(wallList: MutableList<Wall>) {
         for (wall in wallList) {
-                Log.e("Wall", wall.toString())
-                UnityPlayer.UnitySendMessage(
-                    "RigidBodyFPSController",
-                    "addNewWall",
-                    wall.toString()
-                )
+                UnityPlayer.UnitySendMessage("RigidBodyFPSController", "addNewWall",
+                    wall.toString())
         }
     }
 
@@ -109,29 +94,22 @@ class RoomUnityPlayerActivity : UnityPlayerActivity() {
 
     private fun renderFurniture(furnitureList: MutableList<Furniture>) {
         for (furniture in furnitureList) {
-            Log.e("furniture", furniture.toString())
-            UnityPlayer.UnitySendMessage(
-                "RigidBodyFPSController", furniture.unityType.unityFuncName,
-                furniture.toString()
+            UnityPlayer.UnitySendMessage("RigidBodyFPSController",
+                furniture.unityType.unityFuncName, furniture.toString()
             )
         }
     }
 
     private fun renderDoors(doorList: MutableList<Door>) {
         for (door in doorList) {
-            Log.e("Door", door.toString())
             UnityPlayer.UnitySendMessage("RigidBodyFPSController", "addNewDoor", door.toString())
         }
     }
 
     private fun renderWindows(windowList: MutableList<Window>) {
         for (window in windowList) {
-            Log.e("Window", window.toString())
-            UnityPlayer.UnitySendMessage(
-                "RigidBodyFPSController",
-                "addNewWindow",
-                window.toString()
-            )
+            UnityPlayer.UnitySendMessage("RigidBodyFPSController", "addNewWindow",
+                window.toString())
         }
     }
 }

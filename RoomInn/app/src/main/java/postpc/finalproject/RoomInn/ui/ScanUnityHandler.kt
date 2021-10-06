@@ -1,21 +1,11 @@
 package postpc.finalproject.RoomInn.ui
 
-import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.navigation.fragment.NavHostFragment
-import postpc.finalproject.RoomInn.MainActivity
 import postpc.finalproject.RoomInn.R
-import postpc.finalproject.RoomInn.models.RoomInnApplication
-import postpc.finalproject.RoomInn.ui.ScanUnityHandler
-import java.util.jar.Manifest
 import kotlin.properties.Delegates
 
 class ScanUnityHandler : AppCompatActivity() {

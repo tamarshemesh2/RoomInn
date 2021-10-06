@@ -1,10 +1,6 @@
 package postpc.finalproject.RoomInn.ui.furnitureCategoryItem
 
-import android.graphics.Path
 import postpc.finalproject.RoomInn.furnitureData.Furniture
-
-//import com.google.firebase.Timestamp
-
 
 data class FurnitureCategoryItem(
     val furnitureCategory: String,

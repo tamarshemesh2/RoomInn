@@ -1,4 +1,4 @@
-package postpc.finalproject.RoomInn
+package postpc.finalproject.RoomInn.ui
 
 import android.content.Context
 import android.graphics.Canvas
@@ -6,20 +6,13 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
-import android.view.GestureDetector
-import android.view.View
-import android.widget.ImageView
 
 
-open class FurnitureCanvas(
+class RoomCanvas(
     context: Context, attrs: AttributeSet?,
     private var path: Path,
     private var hasPath: Boolean = true
-) : androidx.appcompat.widget.AppCompatImageView(context, attrs){
-    var lastScaled = 1f
-    init {
-        this.scaleType = ScaleType.FIT_START
-    }
+) : androidx.appcompat.widget.AppCompatImageView(context, attrs) {
     constructor(context: Context) : this(context, null, Path()) {
         hasPath = false
     }
@@ -35,10 +28,6 @@ open class FurnitureCanvas(
         hasPath = true
     }
 
-    fun setPaintColor(color: Int) {
-        paint.color = color
-    }
-
     fun isInit(): Boolean {
         return hasPath
     }
@@ -47,10 +36,11 @@ open class FurnitureCanvas(
         super.onDraw(canvas)
         paint.color = Color.BLACK
         paint.style = Paint.Style.STROKE
-        paint.strokeWidth = 10f
-        paint.strokeJoin = Paint.Join.ROUND
+        paint.strokeWidth = 15f
+        paint.strokeJoin = Paint.Join.MITER
         canvas?.drawPath(path, paint)
     }
 
 
 }
+

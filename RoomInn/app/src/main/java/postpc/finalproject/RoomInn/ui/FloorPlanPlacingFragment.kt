@@ -16,7 +16,6 @@ import androidx.annotation.RequiresApi
 import androidx.navigation.Navigation
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import postpc.finalproject.RoomInn.R
-import postpc.finalproject.RoomInn.RoomCanvas
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.furnitureData.Door
 import postpc.finalproject.RoomInn.furnitureData.Point3D
@@ -37,13 +36,11 @@ class FloorPlanPlacingFragment : Fragment() {
         ViewModelProvider(requireActivity()).get(ProjectViewModel::class.java)
     }
 
-    //3
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // should be the viewModels room!
         return inflater.inflate(R.layout.fragment_floor_plan_no_doors, container, false)
     }
 
@@ -126,16 +123,8 @@ class FloorPlanPlacingFragment : Fragment() {
                     Navigation.findNavController(view)
                         .navigate(R.id.action_floorPlanPlacingFragment_to_floorPlanFragment)
                 }
-
-
             }
         })
 
     }
-
-
-//        val findViewById = findViewById<View>(R.id.canvas)
-//        findViewById.draw(room.drawFloorPlan())
-
 }
-//}

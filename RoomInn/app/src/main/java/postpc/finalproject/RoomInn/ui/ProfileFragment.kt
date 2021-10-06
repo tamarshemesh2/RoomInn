@@ -1,11 +1,9 @@
 package postpc.finalproject.RoomInn.ui
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,15 +24,12 @@ import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.launch.LaunchActivity
 import postpc.finalproject.RoomInn.models.RoomInnApplication
-import java.io.File
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
+
+
 
 class ProfileFragment : Fragment() {
     companion object {
@@ -61,24 +56,14 @@ class ProfileFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-//
-//        val findNavController = Navigation.findNavController(requireView())
-//        when (projectViewModel.goTo){
-//            (2)-> findNavController.navigate(R.id.action_profileFragment2_to_floorPlanRotateFragment)
-//            (1)-> findNavController.navigate(R.id.action_profileFragment2_to_floorPlanFragment)
-//            (0)-> null
-//        }
-
     }
+
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // check if returned from scan
-//        lookForScan(view)
         super.onViewCreated(view, savedInstanceState)
 
         // find all views

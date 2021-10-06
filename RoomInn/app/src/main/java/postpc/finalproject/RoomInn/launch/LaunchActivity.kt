@@ -130,7 +130,7 @@ class LaunchActivity : AppCompatActivity() {
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w("Error", "signInResult:failed code=" + e.statusCode)
+//            Log.w("Error", "signInResult:failed code=" + e.statusCode)
         }
     }
 
@@ -140,7 +140,6 @@ class LaunchActivity : AppCompatActivity() {
             val acct = GoogleSignIn.getLastSignedInAccount(this)
             if (acct != null) {
                 userId = acct.id
-                Log.d("login", "login with google id: $userId")
             }
 
             // user  is already logged in with facebook
@@ -148,12 +147,10 @@ class LaunchActivity : AppCompatActivity() {
             val isLoggedIn = accessToken != null && !accessToken.isExpired
             if (isLoggedIn) {
                 userId = accessToken!!.userId
-                Log.d("login", "login with facebook id: $userId")
             }
             val user = FirebaseAuth.getInstance().currentUser
             if (user != null) {
                 userId = user.uid
-                Log.d("login", "login with firebase id: $userId")
             }
             return userId
         }

@@ -1,6 +1,5 @@
 package postpc.finalproject.RoomInn.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import postpc.finalproject.RoomInn.R
-import postpc.finalproject.RoomInn.RoomCanvas
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.models.RoomInnApplication
 
@@ -115,54 +113,3 @@ class FloorPlanInnerFragment : Fragment() {
         }
     }
 }
-
-// val minXZ = intArrayOf(0, 0)
-//        layout.getLocationOnScreen(minXZ)
-//        val maxXZ = intArrayOf(minXZ[0] + layout.measuredWidth, minXZ[1] + layout.measuredHeight)
-// if (relativeLocation.x >= minXZ[0] && relativeLocation.x < maxXZ[0] &&
-//                            relativeLocation.z >= minXZ[1] && relativeLocation.z < maxXZ[1]
-//                        ) {
-
-//                projectViewModel.memoryStack.saveRoomChange()
-//                projectViewModel.redoUndoPresses.observeForever {
-//                    if (it) {
-//                        layout.removeViews(
-//                            1 + room.windows.size + room.doors.size,
-//                            furnitureOnBoardList.size
-//                        )
-//                        furnitureOnBoardList.clear()
-//                        loadAllFurnitureToBoard(room.getRoomRatio(), furnitureOnBoardList, layout)
-//                        projectViewModel.memoryStack.saveRoomChange()
-//                        projectViewModel.redoUndoPresses.value = false
-//                    }
-//                }
-
-
-//    @RequiresApi(Build.VERSION_CODES.O)
-//    fun saveScreenshot(view: View) {
-//        val window = (view.context as Activity).window
-//        if (window != null) {
-//            val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
-//            val locationOfViewInWindow = IntArray(2)
-//            view.getLocationInWindow(locationOfViewInWindow)
-//            try {
-//                PixelCopy.request(window, Rect(locationOfViewInWindow[0], locationOfViewInWindow[1], locationOfViewInWindow[0] + view.width, locationOfViewInWindow[1] + view.height), bitmap, { copyResult ->
-//                    if (copyResult == PixelCopy.SUCCESS) {
-//
-//                        val intent = Intent(Intent.ACTION_SEND)
-//                        intent.setType("image/png")
-//                        intent.putExtra(Intent.EXTRA_STREAM, bitmap)
-//                        startActivity(Intent.createChooser(intent , "Share"))
-//                    }
-//                    // possible to handle other result codes ...
-//                }, Handler())
-//            } catch (e: IllegalArgumentException) {
-//                // PixelCopy may throw IllegalArgumentException, make sure to handle it
-//            }
-//        }
-
-
-//        val findViewById = findViewById<View>(R.id.canvas)
-//        findViewById.draw(room.drawFloorPlan())
-
-//}

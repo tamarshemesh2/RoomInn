@@ -33,7 +33,6 @@ class AddFurnitureFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO: finish finding all the views
         // find all views
         val furnitureRecyclerView: RecyclerView = view.findViewById(R.id.furniture_recycler)
         val position = projectViewModel.currentPosition

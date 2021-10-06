@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.azeesoft.lib.colorpicker.ColorPickerDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import postpc.finalproject.RoomInn.FurnitureCanvas
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.furnitureData.*
@@ -83,8 +82,6 @@ class EditFurnitureFragment : Fragment() {
         val delFab = view.findViewById<FloatingActionButton>(R.id.delete_fab)
         val furnitureImageView = view.findViewById<ImageView>(R.id.furniture_render_img)
 
-
-        //TODO: support the delete button
 
         val furniture = projectViewModel.furniture!!
         val DB: RoomsDB = RoomInnApplication.getInstance().getRoomsDB()

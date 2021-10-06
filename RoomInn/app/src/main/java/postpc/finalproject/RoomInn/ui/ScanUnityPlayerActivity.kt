@@ -4,12 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.util.Log
 import com.unity3d.player.UnityPlayer
 import com.unity3d.player.UnityPlayerActivity
 import postpc.finalproject.RoomInn.MainActivity
-import postpc.finalproject.RoomInn.models.RoomInnApplication
-import java.nio.file.Path
 import kotlin.properties.Delegates
 
 
@@ -33,7 +30,6 @@ class ScanUnityPlayerActivity : UnityPlayerActivity() {
         unityPath = intent.getStringExtra("Path To Unity")?:""
         unityPath =
             UnityPlayer.currentActivity.getExternalFilesDir("")!!.absolutePath
-        Log.e("unityPathIs", unityPath)
         ctx = this
 
 
@@ -41,6 +37,7 @@ class ScanUnityPlayerActivity : UnityPlayerActivity() {
     }
 
     fun toCallFromUnity() {
+
         // navigate to windows/ doors fragment
         runOnUiThread {
             val intent = Intent(this@ScanUnityPlayerActivity, MainActivity::class.java)
@@ -54,6 +51,7 @@ class ScanUnityPlayerActivity : UnityPlayerActivity() {
     }
 
     fun onBackPressedUnity() {
+
         // navigate to windows/ doors fragment
         runOnUiThread {
             val intent = Intent(this@ScanUnityPlayerActivity, MainActivity::class.java)

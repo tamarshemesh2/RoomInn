@@ -3,15 +3,13 @@ package postpc.finalproject.RoomInn.ui.gui_gestures
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
 import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
-import postpc.finalproject.RoomInn.FurnitureCanvas
+import postpc.finalproject.RoomInn.ui.FurnitureCanvas
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
-import postpc.finalproject.RoomInn.furnitureData.Door
 import postpc.finalproject.RoomInn.furnitureData.Furniture
 import postpc.finalproject.RoomInn.furnitureData.Point3D
 import kotlin.math.roundToInt
@@ -145,13 +143,6 @@ class DragAndScaleListener(
                 }
             }
         }
-//        if (furniture.type =="Door"){
-//            val furLoc = intArrayOf(0,0)
-//            imageView.getLocationOnScreen(furLoc)
-//            val pivX = furLoc[0]+(imageView.width.toDouble()/2)
-//            val pivY = furLoc[1]+(imageView.height.toDouble()/2)
-//            furniture.pivot = Point3D(pivX,0.0,pivY).toAbsolutLocation(roomRatio, projectViewModel.layoutMeasures)
-//            Log.e("pivotAtFurOnBoard", "pivX:${pivX}, pivY:${pivY}, newPiv:${furniture.pivot}")        }
 
         furniture.position = Point3D(
             params.leftMargin.toDouble(),

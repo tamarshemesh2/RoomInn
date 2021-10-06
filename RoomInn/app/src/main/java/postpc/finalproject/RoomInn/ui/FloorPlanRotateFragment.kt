@@ -3,37 +3,25 @@ package postpc.finalproject.RoomInn.ui
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import android.os.CountDownTimer
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
-import android.widget.Chronometer
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.annotation.RequiresApi
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doOnTextChanged
 import androidx.navigation.Navigation
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.gson.reflect.TypeToken
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.Room
-import postpc.finalproject.RoomInn.RoomCanvas
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
-import postpc.finalproject.RoomInn.furnitureData.Door
 import postpc.finalproject.RoomInn.furnitureData.Point3D
-import postpc.finalproject.RoomInn.furnitureData.Window
 import postpc.finalproject.RoomInn.models.RoomInnApplication
-import postpc.finalproject.RoomInn.ui.gui_gestures.DragAndScaleListener
 import kotlin.math.PI
 import kotlin.math.min
-import kotlin.math.roundToInt
 
 
 class FloorPlanRotateFragment : Fragment() {

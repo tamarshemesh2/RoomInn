@@ -8,7 +8,7 @@
     android:background="@color/white_overly"
     >
 
-    <postpc.finalproject.RoomInn.RoomCanvas
+    <postpc.finalproject.RoomInn.ui.RoomCanvas
         android:id="@+id/room_canvas"
         android:background="@android:color/transparent"
         android:name="com.postpc.myapplication.ui.FloorPlanInnerFragment"

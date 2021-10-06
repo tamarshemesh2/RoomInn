@@ -63,7 +63,7 @@ abstract class Furniture(
     }
 
     override fun toString(): String {
-        return unityPosition().toString() + "\n" + // TODO - Change back to unityPosition
+        return unityPosition().toString() + "\n" +
                 rotation.toString() + "\n" +
                 unityScale().toString() + "\n" +
                 color.toString()

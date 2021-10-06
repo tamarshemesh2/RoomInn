@@ -5,7 +5,7 @@ import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
 import android.widget.RelativeLayout
 import androidx.navigation.Navigation
-import postpc.finalproject.RoomInn.FurnitureCanvas
+import postpc.finalproject.RoomInn.ui.FurnitureCanvas
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.furnitureData.Furniture

@@ -12,17 +12,14 @@ import android.view.animation.TranslateAnimation
 import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import postpc.finalproject.RoomInn.R
 import postpc.finalproject.RoomInn.ViewModle.ProjectViewModel
 import postpc.finalproject.RoomInn.furnitureData.*
-import postpc.finalproject.RoomInn.ui.furnitureCategoryItem.FurnitureCategoryItemAdapter
 import postpc.finalproject.RoomInn.ui.furnitureTypeItem.FurnitureTypeItemAdapter
 import www.sanju.zoomrecyclerlayout.ZoomRecyclerLayout
-import java.lang.Math.abs
 
 class ChooseFurnitureTypeFragment : Fragment() {
     companion object {

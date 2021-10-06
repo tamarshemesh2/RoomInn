@@ -22,7 +22,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/miniTitleTextView" />
 
-        <postpc.finalproject.RoomInn.RoomCanvas
+        <postpc.finalproject.RoomInn.ui.RoomCanvas
             android:id="@+id/room_canvas"
             android:layout_width="0dp"
             android:layout_height="0dp"
