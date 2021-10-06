@@ -23,7 +23,7 @@ At any time the user could view the design in VR, implemented in Unity as well.
 We used Firebase to manage user login authentication & database.
 
 ## Demo 
-[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://drive.google.com/file/d/1bvC-jy49Pm2iTPXSD007eZlGTdB03hk-/view?usp=sharing)
+[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://youtu.be/vt5fpE0bzSY)
 
 ## Installation
 
@@ -32,11 +32,13 @@ Clone this repository and import into **Android Studio**
 ```bash
 git clone https://github.com/tamarshemesh2/RoomInn
 ```
+ 
 Make sure to download:
-https://drive.google.com/file/d/1yOcSx-tYFnM7UfThUwP4Uafp-51uupYC/view?usp=sharing 
-https://drive.google.com/file/d/1Y9BhRaYtsAs0-XrdnbwGgj_5EZjJFmc6/view?usp=sharing“
+ * https://drive.google.com/file/d/1yOcSx-tYFnM7UfThUwP4Uafp-51uupYC/view?usp=sharing 
+ * https://drive.google.com/file/d/1Y9BhRaYtsAs0-XrdnbwGgj_5EZjJFmc6/view?usp=sharing“
 
-and make the folder structure be as followed:
+ 
+Save the folder structure as followed:
 ```gradle
 * RoomInn
 |_____RoomInn
