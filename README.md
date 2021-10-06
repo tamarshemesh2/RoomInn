@@ -5,6 +5,10 @@
 RoomInnn is a room design app where the user could plan the layout of their room by scanning their
 space, creating a floor plan, adding furniture from our database and viewing the final result in VR.
 
+## Preview
+<img src="https://github.com/tamarshemesh2/RoomInn/blob/master/RoomInn/app/src/main/res/drawable/screenshot_1.jpeg?raw=true" width="150" /> <img src="https://github.com/tamarshemesh2/RoomInn/blob/master/RoomInn/app/src/main/res/drawable/screenshot_2.jpeg?raw=true" width="150" /> <img src="https://github.com/tamarshemesh2/RoomInn/blob/master/RoomInn/app/src/main/res/drawable/screenshot_3.jpeg?raw=true" width="150" /> <img src="https://github.com/tamarshemesh2/RoomInn/blob/master/RoomInn/app/src/main/res/drawable/screenshot_4.jpeg?raw=true" width="150" /> <img src="https://github.com/tamarshemesh2/RoomInn/blob/master/RoomInn/app/src/main/res/drawable/screenshot_5.jpeg?raw=true" width="150" /> <img src="https://github.com/tamarshemesh2/RoomInn/blob/master/RoomInn/app/src/main/res/drawable/screenshot_6.jpeg?raw=true" width="150" /> <img src="https://github.com/tamarshemesh2/RoomInn/blob/master/RoomInn/app/src/main/res/drawable/screenshot_7.jpeg?raw=true" width="150" />
+
+
 
 
 ## Technologies Used
